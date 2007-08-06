@@ -1,0 +1,11 @@
+:example:
+  :record_element: "record"
+  :author: "author"
+  :title:
+    :fields:
+      - "title/main"
+      - "title/subtitle"
+    :string: "%s: %s"
+  :place:
+    - "city"
+    - "country"

@@ -1,0 +1,23 @@
+<root>
+  <record>
+    <author>
+      <first>John Doe</first>
+      <second>John Q.</second>
+      <third>JJ</third>
+    </author>
+    <title>
+      <main>Just kiddin'</main>
+      <subtitle>heh?</subtitle>
+    </title>
+    <city>Nowhere</city>
+    <country>None</country>
+  </record>
+  <record>
+    <author>
+      Jane Doe
+      <separator />
+      JD
+    </author>
+    <city>Nowhere</city>
+  </record>
+</root>
