@@ -46,16 +46,16 @@ module PrometheusConv
 
       def self.convert(record)
         dbm = ["ID:#{record.object_id.abs}"]
-        record.struct.each { |field, s|
-          str = s[:fields].inject([]) { |a, f|
-            v = (s[:values][f] || []).map { |w|
-              (w || '').strip.gsub(/(?:\r?\n)+/, ' ')
-            }.reject { |w| w.empty? }.join('|')
+        record.struct.each { |field, struct|
+          strings = struct[:elements].inject([]) { |array, element|
+            value = (struct[:values][element] || []).map { |v|
+              (v || '').strip.gsub(/(?:\r?\n)+/, ' ')
+            }.reject { |v| v.empty? }.join('|')
 
-            a << (v.empty? ? '<<EMPTY>>' : v)
+            array << (value.empty? ? struct[:empty] : value)
           }
 
-          dbm << "#{field.to_s.upcase}:#{ICONV_TO_LATIN1.iconv(s[:string] % str)}"
+          dbm << "#{field.to_s.upcase}:#{ICONV_TO_LATIN1.iconv(struct[:string] % strings)}"
         }
         dbm << '&&&'
 

@@ -64,15 +64,15 @@ module PrometheusConv
 
         field_specs = config.inject({}) { |specs, (field, c)|
           unless c.is_a?(Hash)
-            fields = [*c]
-            string = ['%s'] * fields.size * ', '
+            elements = [*c]
+            string   = ['%s'] * elements.size * ', '
 
-            c = { :fields => fields, :string => string }
+            c = { :elements => elements, :string => string }
           end
 
-          c[:fields].each { |f|
+          c[:elements].each { |element|
             define_spec = lambda { |arg|
-              s = XMLFieldSpec.new(f, field, c[:fields], c[:string])
+              s = XMLFieldSpec.new(element, field, c)
 
               case arg
                 when Hash
@@ -95,7 +95,7 @@ module PrometheusConv
               end
             }
 
-            f.split('/').reverse.inject({}) { |hash, part|
+            element.split('/').reverse.inject({}) { |hash, part|
               s = define_spec[hash.empty? ? :default : hash]
               hash.insert!(part, s, &merge_specs)
             }.each { |key, s|
@@ -165,20 +165,19 @@ module PrometheusConv
 
       class XMLFieldSpec < XMLStreamin::XMLSpec
 
-        attr_reader   :name, :field, :fields, :string
+        attr_reader   :name, :field, :config
         attr_accessor :record
 
-        def initialize(name, field, fields, string)
+        def initialize(name, field, config)
           super()
 
           @name   = name
           @field  = field
-          @fields = fields
-          @string = string
+          @config = config
         end
 
         def start(context, name, attrs)
-          self.record = PrometheusConv::Record.record field, fields, string
+          self.record = PrometheusConv::Record.record field, config
         end
 
         def text(context, data)
@@ -192,7 +191,7 @@ module PrometheusConv
         extend Forwardable
 
         # Forward to parent element; need to specify *all* its attributes and methods
-        def_delegators :@parent, :name, :field, :fields, :string, :record, :start, :text
+        def_delegators :@parent, :name, :field, :config, :record, :start, :text
 
         def initialize(parent)
           super()

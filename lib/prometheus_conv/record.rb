@@ -42,11 +42,11 @@ module PrometheusConv
         @records
       end
 
-      def record(field, fields, string)
+      def record(field, config)
         record = records.last
         raise NoRecordError unless record
 
-        record.fill(field, fields, string)
+        record.fill(field, config)
         record
       end
 
@@ -61,13 +61,14 @@ module PrometheusConv
       @block  = block
     end
 
-    def fill(field, fields, string)
+    def fill(field, config)
       @field  = field
 
       struct[field] ||= {
-        :fields => fields,
-        :string => string,
-        :values => {}
+        :elements => config[:elements],
+        :string   => config[:string],
+        :empty    => config[:empty] || '<<EMPTY>>',
+        :values   => {}
       }
     end
 
