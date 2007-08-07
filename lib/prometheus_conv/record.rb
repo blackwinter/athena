@@ -42,7 +42,7 @@ module PrometheusConv
         @records
       end
 
-      def record(field, config)
+      def [](field, config)
         record = records.last
         raise NoRecordError unless record
 
@@ -79,13 +79,13 @@ module PrometheusConv
       s[:string]    ||= ['%s'] * s[:elements].size * s[:separator]
       s[:empty]     ||= '<<EMPTY>>'
 
-      s[:values] = {}
+      s[:values] = Hash.new { |h, k| h[k] = [] }
 
       struct[field] = s
     end
 
-    def update(name, data)
-      (struct[field][:values][name] ||= []) << data
+    def update(element, data)
+      struct[field][:values][element] << data
     end
 
     def close
