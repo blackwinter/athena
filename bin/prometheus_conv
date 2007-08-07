@@ -56,6 +56,8 @@ if $0 == __FILE__
       options[:config] = f
     }
 
+    opts.separator ''
+
     opts.on('-i', '--input FILE',  "Input file [Default: #{options[:input] == STDIN ? 'STDIN' : options[:input]}]") { |f|
       abort "Can't find file #{f}" unless File.readable? f
 
@@ -79,6 +81,8 @@ if $0 == __FILE__
       exit 0
     }
 
+    opts.separator ''
+
     opts.on('-o', '--output FILE',  "Output file [Default: #{options[:output] == STDOUT ? 'STDOUT' : options[:output]}]") { |f|
       options[:output] = File.open(f, 'w')
 
@@ -97,6 +101,8 @@ if $0 == __FILE__
 
       exit 0
     }
+
+    opts.separator ''
 
     opts.on('-t', '--target ID', "Target whose config to use [Default: <input-file> minus file ending]") { |t|
       options[:target] = t
