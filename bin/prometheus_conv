@@ -72,8 +72,8 @@ if $0 == __FILE__
 
     opts.on('-L', '--list-specs', "List available input formats (specs) and exit.") {
       puts "Available input formats (specs):"
-      PrometheusConv.specs.each { |s|
-        puts "  - #{s}"
+      PrometheusConv.specs.each { |s, k|
+        puts "  - #{s} = #{k}"
       }
 
       exit 0
@@ -91,8 +91,8 @@ if $0 == __FILE__
 
     opts.on('-l', '--list-formats', "List available output formats and exit.") {
       puts "Available output formats:"
-      PrometheusConv.formats.each { |f|
-        puts "  - #{f}"
+      PrometheusConv.formats.each { |f, k|
+        puts "  - #{f} = #{k}"
       }
 
       exit 0

@@ -44,7 +44,7 @@ module PrometheusConv
   end
 
   def specs
-    Specs.specs.keys.sort
+    Specs.specs.sort
   end
 
   def valid_spec?(spec)
@@ -52,7 +52,7 @@ module PrometheusConv
   end
 
   def formats
-    Formats.formats.keys.sort
+    Formats.formats.sort
   end
 
   def valid_format?(format)
