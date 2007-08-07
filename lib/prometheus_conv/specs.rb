@@ -39,25 +39,25 @@ module PrometheusConv
     class << self
 
       def specs
-        @specs
+        PrometheusConv::Specs.instance_variable_get :@specs
       end
 
       def [](spec)
-        specs[spec.to_s]
+        specs[spec]
       end
 
       def valid_spec?(spec)
-        specs.include? spec.to_s
+        specs.include? spec
       end
 
       private
 
       def inherited(klass)
-        register_spec(klass.name.split('::').last.downcase, klass)
+        klass.send :register_spec, klass.name.split('::').last.downcase
       end
 
-      def register_spec(spec, klass)
-        specs[spec.to_s] = klass
+      def register_spec(spec)
+        specs[spec] = self
       end
 
     end

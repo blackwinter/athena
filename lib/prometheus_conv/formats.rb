@@ -39,15 +39,15 @@ module PrometheusConv
     class << self
 
       def formats
-        @formats
+        PrometheusConv::Formats.instance_variable_get :@formats
       end
 
       def [](format)
-        formats[format.to_s]
+        formats[format]
       end
 
       def valid_format?(format)
-        formats.include? format.to_s
+        formats.include? format
       end
 
       def convert(*args)
@@ -57,11 +57,11 @@ module PrometheusConv
       private
 
       def inherited(klass)
-        register_format(klass.name.split('::').last.downcase, klass)
+        klass.send :register_format, klass.name.split('::').last.downcase
       end
 
-      def register_format(format, klass)
-        formats[format.to_s] = klass
+      def register_format(format)
+        formats[format] = self
       end
 
     end

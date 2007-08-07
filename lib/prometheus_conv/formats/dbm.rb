@@ -38,6 +38,8 @@ module PrometheusConv
 
     class DBM < PrometheusConv::Formats
 
+      register_format 'midos'
+
       CRLF = "\015\012"
 
       ICONV_TO_LATIN1 = Iconv.new('latin1', 'utf-8')
