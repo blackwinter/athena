@@ -63,14 +63,16 @@ module PrometheusConv
         raise(NoRecordElementError, 'no record element specified') unless record_element
 
         field_specs = config.inject({}) { |specs, (field, c)|
+          # TODO: DRY up! => Record#fill
           unless c.is_a?(Hash)
             elements = [*c]
-            string   = ['%s'] * elements.size * ', '
+          else
+            elements = c[:elements] || c[:element].to_a
 
-            c = { :elements => elements, :string => string }
+            raise ArgumentError, 'no elements specified' unless elements.is_a?(Array)
           end
 
-          c[:elements].each { |element|
+          elements.each { |element|
             define_spec = lambda { |arg|
               s = XMLFieldSpec.new(element, field, c)
 

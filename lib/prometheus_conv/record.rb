@@ -62,14 +62,26 @@ module PrometheusConv
     end
 
     def fill(field, config)
-      @field  = field
+      return if struct[field]
 
-      struct[field] ||= {
-        :elements => config[:elements],
-        :string   => config[:string],
-        :empty    => config[:empty] || '<<EMPTY>>',
-        :values   => {}
-      }
+      @field = field
+
+      unless config.is_a?(Hash)
+        s = { :elements => [*config] }
+      else
+        s = config
+        s[:elements] ||= s[:element].to_a
+
+        raise ArgumentError, 'no elements specified' unless s[:elements].is_a?(Array)
+      end
+
+      s[:separator] ||= ', '
+      s[:string]    ||= ['%s'] * s[:elements].size * s[:separator]
+      s[:empty]     ||= '<<EMPTY>>'
+
+      s[:values] = {}
+
+      struct[field] = s
     end
 
     def update(name, data)

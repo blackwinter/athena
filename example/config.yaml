@@ -1,6 +1,8 @@
 :example:
   :record_element: "record"
-  :author: "author"
+  :author:
+    :element: "author"
+    :string: "AU=%s"
   :title:
     :elements:
       - "title/main"
@@ -8,5 +10,7 @@
     :string: "%s: %s"
     :empty: ">>n/a<<"
   :place:
-    - "city"
-    - "country"
+    :elements:
+      - "city"
+      - "country"
+    :separator: " / "
