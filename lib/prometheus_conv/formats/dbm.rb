@@ -45,7 +45,7 @@ module PrometheusConv
       ICONV_TO_LATIN1 = Iconv.new('latin1', 'utf-8')
 
       def self.convert(record)
-        dbm = ["ID:#{record.object_id.abs}"]
+        dbm = ["ID:#{record.id}"]
         record.struct.each { |field, struct|
           strings = struct[:elements].inject([]) { |array, element|
             value = (struct[:values][element] || []).map { |v|
