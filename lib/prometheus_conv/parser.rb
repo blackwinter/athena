@@ -74,7 +74,6 @@ module PrometheusConv
             (hash[element] ||= {})[field] = {
               :string    => v[:string] || ['%s'] * elements.size * separator,
               :empty     => v[:empty]  || '<<EMPTY>>',
-              :separator => separator
             }
           }
 
