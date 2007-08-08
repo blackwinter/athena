@@ -36,10 +36,44 @@ module PrometheusConv
 
     class Sisis < PrometheusConv::Specs
 
+      attr_reader :record_element, :config, :parser
+
       def initialize(parser)
+        config = parser.config.dup
+
+        @record_element = config.delete(:__record_element)
+        unless @record_element
+          raise NoRecordElementError, 'no record element specified'
+        else
+          raise IllegalRecordElementError, "illegal record element #{@record_element}" unless @record_element.is_a?(String)
+        end
+
+        @config = config
+        @parser = parser
       end
 
       def parse(source)
+        record = nil
+
+        source.each { |line|
+          element, value = line.match(/(\d+).*?:\s*(.*)/)[1, 2]
+
+          case element
+            when record_element
+              record.close if record
+              record = PrometheusConv::Record.new(parser.block, value)
+            else
+              record.update(element, value, config[element])
+          end
+        }
+
+        record.close if record
+      end
+
+      class NoRecordElementError < StandardError
+      end
+
+      class IllegalRecordElementError < StandardError
       end
 
     end

@@ -34,6 +34,7 @@
 2008:Denkwürdig Geheimnis Prophezeiung Zustand Böhmen Unwesen
 2018:Lateinischer Text in der Radierung als Beischriften; Im unteren Teil des Bildes Versform
 2023:¤ 61B2(Ferdinand <Römisch-Deutsches Reich, Kaiser, II.>)(+1)
+2028:BLA
 2029:001
 2030.001:http://zoom.bib-bvb.de/StyleServer/calcrgn?cat=einbl&item=/300000183_0_r.sid&wid=750&hei=500&style=bsb/einbl.xsl&plugin=false
 2030.002:http://zoom.bib-bvb.de/StyleServer/calcrgn?cat=einbl&item=/300000368_0_r.sid&wid=750&hei=500&style=bsb/einbl.xsl&plugin=false
@@ -73,6 +74,7 @@
 0015:ger
 0036:m
 0331:Alles hatt Sein Zeydt
+0331.001:-- Hää?
 0424:1621
 0425:[1621]
 0433:1 Bl.
@@ -82,6 +84,7 @@
 0511:Erscheinungsjahr ermittelt aus Bildinhalt und Nachweis
 0511:Erscheinungsjahr ermittelt aus Bildinhalt und Nachweis
 0527.001:Andere Ausgabe: Einbl. V,8 b-8; Deutsche illustrierte Flugblätter des 16. und 17. Jahrhunderts
+2028:BLUB
 2029:003
 2030.001:http://zoom.bib-bvb.de/StyleServer/calcrgn?cat=einbl&item=/300000185_0_r.sid&wid=750&hei=500&style=bsb/einbl.xsl&plugin=false
 9999:

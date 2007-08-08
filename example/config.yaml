@@ -18,7 +18,7 @@
     :elements:
       - "0100"
       - "0101"
-    :string: "%s [%s]"
+    :string: "%s (%s)"
   :title:
     :elements:
       - "0331"
