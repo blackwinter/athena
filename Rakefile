@@ -23,7 +23,7 @@ Rake::RDocTask.new(:doc) { |rdoc|
 
 spec = Gem::Specification.new do |s|
   s.name             = 'prometheus_conv'
-  s.version          = '0.0.1.' << `svnversion`.chomp[/(\d+)/]
+  s.version          = '0.0.1.' << `svnversion`.chomp[/\d+/]
   s.author           = 'Jens Wille'
   s.email            = 'jens.wille@uni-koeln.de'
   s.summary          = 'Convert prometheus files to various formats'
@@ -41,7 +41,8 @@ spec = Gem::Specification.new do |s|
                        '--all'                                      << 
                        '-c' << 'UTF-8'
 
-#  s.add_dependency('xmlstreamin')
+  s.add_dependency('xmlstreamin')
+  s.add_dependency('ruby-nuggets')
 end
 
 desc 'Build gem package for prometheus_conv'
