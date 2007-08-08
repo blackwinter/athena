@@ -52,20 +52,27 @@ module PrometheusConv
 
     end
 
-    attr_reader :struct, :block
+    attr_reader :struct, :block, :id
 
-    def initialize(block)
+    def initialize(block, id = object_id.abs)
       self.class.records << self
 
       @struct = {}
       @block  = block
+      @id     = id
     end
 
     def fill(field, config)
       struct[field] ||= config.merge({ :values => Hash.new { |h, k| h[k] = [] } })
     end
 
-    def update(element, data)
+    def update(element, data, field_config = nil)
+      if field_config
+        field_config.each { |field, config|
+          fill(field, config)
+        }
+      end
+
       struct.each_key { |field|
         struct[field][:values][element] << data
       }
