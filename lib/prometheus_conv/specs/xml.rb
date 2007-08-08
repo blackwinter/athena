@@ -179,7 +179,7 @@ module PrometheusConv
         end
 
         def start(context, name, attrs)
-          self.record = PrometheusConv::Record.record field, config
+          self.record = PrometheusConv::Record[field, config]
         end
 
         def text(context, data)
