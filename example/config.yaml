@@ -1,17 +1,11 @@
 :example:
   :__record_element: "record"
-  :author:
-    :elements:
-      - "author"
-      - "title/main"
-    :string: "AU=%s TI=%s"
+  :author: "author"
   :title:
     :elements:
       - "title/main"
       - "title/subtitle"
-      - "author"
-      - "country"
-    :string: "%s: %s / %s (%s)"
+    :string: "%s: %s"
     :empty: ">>n/a<<"
   :place:
     :elements:
