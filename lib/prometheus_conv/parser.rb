@@ -72,8 +72,9 @@ module PrometheusConv
 
           elements.each { |element|
             (hash[element] ||= {})[field] = {
-              :string    => v[:string] || ['%s'] * elements.size * separator,
-              :empty     => v[:empty]  || '<<EMPTY>>',
+              :string   => v[:string] || ['%s'] * elements.size * separator,
+              :empty    => v[:empty]  || '<<EMPTY>>',
+              :elements => elements
             }
           }
 
