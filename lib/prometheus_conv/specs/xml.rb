@@ -59,30 +59,25 @@ module PrometheusConv
       def build_spec(parser)
         config = parser.config.dup
 
-        record_element = config.delete(:record_element)
-        raise(NoRecordElementError, 'no record element specified') unless record_element
+        record_element = config.delete(:__record_element)
+        unless record_element
+          raise NoRecordElementError, 'no record element specified'
+        else
+          raise IllegalRecordElementError, "illegal record element #{record_element}" unless record_element.is_a?(String)
+        end
 
-        field_specs = config.inject({}) { |specs, (field, c)|
-          # TODO: DRY up! => Record#fill
-          unless c.is_a?(Hash)
-            elements = [*c]
-          else
-            elements = c[:elements] || c[:element].to_a
-
-            raise ArgumentError, 'no elements specified' unless elements.is_a?(Array)
-          end
-
-          elements.each { |element|
+        element_specs = config.inject({}) { |specs, (element, element_spec)|
+          element_spec.each { |field, c|
             define_spec = lambda { |arg|
-              s = XMLFieldSpec.new(element, field, c)
+              s = ElementSpec.new(element, field, c)
 
               case arg
                 when Hash
                   s.specs!(arg)
-                  #s.default!(XMLDebugSpec.new)
+                  #s.default!(DebugSpec.new)
                 else
-                  s.default!(XMLSubFieldSpec.new(s))
-                  #s.default!(XMLDebugSpec.new)
+                  s.default!(SubElementSpec.new(s))
+                  #s.default!(DebugSpec.new)
               end
 
               return s
@@ -108,22 +103,22 @@ module PrometheusConv
           specs
         }
 
-        record_spec = XMLRecordSpec.new(parser)
-        record_spec.specs!(field_specs)
+        record_spec = RecordSpec.new(parser)
+        record_spec.specs!(element_specs)
 
-        root_spec   = XMLVoidSpec.new
+        root_spec   = VoidSpec.new
         root_spec.specs!(record_element => record_spec)
 
-        spec        = XMLVoidSpec.new
+        spec        = VoidSpec.new
         spec.default!(root_spec)
 
         spec
       end
 
-      class XMLVoidSpec < XMLStreamin::XMLSpec
+      class VoidSpec < XMLStreamin::XMLSpec
       end
 
-      class XMLDebugSpec < XMLStreamin::XMLSpec
+      class DebugSpec < XMLStreamin::XMLSpec
 
         attr_reader :prefix
 
@@ -144,7 +139,7 @@ module PrometheusConv
 
       end
 
-      class XMLRecordSpec < XMLStreamin::XMLSpec
+      class RecordSpec < XMLStreamin::XMLSpec
 
         attr_reader   :parser
         attr_accessor :record
@@ -165,7 +160,7 @@ module PrometheusConv
 
       end
 
-      class XMLFieldSpec < XMLStreamin::XMLSpec
+      class ElementSpec < XMLStreamin::XMLSpec
 
         attr_reader   :name, :field, :config
         attr_accessor :record
@@ -188,7 +183,7 @@ module PrometheusConv
 
       end
 
-      class XMLSubFieldSpec < XMLStreamin::XMLSpec
+      class SubElementSpec < XMLStreamin::XMLSpec
 
         extend Forwardable
 
@@ -205,6 +200,9 @@ module PrometheusConv
       end
 
       class NoRecordElementError < StandardError
+      end
+
+      class IllegalRecordElementError < StandardError
       end
 
     end

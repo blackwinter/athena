@@ -52,7 +52,7 @@ module PrometheusConv
 
     end
 
-    attr_reader :field, :struct, :block
+    attr_reader :struct, :block
 
     def initialize(block)
       self.class.records << self
@@ -62,30 +62,13 @@ module PrometheusConv
     end
 
     def fill(field, config)
-      return if struct[field]
-
-      @field = field
-
-      unless config.is_a?(Hash)
-        s = { :elements => [*config] }
-      else
-        s = config
-        s[:elements] ||= s[:element].to_a
-
-        raise ArgumentError, 'no elements specified' unless s[:elements].is_a?(Array)
-      end
-
-      s[:separator] ||= ', '
-      s[:string]    ||= ['%s'] * s[:elements].size * s[:separator]
-      s[:empty]     ||= '<<EMPTY>>'
-
-      s[:values] = Hash.new { |h, k| h[k] = [] }
-
-      struct[field] = s
+      struct[field] ||= config.merge({ :values => Hash.new { |h, k| h[k] = [] } })
     end
 
     def update(element, data)
-      struct[field][:values][element] << data
+      struct.each_key { |field|
+        struct[field][:values][element] << data
+      }
     end
 
     def close

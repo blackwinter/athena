@@ -38,7 +38,7 @@ module PrometheusConv
     attr_accessor :block
 
     def initialize(config, spec)
-      @config = config
+      @config = build_config(config)
       @spec   = PrometheusConv::Specs[spec].new(self)
     end
 
@@ -47,6 +47,37 @@ module PrometheusConv
 
       spec.parse(source)
       PrometheusConv::Record.records
+    end
+
+    private
+
+    def build_config(config)
+      config.inject({}) { |hash, (field, v)|
+        if field.to_s =~ /^__/
+          hash.merge(field => v)
+        else
+          case v
+            when String, Array
+              elements = [*v]
+            when Hash
+              elements = v[:elements] || v[:element].to_a
+
+              raise ArgumentError, "no elements specified for field #{field}" unless elements.is_a?(Array)
+            else
+              raise ArgumentError, "illegal value for field #{field}"
+          end
+
+          v[:separator] ||= ', '
+          v[:string]    ||= ['%s'] * elements.size * v[:separator]
+          v[:empty]     ||= '<<EMPTY>>'
+
+          elements.each { |element|
+            (hash[element] ||= {})[field] = v
+          }
+
+          hash
+        end
+      }
     end
 
   end
