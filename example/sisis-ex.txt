@@ -1,0 +1,87 @@
+0000:3
+0001:000000003
+0002:02.05.2001
+0003:27.08.2002
+0015:ger; lat
+0036:m
+0100.001:[Pecka, Michael]
+0110.001:[Pieczek, Michael]
+0331:Denckwürdiges Geheimnuß
+0335:Teutsche Erklärung des Kupfferstücks
+0370.001:Dum tua privato fessus das lumina somno
+0370.002:Einer/ oder gar drey müssen für das Volck sterben
+0424:1620
+0425:[ca. 1620]
+0433:1 Bl.
+0434:1 Ill.; Radierung 19,5 x 27,5 cm(nach einem Kupferstich von Gaspar Dooms)
+0435:Satzspiegel 38 x 30 cm
+0440.001:[S.l.]
+0509:Verfasser ermittelt aus Nachweis
+0511:Erscheinungsjahr ermittelt aus Inhalt und Nachweis
+0527.001:Andere Ausgabe: Pfeffer, Maria
+0720.001:Politisches Flugblatt; Prokaiserliches Flugblatt
+0721.001:Dreissigjähriger Krieg; Böhmisch-Pfälzischer Krieg; Krieg; 1600-1650
+0722.001:Böhmen <Königreich>; Schlesien; Mähren; Lausitz; Bayern; Österreich; Prag
+0723.001:Ferdinand <Römisch-Deutsches Reich, Kaiser, II.>; Christus
+1105.001:Einbl. V,8 b-10
+1105.002:Einbl. V,60
+1125.001:Blattmaß 38 x 30 cm; Hinterklebt ; Klebereste
+1125.002:Blattmaß 30 x 31,5 cm; Fragment: unterer Textteil fehlt teilweise
+1145.001:ei
+1145.002:ei
+2005:Metallschnittrahmen; Metallschnittleiste als Spaltentrenner; Zahlen als Marginalien
+2006:Deutsche illustrierte Flugblätter des 16. und 17. Jahrhunderts . Hrsg. von Wolfgang Harms. Bd. 2
+2008:Denkwürdig Geheimnis Prophezeiung Zustand Böhmen Unwesen
+2018:Lateinischer Text in der Radierung als Beischriften; Im unteren Teil des Bildes Versform
+2023:¤ 61B2(Ferdinand <Römisch-Deutsches Reich, Kaiser, II.>)(+1)
+2029:001
+2030.001:http://zoom.bib-bvb.de/StyleServer/calcrgn?cat=einbl&item=/300000183_0_r.sid&wid=750&hei=500&style=bsb/einbl.xsl&plugin=false
+2030.002:http://zoom.bib-bvb.de/StyleServer/calcrgn?cat=einbl&item=/300000368_0_r.sid&wid=750&hei=500&style=bsb/einbl.xsl&plugin=false
+9999:
+0000:4
+0001:000000004
+0002:03.05.2001
+0003:29.08.2002
+0015:ger
+0036:m
+0331:Machometische Zanck= und Haderkatzen
+0370.001:UNser Planet Ist Machomet, Saturnisch Thier Sind wir allhier
+0424:1621
+0425:1621
+0433:1 Bl.
+0434:1 Ill.; Kupferstich 14 x 24 cm
+0435:Satzspiegel 30,5 x 24,5 cm
+0440.001:[S.l.]
+0720.001:Politische Flugblatt; Antiunionistisches Flugblatt
+0721.001:Dreissigjähriger Krieg; Böhmisch-Pfälzischer Krieg
+0723.001:Mu.hammad; Mohammed
+1105.001:Einbl. V,8 b-11
+1125.001:Blattmaß 32,5 x 26 cm; Hinterklebt
+1145.001:ei
+2005:Metallschnittleisten als Spaltentrenner; Textinitiale
+2006:Paas, John Roger: The German Political Broadsheet (1600 - 1700)
+2008:Mohammed; Zank; Hader; Katze
+2018:Versform; 4 Spalten
+2023:¤ 34B12 - Katze ¤ 25F(+51) - kämpfende Tiere; aggressive Beziehungen
+2029:002
+2030.001:http://zoom.bib-bvb.de/StyleServer/calcrgn?cat=einbl&item=/300000184_0_r.sid&wid=750&hei=500&style=bsb/einbl.xsl&plugin=false
+9999:
+0000:5
+0001:000000005
+0002:03.05.2001
+0003:29.08.2002
+0015:ger
+0036:m
+0331:Alles hatt Sein Zeydt
+0424:1621
+0425:[1621]
+0433:1 Bl.
+0434:1 Ill.; 16 x 27,5 cm
+0435:Satspiegel 16 x 27,5 cm
+0440.001:[S.l.]
+0511:Erscheinungsjahr ermittelt aus Bildinhalt und Nachweis
+0511:Erscheinungsjahr ermittelt aus Bildinhalt und Nachweis
+0527.001:Andere Ausgabe: Einbl. V,8 b-8; Deutsche illustrierte Flugblätter des 16. und 17. Jahrhunderts
+2029:003
+2030.001:http://zoom.bib-bvb.de/StyleServer/calcrgn?cat=einbl&item=/300000185_0_r.sid&wid=750&hei=500&style=bsb/einbl.xsl&plugin=false
+9999:

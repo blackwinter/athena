@@ -12,3 +12,17 @@
       - "city"
       - "country"
     :separator: " / "
+:sisis-ex:
+  :__record_element: "0000"
+  :author:
+    :elements:
+      - "0100"
+      - "0101"
+    :string: "%s [%s]"
+  :title:
+    :elements:
+      - "0331"
+      - "0335"
+      - "0370"
+    :string: "%s : %s [%s]"
+  :place: "2028"
