@@ -59,6 +59,7 @@ module PrometheusConv
           case v
             when String, Array
               elements = [*v]
+              v = {}
             when Hash
               elements = v[:elements] || v[:element].to_a
 
@@ -67,12 +68,14 @@ module PrometheusConv
               raise ArgumentError, "illegal value for field #{field}"
           end
 
-          v[:separator] ||= ', '
-          v[:string]    ||= ['%s'] * elements.size * v[:separator]
-          v[:empty]     ||= '<<EMPTY>>'
+          separator = v[:separator] || ', '
 
           elements.each { |element|
-            (hash[element] ||= {})[field] = v
+            (hash[element] ||= {})[field] = {
+              :string    => v[:string] || ['%s'] * elements.size * separator,
+              :empty     => v[:empty]  || '<<EMPTY>>',
+              :separator => separator
+            }
           }
 
           hash
