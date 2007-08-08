@@ -47,8 +47,8 @@ module PrometheusConv
       def self.convert(record)
         dbm = ["ID:#{record.object_id.abs}"]
         record.struct.each { |field, struct|
-          strings = struct[:values].inject([]) { |array, (element, value)|
-            value = (value || []).map { |v|
+          strings = struct[:elements].inject([]) { |array, element|
+            value = (struct[:values][element] || []).map { |v|
               (v || '').strip.gsub(/(?:\r?\n)+/, ' ')
             }.reject { |v| v.empty? }.join('|')
 
