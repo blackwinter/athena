@@ -13,20 +13,20 @@
       - "country"
     :separator: " / "
 :sisis-ex:
-  :__record_element: "0000"
+  :__record_element: "0000"  # KatalogNr
   :author:
     :elements:
-      - "0100"
-      - "0101"
+      - "0100"               # VerfAnsetz
+      - "0101"               # Verf_Ordn
     :string: "%s (%s)"
   :title:
     :elements:
-      - "0331"
-      - "0335"
-      - "0370"
+      - "0331"               # HST
+      - "0335"               # HSTZusatz
+      - "0370"               # Untertitstab
     :string: "%s : %s [%s]"
-  :place: "2028"
-multiple-fields-per-element:
+  :place: "2028"             # ort2sb
+:multiple-fields-per-element:
   :__record_element: "record"
   :author:
     :elements:
@@ -46,3 +46,19 @@ multiple-fields-per-element:
       - "city"
       - "country"
     :separator: " / "
+:sisis-multiple-fields-per-element:
+  :__record_element: "0000"
+  :author:
+    :elements:
+      - "0100"
+      - "0101"
+      - "0331"
+    :string: "%s (%s) [%s]"
+  :title:
+    :elements:
+      - "0331"
+      - "0335"
+      - "0370"
+      - "0100"
+    :string: "%s : %s [%s] (%s)"
+  :place: "2028"
