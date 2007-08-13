@@ -39,9 +39,11 @@ require 'nuggets/hash/insert'
 
 module PrometheusConv
 
-  class Specs
+  class Formats
 
-    class XML < PrometheusConv::Specs
+    class XML < PrometheusConv::Formats
+
+      register_format :in, 'xml'
 
       attr_reader :spec, :listener
 

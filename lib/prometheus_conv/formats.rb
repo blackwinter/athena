@@ -34,7 +34,7 @@ module PrometheusConv
 
   class Formats
 
-    @formats = {}
+    @formats = { :in => {}, :out => {} }
 
     class << self
 
@@ -42,12 +42,12 @@ module PrometheusConv
         PrometheusConv::Formats.instance_variable_get :@formats
       end
 
-      def [](format)
-        formats[format]
+      def [](direction, format)
+        formats[direction][format]
       end
 
-      def valid_format?(format)
-        formats.include? format
+      def valid_format?(direction, format)
+        formats[direction].has_key? format
       end
 
       def convert(*args)
@@ -56,14 +56,20 @@ module PrometheusConv
 
       private
 
-      def inherited(klass)
-        klass.send :register_format, klass.name.split('::').last.downcase
+      def register_format(direction, format)
+        formats[direction][format] = self
       end
 
-      def register_format(format)
-        formats[format] = self
+      def register_formats(direction, *formats)
+        formats.each { |format|
+          register_format(direction, format)
+        }
       end
 
+    end
+
+    def parse(*args)
+      raise NotImplementedError, 'must be defined by sub-class'
     end
 
   end

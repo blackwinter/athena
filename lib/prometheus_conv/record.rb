@@ -83,7 +83,7 @@ module PrometheusConv
     end
 
     def to(format)
-      PrometheusConv::Formats[format].convert(self)
+      PrometheusConv::Formats[:out, format].convert(self)
     end
 
     class NoRecordError < StandardError

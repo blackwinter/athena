@@ -39,7 +39,7 @@ module PrometheusConv
 
     def initialize(config, spec)
       @config = build_config(config)
-      @spec   = PrometheusConv::Specs[spec].new(self)
+      @spec   = PrometheusConv::Formats[:in, spec].new(self)
     end
 
     def parse(source, &block)

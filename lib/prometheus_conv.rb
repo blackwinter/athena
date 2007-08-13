@@ -31,7 +31,6 @@
 #++
 
 require 'prometheus_conv/parser'
-require 'prometheus_conv/specs'
 require 'prometheus_conv/record'
 require 'prometheus_conv/formats'
 
@@ -39,24 +38,24 @@ module PrometheusConv
 
   extend self
 
-  def parser(config, spec)
-    Parser.new(config, spec)
+  def parser(config, format)
+    Parser.new(config, format)
   end
 
-  def specs
-    Specs.specs.sort
+  def input_formats
+    Formats.formats[:in].sort
   end
 
-  def valid_spec?(spec)
-    Specs.valid_spec?(spec)
+  def valid_input_format?(format)
+    Formats.valid_format?(:in, format)
   end
 
-  def formats
-    Formats.formats.sort
+  def output_formats
+    Formats.formats[:out].sort
   end
 
-  def valid_format?(format)
-    Formats.valid_format?(format)
+  def valid_output_format?(format)
+    Formats.valid_format?(:out, format)
   end
 
 end

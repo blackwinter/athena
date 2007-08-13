@@ -32,9 +32,11 @@
 
 module PrometheusConv
 
-  class Specs
+  class Formats
 
-    class Sisis < PrometheusConv::Specs
+    class Sisis < PrometheusConv::Formats
+
+      register_format :in, 'sisis'
 
       attr_reader :record_element, :config, :parser
 

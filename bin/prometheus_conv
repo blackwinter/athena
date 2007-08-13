@@ -74,7 +74,7 @@ if $0 == __FILE__
 
     opts.on('-L', '--list-specs', "List available input formats (specs) and exit.") {
       puts "Available input formats (specs):"
-      PrometheusConv.specs.each { |s, k|
+      PrometheusConv.input_formats.each { |s, k|
         puts "  - #{s} = #{k}"
       }
 
@@ -95,7 +95,7 @@ if $0 == __FILE__
 
     opts.on('-l', '--list-formats', "List available output formats and exit.") {
       puts "Available output formats:"
-      PrometheusConv.formats.each { |f, k|
+      PrometheusConv.output_formats.each { |f, k|
         puts "  - #{f} = #{k}"
       }
 
@@ -111,11 +111,11 @@ if $0 == __FILE__
 
   spec = options[:spec] || options[:spec_fallback]
   abort "No input format (spec) specified and none could be inferred." unless spec
-  abort "Invalid input format (spec) #{spec}. Use '-L' to get a list of available specs." unless PrometheusConv.valid_spec? spec
+  abort "Invalid input format (spec) #{spec}. Use '-L' to get a list of available specs." unless PrometheusConv.valid_input_format? spec
 
   format = options[:format] || options[:format_fallback]
   abort "No output format specified and none could be inferred." unless format
-  abort "Invalid output format #{format}. Use '-l' to get a list of available formats." unless PrometheusConv.valid_format? format
+  abort "Invalid output format #{format}. Use '-l' to get a list of available formats." unless PrometheusConv.valid_output_format? format
 
   target = options[:target] || options[:target_fallback]
   abort "No target specified and none could be inferred." unless target

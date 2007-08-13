@@ -38,7 +38,7 @@ module PrometheusConv
 
     class DBM < PrometheusConv::Formats
 
-      register_format 'midos'
+      register_formats :out, 'dbm', 'midos'
 
       CRLF = "\015\012"
 
