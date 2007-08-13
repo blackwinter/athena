@@ -26,3 +26,23 @@
       - "0370"
     :string: "%s : %s [%s]"
   :place: "2028"
+multiple-fields-per-element:
+  :__record_element: "record"
+  :author:
+    :elements:
+      - "author"
+      - "city"
+      - "title/main"
+    :string: "%s (%s) [%s]"
+  :title:
+    :elements:
+      - "title/main"
+      - "title/subtitle"
+      - "author"
+    :string: "%s: %s (%s)"
+    :empty: ">>n/a<<"
+  :place:
+    :elements:
+      - "city"
+      - "country"
+    :separator: " / "
