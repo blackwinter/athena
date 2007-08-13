@@ -39,91 +39,89 @@ $: << File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'prometheus_conv'
 
-if $0 == __FILE__
-  options = {
-    :config => 'config.yaml',
-    :input  => STDIN,
-    :output => STDOUT,
-    :target => nil
+options = {
+  :config => 'config.yaml',
+  :input  => STDIN,
+  :output => STDOUT,
+  :target => nil
+}
+
+OptionParser.new { |opts|
+  opts.banner = "Usage: #{$0} [options]"
+
+  opts.on('-c', '--config YAML', "Config file [Default: #{options[:config]}]") { |f|
+    abort "Can't find file #{f}" unless File.readable? f
+
+    options[:config] = f
   }
 
-  OptionParser.new { |opts|
-    opts.banner = "Usage: #{$0} [options]"
+  opts.separator ''
 
-    opts.on('-c', '--config YAML', "Config file [Default: #{options[:config]}]") { |f|
-      abort "Can't find file #{f}" unless File.readable? f
+  opts.on('-i', '--input FILE',  "Input file [Default: #{options[:input] == STDIN ? 'STDIN' : options[:input]}]") { |f|
+    abort "Can't find file #{f}" unless File.readable? f
 
-      options[:config] = f
+    options[:input] = File.open(f, 'r')
+
+    p = File.basename(f).downcase.split('.')
+    options[:spec_fallback]   = p.last
+    options[:target_fallback] = p[0..-2].join('.')
+  }
+
+  opts.on('-s', '--spec SPEC', "Input format (spec) [Default: file ending of <input-file>]") { |s|
+    options[:spec] = s.downcase
+  }
+
+  opts.on('-L', '--list-specs', "List available input formats (specs) and exit.") {
+    puts "Available input formats (specs):"
+    PrometheusConv.input_formats.each { |s, k|
+      puts "  - #{s} = #{k}"
     }
 
-    opts.separator ''
+    exit 0
+  }
 
-    opts.on('-i', '--input FILE',  "Input file [Default: #{options[:input] == STDIN ? 'STDIN' : options[:input]}]") { |f|
-      abort "Can't find file #{f}" unless File.readable? f
+  opts.separator ''
 
-      options[:input] = File.open(f, 'r')
+  opts.on('-o', '--output FILE',  "Output file [Default: #{options[:output] == STDOUT ? 'STDOUT' : options[:output]}]") { |f|
+    options[:output] = File.open(f, 'w')
 
-      p = File.basename(f).downcase.split('.')
-      options[:spec_fallback]   = p.last
-      options[:target_fallback] = p[0..-2].join('.')
+    options[:format_fallback] = f.split('.').last.downcase
+  }
+
+  opts.on('-f', '--format FORMAT', "Output format [Default: file ending of <output-file>]") { |f|
+    options[:format] = f.downcase
+  }
+
+  opts.on('-l', '--list-formats', "List available output formats and exit.") {
+    puts "Available output formats:"
+    PrometheusConv.output_formats.each { |f, k|
+      puts "  - #{f} = #{k}"
     }
 
-    opts.on('-s', '--spec SPEC', "Input format (spec) [Default: file ending of <input-file>]") { |s|
-      options[:spec] = s.downcase
-    }
+    exit 0
+  }
 
-    opts.on('-L', '--list-specs', "List available input formats (specs) and exit.") {
-      puts "Available input formats (specs):"
-      PrometheusConv.input_formats.each { |s, k|
-        puts "  - #{s} = #{k}"
-      }
+  opts.separator ''
 
-      exit 0
-    }
+  opts.on('-t', '--target ID', "Target whose config to use [Default: <input-file> minus file ending]") { |t|
+    options[:target] = t
+  }
+}.parse!
 
-    opts.separator ''
+spec = options[:spec] || options[:spec_fallback]
+abort "No input format (spec) specified and none could be inferred." unless spec
+abort "Invalid input format (spec) #{spec}. Use '-L' to get a list of available specs." unless PrometheusConv.valid_input_format? spec
 
-    opts.on('-o', '--output FILE',  "Output file [Default: #{options[:output] == STDOUT ? 'STDOUT' : options[:output]}]") { |f|
-      options[:output] = File.open(f, 'w')
+format = options[:format] || options[:format_fallback]
+abort "No output format specified and none could be inferred." unless format
+abort "Invalid output format #{format}. Use '-l' to get a list of available formats." unless PrometheusConv.valid_output_format? format
 
-      options[:format_fallback] = f.split('.').last.downcase
-    }
+target = options[:target] || options[:target_fallback]
+abort "No target specified and none could be inferred." unless target
 
-    opts.on('-f', '--format FORMAT', "Output format [Default: file ending of <output-file>]") { |f|
-      options[:format] = f.downcase
-    }
+config = YAML.load_file(options[:config])[target.to_sym]
+abort "Config not found for target #{target}." unless config
 
-    opts.on('-l', '--list-formats', "List available output formats and exit.") {
-      puts "Available output formats:"
-      PrometheusConv.output_formats.each { |f, k|
-        puts "  - #{f} = #{k}"
-      }
-
-      exit 0
-    }
-
-    opts.separator ''
-
-    opts.on('-t', '--target ID', "Target whose config to use [Default: <input-file> minus file ending]") { |t|
-      options[:target] = t
-    }
-  }.parse!
-
-  spec = options[:spec] || options[:spec_fallback]
-  abort "No input format (spec) specified and none could be inferred." unless spec
-  abort "Invalid input format (spec) #{spec}. Use '-L' to get a list of available specs." unless PrometheusConv.valid_input_format? spec
-
-  format = options[:format] || options[:format_fallback]
-  abort "No output format specified and none could be inferred." unless format
-  abort "Invalid output format #{format}. Use '-l' to get a list of available formats." unless PrometheusConv.valid_output_format? format
-
-  target = options[:target] || options[:target_fallback]
-  abort "No target specified and none could be inferred." unless target
-
-  config = YAML.load_file(options[:config])[target.to_sym]
-  abort "Config not found for target #{target}." unless config
-
-  warn PrometheusConv.parser(config, spec).parse(options[:input]) { |record|
-    options[:output].puts record.to(format)
-  }.size
-end
+warn PrometheusConv.parser(config, spec).parse(options[:input]) { |record|
+  options[:output].puts record.to(format)
+}.size
