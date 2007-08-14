@@ -111,6 +111,12 @@ OptionParser.new { |opts|
   opts.on('-t', '--target ID', "Target whose config to use [Default: <input-file> minus file ending,", "plus '.<spec>', plus ':<format>' (reversely in turn)]") { |t|
     options[:target] = t
   }
+
+  opts.separator ''
+
+  opts.on('-v', '--verbose', "Be verbose about what's being done") {
+    $VERBOSE = true
+  }
 }.parse!
 
 spec = options[:spec] || options[:spec_fallback]
