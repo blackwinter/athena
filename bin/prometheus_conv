@@ -39,6 +39,10 @@ $: << File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'prometheus_conv'
 
+USAGE = "Usage: #{$0} [-h|--help] [options]"
+
+abort USAGE if ARGV.empty?
+
 options = {
   :config => 'config.yaml',
   :input  => STDIN,
@@ -47,7 +51,8 @@ options = {
 }
 
 OptionParser.new { |opts|
-  opts.banner = "Usage: #{$0} [options]"
+  opts.banner = USAGE
+  opts.separator ''
 
   opts.on('-c', '--config YAML', "Config file [Default: #{options[:config]}]") { |f|
     abort "Can't find file #{f}" unless File.readable? f
