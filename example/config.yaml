@@ -53,12 +53,19 @@
       - "0100"
       - "0101"
       - "0331"
-    :string: "%s (%s) [%s]"
+      - "2028"
+    :string: "VerfAnsetz=%s (Verf_Ordn=%s) [HST=%s] / ort2sb=%s"
   :title:
     :elements:
       - "0331"
       - "0335"
       - "0370"
       - "0100"
-    :string: "%s : %s [%s] (%s)"
-  :place: "2028"
+    :string: "HST=%s : HSTZusatz=%s [Untertitstab=%s] (VerfAnsetz=%s)"
+  :place:
+    :elements:
+      - "2028"
+      - "0335"
+      - "0370"
+      - "0100"
+    :string: "ort2sb=%s (HSTZusatz=%s [Untertitstab=%s] / VerfAnsetz=%s)"
