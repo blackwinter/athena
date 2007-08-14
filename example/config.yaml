@@ -12,6 +12,27 @@
       - "city"
       - "country"
     :separator: " / "
+:multiple-fields-per-element:
+  :__record_element: "record"
+  :author:
+    :elements:
+      - "author"
+      - "city"
+      - "title/main"
+    :string: "author=%s (city=%s) [title/main=%s]"
+  :title:
+    :elements:
+      - "title/main"
+      - "title/subtitle"
+      - "author"
+    :string: "title/main=%s: title/subtitle=%s (author=%s)"
+    :empty: ">>n/a<<"
+  :place:
+    :elements:
+      - "city"
+      - "country"
+      - "title"
+    :string: "city=%s / country=%s (title=%s)"
 :sisis-ex:
   :__record_element: "0000"  # KatalogNr
   :author:
@@ -26,26 +47,6 @@
       - "0370"               # Untertitstab
     :string: "%s : %s [%s]"
   :place: "2028"             # ort2sb
-:multiple-fields-per-element:
-  :__record_element: "record"
-  :author:
-    :elements:
-      - "author"
-      - "city"
-      - "title/main"
-    :string: "%s (%s) [%s]"
-  :title:
-    :elements:
-      - "title/main"
-      - "title/subtitle"
-      - "author"
-    :string: "%s: %s (%s)"
-    :empty: ">>n/a<<"
-  :place:
-    :elements:
-      - "city"
-      - "country"
-    :separator: " / "
 :sisis-multiple-fields-per-element:
   :__record_element: "0000"
   :author:
