@@ -55,7 +55,7 @@ OptionParser.new { |opts|
   opts.separator ''
 
   opts.on('-c', '--config YAML', "Config file [Default: #{options[:config]}#{' (currently not present)' unless File.readable? options[:config]}]") { |f|
-    abort "Can't find file #{f}" unless File.readable? f
+    abort "Can't find config file: #{f}." unless File.readable? f
 
     options[:config] = f
   }
@@ -63,12 +63,12 @@ OptionParser.new { |opts|
   opts.separator ''
 
   opts.on('-i', '--input FILE',  "Input file [Default: #{options[:input] == STDIN ? 'STDIN' : options[:input]}]") { |f|
-    abort "Can't find file #{f}" unless File.readable? f
+    abort "Can't find input file: #{f}." unless File.readable? f
 
     options[:input] = File.open(f, 'r')
 
-    p = File.basename(f).downcase.split('.')
-    options[:spec_fallback]   = p.last
+    p = File.basename(f).split('.')
+    options[:spec_fallback]   = p.last.downcase
     options[:target_fallback] = p[0..-2].join('.')
   }
 
@@ -108,24 +108,32 @@ OptionParser.new { |opts|
 
   opts.separator ''
 
-  opts.on('-t', '--target ID', "Target whose config to use [Default: <input-file> minus file ending]") { |t|
+  opts.on('-t', '--target ID', "Target whose config to use [Default: <input-file> minus file ending,", "plus '.<spec>', plus ':<format>' (reversely in turn)]") { |t|
     options[:target] = t
   }
 }.parse!
 
 spec = options[:spec] || options[:spec_fallback]
 abort "No input format (spec) specified and none could be inferred." unless spec
-abort "Invalid input format (spec) #{spec}. Use '-L' to get a list of available specs." unless PrometheusConv.valid_input_format? spec
+abort "Invalid input format (spec): #{spec}. Use '-L' to get a list of available specs." unless PrometheusConv.valid_input_format? spec
 
 format = options[:format] || options[:format_fallback]
 abort "No output format specified and none could be inferred." unless format
-abort "Invalid output format #{format}. Use '-l' to get a list of available formats." unless PrometheusConv.valid_output_format? format
+abort "Invalid output format: #{format}. Use '-l' to get a list of available formats." unless PrometheusConv.valid_output_format? format
 
-target = options[:target] || options[:target_fallback]
-abort "No target specified and none could be inferred." unless target
-
-config = YAML.load_file(options[:config])[target.to_sym]
-abort "Config not found for target #{target}." unless config
+yaml = YAML.load_file(options[:config])
+if t = options[:target]
+  target = t
+  config = yaml[t.to_sym]
+else
+  [options[:target_fallback] || 'generic', ".#{spec}", ":#{format}"].inject([]) { |s, t|
+    s << (s.last ? s.last + t : t)
+  }.reverse.find { |t|
+    target = t
+    config = yaml[t.to_sym]
+  }
+end
+abort "Config not found for target: #{target}." unless config
 
 warn PrometheusConv.parser(config, spec).parse(options[:input]) { |record|
   options[:output].puts record.to(format)
