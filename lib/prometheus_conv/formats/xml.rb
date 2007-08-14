@@ -70,35 +70,11 @@ module PrometheusConv
 
         element_specs = config.inject({}) { |specs, (element, element_spec)|
           element_spec.each { |field, c|
-            define_spec = lambda { |arg|
-              s = ElementSpec.new(element, field, c)
-
-              case arg
-                when Hash
-                  s.specs!(arg)
-                  #s.default!(DebugSpec.new)
-                else
-                  s.default!(SubElementSpec.new(s))
-                  #s.default!(DebugSpec.new)
-              end
-
-              return s
-            }
-
-            merge_specs = lambda { |s1, s2|
-              if s1.is_a?(XMLStreamin::XMLSpec)
-                s1.specs!(s2.is_a?(XMLStreamin::XMLSpec) ? s2.specs : s2)
-                s1
-              else
-                s1.merge(s2)
-              end
-            }
-
             element.split('/').reverse.inject({}) { |hash, part|
-              s = define_spec[hash.empty? ? :default : hash]
-              hash.insert!(part, s, &merge_specs)
+              s = define_spec(element, field, c, hash.empty? ? :default : hash)
+              merge_specs(hash, part, s)
             }.each { |key, s|
-              specs.insert!(key, s, &merge_specs)
+              merge_specs(specs, key, s)
             }
           }
 
@@ -115,6 +91,32 @@ module PrometheusConv
         spec.default!(root_spec)
 
         spec
+      end
+
+      def define_spec(element, field, config, arg)
+        spec = ElementSpec.new(element, field, config)
+
+        case arg
+          when Hash
+            spec.specs!(arg)
+            #s.default!(DebugSpec.new)
+          else
+            spec.default!(SubElementSpec.new(spec))
+           #s.default!(DebugSpec.new)
+        end
+
+        spec
+      end
+
+      def merge_specs(container, key, spec)
+        container.insert!(key, spec) { |s1, s2|
+          if s1.is_a?(XMLStreamin::XMLSpec)
+            s1.specs!(s2.is_a?(XMLStreamin::XMLSpec) ? s2.specs : s2)
+            s1
+          else
+            s1.merge(s2)
+          end
+        }
       end
 
       class VoidSpec < XMLStreamin::XMLSpec
