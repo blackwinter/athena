@@ -42,11 +42,11 @@ module PrometheusConv
         @records
       end
 
-      def [](field, config)
+      def [](field = nil, config = nil)
         record = records.last
         raise NoRecordError unless record
 
-        record.fill(field, config)
+        record.fill(field, config) if field && config
         record
       end
 
