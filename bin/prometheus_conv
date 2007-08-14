@@ -54,7 +54,7 @@ OptionParser.new { |opts|
   opts.banner = USAGE
   opts.separator ''
 
-  opts.on('-c', '--config YAML', "Config file [Default: #{options[:config]}]") { |f|
+  opts.on('-c', '--config YAML', "Config file [Default: #{options[:config]}#{' (currently not present)' unless File.readable? options[:config]}]") { |f|
     abort "Can't find file #{f}" unless File.readable? f
 
     options[:config] = f
