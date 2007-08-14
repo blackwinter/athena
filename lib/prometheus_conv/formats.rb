@@ -39,7 +39,7 @@ module PrometheusConv
     class << self
 
       def formats
-        PrometheusConv::Formats.instance_variable_get :@formats
+        Formats.instance_variable_get :@formats
       end
 
       def [](direction, format)
