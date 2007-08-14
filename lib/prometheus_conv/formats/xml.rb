@@ -99,10 +99,10 @@ module PrometheusConv
         case arg
           when Hash
             spec.specs!(arg)
-            #s.default!(DebugSpec.new)
+            spec.default!(DebugSpec.new) if $DEBUG
           else
             spec.default!(SubElementSpec.new(spec))
-           #s.default!(DebugSpec.new)
+            spec.default!(DebugSpec.new) if $DEBUG
         end
 
         spec
