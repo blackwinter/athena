@@ -84,10 +84,10 @@ module PrometheusConv
         record_spec = RecordSpec.new(parser)
         record_spec.specs!(element_specs)
 
-        root_spec   = VoidSpec.new
+        root_spec   = BaseSpec.new
         root_spec.specs!(record_element => record_spec)
 
-        spec        = VoidSpec.new
+        spec        = BaseSpec.new
         spec.default!(root_spec)
 
         spec
@@ -99,10 +99,8 @@ module PrometheusConv
         case arg
           when Hash
             spec.specs!(arg)
-            spec.default!(DebugSpec.new) if $DEBUG
           else
             spec.default!(SubElementSpec.new(spec))
-            spec.default!(DebugSpec.new) if $DEBUG
         end
 
         spec
@@ -119,31 +117,67 @@ module PrometheusConv
         }
       end
 
-      class VoidSpec < XMLStreamin::XMLSpec
-      end
+      class BaseSpec < XMLStreamin::XMLSpec
 
-      class DebugSpec < XMLStreamin::XMLSpec
-
-        attr_reader :prefix
-
-        def initialize(prefix = 'Element')
-          super()
-
-          @prefix = prefix
-        end
+        @level = 0
 
         def start(context, name, attrs)
-          warn "#{prefix}: #{name}"
-          attrs.each { |attr|
-             warn "  #{attr[0]} = #{attr[1]}"
-         }
+          if $VERBOSE
+            warn "#{indent}<#{name}>"
+            step :down
+
+            attrs.each { |attr|
+              warn "#{indent(1)}[#{attr[0]} = #{attr[1]}]"
+            }
+          end
 
           return context
         end
 
+        def text(context, data)
+          if $VERBOSE
+            content = data.strip
+            warn "#{indent}#{content}" unless content.empty?
+          end
+
+          return context
+        end
+
+        def done(context, name)
+          if $VERBOSE
+            step :up
+            warn "#{indent}</#{name}>"
+          end
+
+          return context
+        end
+
+        def empty(context)
+          if $VERBOSE
+            step :up
+          end
+
+          return context
+        end
+
+        private
+
+        def level
+          BaseSpec.instance_variable_get :@level
+        end
+
+        def step(direction)
+          steps = { :down => 1, :up => -1 }
+          BaseSpec.instance_variable_set :@level, level + steps[direction]
+        end
+
+        def indent(plus = 0)
+          '  ' * (level + plus)
+        end
+
       end
 
-      class RecordSpec < XMLStreamin::XMLSpec
+      class RecordSpec < BaseSpec
 
         attr_reader   :parser
         attr_accessor :record
@@ -155,16 +189,20 @@ module PrometheusConv
         end
 
         def start(context, name, attrs)
+          super
+
           self.record = PrometheusConv::Record.new(parser.block)
         end
 
         def done(context, name)
+          super
+
           record.close
         end
 
       end
 
-      class ElementSpec < XMLStreamin::XMLSpec
+      class ElementSpec < BaseSpec
 
         attr_reader   :name, :field, :config
         attr_accessor :record
@@ -178,16 +216,20 @@ module PrometheusConv
         end
 
         def start(context, name, attrs)
+          super
+
           self.record = PrometheusConv::Record[field, config]
         end
 
         def text(context, data)
+          super
+
           record.update name, data
         end
 
       end
 
-      class SubElementSpec < XMLStreamin::XMLSpec
+      class SubElementSpec < BaseSpec
 
         extend Forwardable
 
