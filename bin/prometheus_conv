@@ -114,8 +114,15 @@ OptionParser.new { |opts|
 
   opts.separator ''
 
-  opts.on('-v', '--verbose', "Be verbose about what's being done") {
-    $VERBOSE = true
+  opts.on('-v', '--verbose [WHAT]', "Be verbose about what's being done. Optional argument is a comma-separated", "list of what should be output or 'all'.") { |what|
+    if what.nil? || what == 'all'
+      $_VERBOSE = Hash.new(true)
+    else
+      $_VERBOSE = {}
+      what.split(',').each { |w|
+        $_VERBOSE[w.to_sym] = true
+      }
+    end
   }
 }.parse!
 

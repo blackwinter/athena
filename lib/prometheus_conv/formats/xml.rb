@@ -122,7 +122,7 @@ module PrometheusConv
         @level = 0
 
         def start(context, name, attrs)
-          if $VERBOSE
+          if $_VERBOSE[:xml]
             warn "#{indent}<#{name}>"
             step :down
 
@@ -135,7 +135,7 @@ module PrometheusConv
         end
 
         def text(context, data)
-          if $VERBOSE
+          if $_VERBOSE[:xml]
             content = data.strip
             warn "#{indent}#{content}" unless content.empty?
           end
@@ -144,7 +144,7 @@ module PrometheusConv
         end
 
         def done(context, name)
-          if $VERBOSE
+          if $_VERBOSE[:xml]
             step :up
             warn "#{indent}</#{name}>"
           end
@@ -153,7 +153,7 @@ module PrometheusConv
         end
 
         def empty(context)
-          if $VERBOSE
+          if $_VERBOSE[:xml]
             step :up
           end
 
