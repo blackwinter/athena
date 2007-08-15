@@ -150,6 +150,10 @@ else
 end
 abort "Config not found for target: #{target}." unless config
 
-warn PrometheusConv.parser(config, spec).parse(options[:input]) { |record|
+records = PrometheusConv.parser(config, spec).parse(options[:input]) { |record|
   options[:output].puts record.to(format)
-}.size
+}
+
+PrometheusConv::Util.verbose(:count) do
+  spit records.size
+end
