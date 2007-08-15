@@ -63,11 +63,13 @@ module PrometheusConv
       def build_spec(parser)
         config = parser.config.dup
 
-        record_element = config.delete(:__record_element)
-        unless record_element
-          raise NoRecordElementError, 'no record element specified'
-        else
-          raise IllegalRecordElementError, "illegal record element #{record_element}" unless record_element.is_a?(String)
+        case record_element = config.delete(:__record_element)
+          when String
+            # fine!
+          when nil
+            raise NoRecordElementError, 'no record element specified'
+          else
+            raise IllegalRecordElementError, "illegal record element #{record_element}"
         end
 
         element_specs = config.inject({}) { |specs, (element, element_spec)|
