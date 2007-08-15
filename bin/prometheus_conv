@@ -43,6 +43,9 @@ USAGE = "Usage: #{$0} [-h|--help] [options]"
 
 abort USAGE if ARGV.empty?
 
+# Global variable to handle verbosity
+$_VERBOSE = {}
+
 options = {
   :config => 'config.yaml',
   :input  => STDIN,
@@ -116,9 +119,8 @@ OptionParser.new { |opts|
 
   opts.on('-v', '--verbose [WHAT]', "Be verbose about what's being done. Optional argument is a comma-separated", "list of what should be output or 'all'.") { |what|
     if what.nil? || what == 'all'
-      $_VERBOSE = Hash.new(true)
+      $_VERBOSE.default = true
     else
-      $_VERBOSE = {}
       what.split(',').each { |w|
         $_VERBOSE[w.to_sym] = true
       }
