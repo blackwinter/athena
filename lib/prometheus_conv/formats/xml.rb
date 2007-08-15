@@ -170,7 +170,8 @@ module PrometheusConv
 
         def inspect_spec(element = nil, level = 0)
           if respond_to?(:field)
-            spit "#{indent(level)}[#{element}] #{field.to_s.upcase} -> #{name}"
+            msg = "#{indent(level)}[#{element}] #{field.to_s.upcase} -> #{name}"
+            respond_to?(:spit) ? spit(msg) : warn(msg)
             specs.each { |e, s|
               s.inspect_spec(e, level + 1)
             }
@@ -194,10 +195,6 @@ module PrometheusConv
         def step(direction)
           steps = { :down => 1, :up => -1 }
           BaseSpec.instance_variable_set :@level, level + steps[direction]
-        end
-
-        def indent(level = 0)
-          '  ' * level
         end
 
       end

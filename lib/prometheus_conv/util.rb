@@ -9,6 +9,9 @@ module PrometheusConv
         klass.send(:define_method, :spit) { |msg|
           warn "*#{what}: #{msg}"
         }
+        klass.send(:define_method, :indent) { |*level|
+          '  ' * (level.first || 0)
+        }
 
         instance_eval(&block)
       end
