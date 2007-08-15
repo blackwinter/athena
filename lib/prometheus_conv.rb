@@ -30,6 +30,7 @@
 ###############################################################################
 #++
 
+require 'prometheus_conv/util'
 require 'prometheus_conv/parser'
 require 'prometheus_conv/record'
 require 'prometheus_conv/formats'

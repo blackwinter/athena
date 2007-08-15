@@ -34,6 +34,8 @@ module PrometheusConv
 
   class Record
 
+    include Util
+
     @records = []
 
     class << self
@@ -74,6 +76,11 @@ module PrometheusConv
       end
 
       struct.each_key { |field|
+        verbose(:data) do
+          value = data.strip
+          spit "#{field.to_s.upcase}[#{element}] << #{value}" unless value.empty?
+        end
+
         struct[field][:values][element] << data
       }
     end

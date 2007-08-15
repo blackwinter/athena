@@ -34,6 +34,8 @@ module PrometheusConv
 
   class Parser
 
+    include Util
+
     attr_reader   :config, :spec
     attr_accessor :block
 
@@ -71,6 +73,10 @@ module PrometheusConv
           separator = v[:separator] || ', '
 
           elements.each { |element|
+            verbose(:config) do
+              spit "#{field.to_s.upcase} -> #{element}"
+            end
+
             (hash[element] ||= {})[field] = {
               :string   => v[:string] || ['%s'] * elements.size * separator,
               :empty    => v[:empty]  || '<<EMPTY>>',

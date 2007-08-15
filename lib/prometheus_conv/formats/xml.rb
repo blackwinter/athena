@@ -119,15 +119,17 @@ module PrometheusConv
 
       class BaseSpec < XMLStreamin::XMLSpec
 
+        include Util
+
         @level = 0
 
         def start(context, name, attrs)
-          if $_VERBOSE[:xml]
-            warn "#{indent}<#{name}>"
+          verbose(:xml) do
+            spit "#{indent}<#{name}>"
             step :down
 
             attrs.each { |attr|
-              warn "#{indent(1)}[#{attr[0]} = #{attr[1]}]"
+              spit "#{indent(1)}[#{attr[0]} = #{attr[1]}]"
             }
           end
 
@@ -135,25 +137,25 @@ module PrometheusConv
         end
 
         def text(context, data)
-          if $_VERBOSE[:xml]
+          verbose(:xml) do
             content = data.strip
-            warn "#{indent}#{content}" unless content.empty?
+            spit "#{indent}#{content}" unless content.empty?
           end
 
           return context
         end
 
         def done(context, name)
-          if $_VERBOSE[:xml]
+          verbose(:xml) do
             step :up
-            warn "#{indent}</#{name}>"
+            spit "#{indent}</#{name}>"
           end
 
           return context
         end
 
         def empty(context)
-          if $_VERBOSE[:xml]
+          verbose(:xml) do
             step :up
           end
 
