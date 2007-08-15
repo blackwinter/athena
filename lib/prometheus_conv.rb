@@ -30,6 +30,15 @@
 ###############################################################################
 #++
 
+# PrometheusConv is a library to convert (mainly) prometheus database files
+# to various output formats. It's accompanied by a corresponding script that
+# gives access to all its converting features.
+#
+# In order to support additional input and/or output formats, PrometheusConv::Formats
+# needs to sub-classed and, respectively, an instance method _parse_ or a class
+# method _convert_ supplied. This way, a specific format can even function as
+# both input and output format.
+
 require 'prometheus_conv/util'
 require 'prometheus_conv/parser'
 require 'prometheus_conv/record'
