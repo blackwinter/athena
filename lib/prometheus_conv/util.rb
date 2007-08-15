@@ -4,9 +4,9 @@ module PrometheusConv
 
     extend self
 
-    def verbose(what, &block)
+    def verbose(what, klass = self.class, &block)
       if $_VERBOSE[what]
-        self.class.send(:define_method, :spit) { |msg|
+        klass.send(:define_method, :spit) { |msg|
           warn "*#{what}: #{msg}"
         }
 
