@@ -40,7 +40,6 @@ $: << File.join(File.dirname(__FILE__), '..', 'lib')
 require 'prometheus_conv'
 
 USAGE = "Usage: #{$0} [-h|--help] [options]"
-
 abort USAGE if ARGV.empty?
 
 # Global variable to handle verbosity

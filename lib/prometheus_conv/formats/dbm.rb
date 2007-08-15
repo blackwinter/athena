@@ -48,11 +48,11 @@ module PrometheusConv
         dbm = ["ID:#{record.id}"]
         record.struct.each { |field, struct|
           strings = struct[:elements].inject([]) { |array, element|
-            value = (struct[:values][element] || []).map { |v|
+            values = (struct[:values][element] || []).map { |v|
               (v || '').strip.gsub(/(?:\r?\n)+/, ' ')
-            }.reject { |v| v.empty? }.join('|')
+            }.reject { |v| v.empty? }
 
-            array << (value.empty? ? struct[:empty] : value)
+            array << (values.empty? ? struct[:empty] : values.join('|'))
           }
 
           dbm << "#{field.to_s.upcase}:#{ICONV_TO_LATIN1.iconv(struct[:string] % strings)}"
