@@ -43,6 +43,8 @@ module PrometheusConv
 
     class XML < PrometheusConv::Formats
 
+      include Util
+
       register_format :in, 'xml'
 
       attr_reader :spec, :listener
@@ -90,6 +92,10 @@ module PrometheusConv
         spec        = BaseSpec.new
         spec.default!(root_spec)
 
+        verbose(:spec, BaseSpec) do
+          spec.inspect_spec
+        end
+
         spec
       end
 
@@ -108,8 +114,8 @@ module PrometheusConv
 
       def merge_specs(container, key, spec)
         container.insert!(key, spec) { |s1, s2|
-          if s1.is_a?(XMLStreamin::XMLSpec)
-            s1.specs!(s2.is_a?(XMLStreamin::XMLSpec) ? s2.specs : s2)
+          if s1.respond_to?(:specs!)
+            s1.specs!(s2.respond_to?(:specs) ? s2.specs : s2)
             s1
           else
             s1.merge(s2)
@@ -125,11 +131,11 @@ module PrometheusConv
 
         def start(context, name, attrs)
           verbose(:xml) do
-            spit "#{indent}<#{name}>"
+            spit "#{indent(level)}<#{name}>"
             step :down
 
             attrs.each { |attr|
-              spit "#{indent(1)}[#{attr[0]} = #{attr[1]}]"
+              spit "#{indent(level + 1)}[#{attr[0]} = #{attr[1]}]"
             }
           end
 
@@ -139,7 +145,7 @@ module PrometheusConv
         def text(context, data)
           verbose(:xml) do
             content = data.strip
-            spit "#{indent}#{content}" unless content.empty?
+            spit "#{indent(level)}#{content}" unless content.empty?
           end
 
           return context
@@ -148,7 +154,7 @@ module PrometheusConv
         def done(context, name)
           verbose(:xml) do
             step :up
-            spit "#{indent}</#{name}>"
+            spit "#{indent(level)}</#{name}>"
           end
 
           return context
@@ -162,6 +168,23 @@ module PrometheusConv
           return context
         end
 
+        def inspect_spec(element = nil, level = 0)
+          if respond_to?(:field)
+            spit "#{indent(level)}[#{element}] #{field.to_s.upcase} -> #{name}"
+            specs.each { |e, s|
+              s.inspect_spec(e, level + 1)
+            }
+          else
+            if specs.empty?
+              specs.default.inspect_spec('?', level)
+            else
+              specs.each { |e, s|
+                s.inspect_spec(e, level)
+              }
+            end
+          end
+        end
+
         private
 
         def level
@@ -173,8 +196,8 @@ module PrometheusConv
           BaseSpec.instance_variable_set :@level, level + steps[direction]
         end
 
-        def indent(plus = 0)
-          '  ' * (level + plus)
+        def indent(level = 0)
+          '  ' * level
         end
 
       end
