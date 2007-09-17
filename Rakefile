@@ -2,6 +2,8 @@ require 'rake'
 require 'rake/rdoctask'
 require 'rake/gempackagetask'
 
+require 'lib/prometheus_conv/version'
+
 desc 'Generate documentation for prometheus_conv'
 Rake::RDocTask.new(:doc) { |rdoc|
   rdoc.title    = 'prometheus_conv documentation'
@@ -23,7 +25,7 @@ Rake::RDocTask.new(:doc) { |rdoc|
 
 spec = Gem::Specification.new do |s|
   s.name             = 'prometheus_conv'
-  s.version          = '0.0.1.' << `svnversion`.chomp[/\d+/]
+  s.version          = PrometheusConv::VERSION + '.' + `svnversion`.chomp[/\d+/]
   s.author           = 'Jens Wille'
   s.email            = 'jens.wille@uni-koeln.de'
   s.summary          = 'Convert prometheus files to various formats'
