@@ -2,11 +2,11 @@ require 'rake'
 require 'rake/rdoctask'
 require 'rake/gempackagetask'
 
-require 'lib/prometheus_conv/version'
+require 'lib/athena/version'
 
-desc 'Generate documentation for prometheus_conv'
+desc 'Generate documentation for athena'
 Rake::RDocTask.new(:doc) { |rdoc|
-  rdoc.title    = 'prometheus_conv documentation'
+  rdoc.title    = 'athena Application documentation'
   rdoc.rdoc_dir = 'doc'
 
   rdoc.options        <<
@@ -24,30 +24,30 @@ Rake::RDocTask.new(:doc) { |rdoc|
 }
 
 spec = Gem::Specification.new do |s|
-  s.name             = 'prometheus_conv'
-  s.version          = PrometheusConv::VERSION + '.' + `svnversion`.chomp[/\d+/]
+  s.name             = 'athena'
+  s.version          = Athena::VERSION + '.' + `svnversion`.chomp[/\d+/]
   s.author           = 'Jens Wille'
   s.email            = 'jens.wille@uni-koeln.de'
-  s.summary          = 'Convert prometheus files to various formats'
+  s.summary          = 'Convert database files to various formats'
   s.files            = FileList['lib/**/*.rb', 'bin/*', '[A-Z]*', 'example/*'].to_a
   s.require_path     = 'lib'
   s.bindir           = 'bin'
-  s.executables      = %w[prometheus_conv]
+  s.executables      = %w[athena]
   s.has_rdoc         = true
   s.extra_rdoc_files = %w[README COPYING ChangeLog]
 
-  s.rdoc_options    << '--title' << 'prometheus_conv documentation' <<
-                       '--main' << 'README'                         <<
-                       '--line-numbers'                             <<
-                       '--inline-source'                            <<
-                       '--all'                                      << 
+  s.rdoc_options    << '--title' << 'athena Application documentation' <<
+                       '--main' << 'README'                            <<
+                       '--line-numbers'                                <<
+                       '--inline-source'                               <<
+                       '--all'                                         << 
                        '-c' << 'UTF-8'
 
   s.add_dependency('xmlstreamin')
   s.add_dependency('ruby-nuggets')
 end
 
-desc 'Build gem package for prometheus_conv'
+desc 'Build gem package for athena'
 Rake::GemPackageTask.new(spec) do |pkg|
   pkg.need_tar = true
 end

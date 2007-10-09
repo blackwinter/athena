@@ -3,7 +3,7 @@
 #--
 ###############################################################################
 #                                                                             #
-# prometheus_conv -- Convert prometheus files to various formats              #
+# athena -- Convert database files to various formats                         #
 #                                                                             #
 # Copyright (C) 2007 University of Cologne,                                   #
 #                    Albertus-Magnus-Platz,                                   #
@@ -12,18 +12,18 @@
 # Authors:                                                                    #
 #     Jens Wille <jens.wille@uni-koeln.de>                                    #
 #                                                                             #
-# prometheus_conv is free software; you can redistribute it and/or modify it  #
-# under the terms of the GNU General Public License as published by the Free  #
-# Software Foundation; either version 3 of the License, or (at your option)   #
-# any later version.                                                          #
+# athena is free software; you can redistribute it and/or modify it under the #
+# terms of the GNU General Public License as published by the Free Software   #
+# Foundation; either version 3 of the License, or (at your option) any later  #
+# version.                                                                    #
 #                                                                             #
-# prometheus_conv is distributed in the hope that it will be useful, but      #
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY  #
-# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for #
-# more details.                                                               #
+# athena is distributed in the hope that it will be useful, but WITHOUT ANY   #
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS   #
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more       #
+# details.                                                                    #
 #                                                                             #
 # You should have received a copy of the GNU General Public License along     #
-# with prometheus_conv. If not, see <http://www.gnu.org/licenses/>.           #
+# with athena. If not, see <http://www.gnu.org/licenses/>.                    #
 #                                                                             #
 ###############################################################################
 #++
@@ -33,7 +33,7 @@ require 'yaml'
 
 $: << File.join(File.dirname(__FILE__), '..', 'lib')
 
-require 'prometheus_conv'
+require 'athena'
 
 USAGE = "Usage: #{$0} [-h|--help] [options]"
 abort USAGE if ARGV.empty?
@@ -76,7 +76,7 @@ OptionParser.new { |opts|
 
   opts.on('-L', '--list-specs', "List available input formats (specs) and exit.") {
     puts "Available input formats (specs):"
-    PrometheusConv.input_formats.each { |s, k|
+    Athena.input_formats.each { |s, k|
       puts "  - #{s} = #{k}"
     }
 
@@ -97,7 +97,7 @@ OptionParser.new { |opts|
 
   opts.on('-l', '--list-formats', "List available output formats and exit.") {
     puts "Available output formats:"
-    PrometheusConv.output_formats.each { |f, k|
+    Athena.output_formats.each { |f, k|
       puts "  - #{f} = #{k}"
     }
 
@@ -125,11 +125,11 @@ OptionParser.new { |opts|
 
 spec = options[:spec] || options[:spec_fallback]
 abort "No input format (spec) specified and none could be inferred." unless spec
-abort "Invalid input format (spec): #{spec}. Use '-L' to get a list of available specs." unless PrometheusConv.valid_input_format? spec
+abort "Invalid input format (spec): #{spec}. Use '-L' to get a list of available specs." unless Athena.valid_input_format? spec
 
 format = options[:format] || options[:format_fallback]
 abort "No output format specified and none could be inferred." unless format
-abort "Invalid output format: #{format}. Use '-l' to get a list of available formats." unless PrometheusConv.valid_output_format? format
+abort "Invalid output format: #{format}. Use '-l' to get a list of available formats." unless Athena.valid_output_format? format
 
 yaml = YAML.load_file(options[:config])
 if t = options[:target]
@@ -145,10 +145,10 @@ else
 end
 abort "Config not found for target: #{target}." unless config
 
-records = PrometheusConv.parser(config, spec).parse(options[:input]) { |record|
+records = Athena.parser(config, spec).parse(options[:input]) { |record|
   options[:output].puts record.to(format)
 }
 
-PrometheusConv::Util.verbose(:count) do
+Athena::Util.verbose(:count) do
   spit records.size
 end

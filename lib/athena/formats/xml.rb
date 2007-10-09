@@ -1,7 +1,7 @@
 #--
 ###############################################################################
 #                                                                             #
-# A component of prometheus_conv, the prometheus file converter.              #
+# A component of athena, the database file converter.                         #
 #                                                                             #
 # Copyright (C) 2007 University of Cologne,                                   #
 #                    Albertus-Magnus-Platz,                                   #
@@ -10,18 +10,18 @@
 # Authors:                                                                    #
 #     Jens Wille <jens.wille@uni-koeln.de>                                    #
 #                                                                             #
-# prometheus_conv is free software; you can redistribute it and/or modify it  #
-# under the terms of the GNU General Public License as published by the Free  #
-# Software Foundation; either version 3 of the License, or (at your option)   #
-# any later version.                                                          #
+# athena is free software; you can redistribute it and/or modify it under the #
+# terms of the GNU General Public License as published by the Free Software   #
+# Foundation; either version 3 of the License, or (at your option) any later  #
+# version.                                                                    #
 #                                                                             #
-# prometheus_conv is distributed in the hope that it will be useful, but      #
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY  #
-# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for #
-# more details.                                                               #
+# athena is distributed in the hope that it will be useful, but WITHOUT ANY   #
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS   #
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more       #
+# details.                                                                    #
 #                                                                             #
 # You should have received a copy of the GNU General Public License along     #
-# with prometheus_conv. If not, see <http://www.gnu.org/licenses/>.           #
+# with athena. If not, see <http://www.gnu.org/licenses/>.                    #
 #                                                                             #
 ###############################################################################
 #++
@@ -33,11 +33,11 @@ require 'rubygems'
 require 'xmlstreamin'
 require 'nuggets/hash/insert'
 
-module PrometheusConv
+module Athena
 
   class Formats
 
-    class XML < PrometheusConv::Formats
+    class XML < Athena::Formats
 
       include Util
 
@@ -211,7 +211,7 @@ module PrometheusConv
         def start(context, name, attrs)
           super
 
-          self.record = PrometheusConv::Record.new(parser.block)
+          self.record = Athena::Record.new(parser.block)
         end
 
         def done(context, name)
@@ -238,7 +238,7 @@ module PrometheusConv
         def start(context, name, attrs)
           super
 
-          self.record = PrometheusConv::Record[field, config]
+          self.record = Athena::Record[field, config]
         end
 
         def text(context, data)

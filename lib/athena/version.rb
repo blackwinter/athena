@@ -1,7 +1,7 @@
 #--
 ###############################################################################
 #                                                                             #
-# A component of prometheus_conv, the prometheus file converter.              #
+# A component of athena, the database file converter.                         #
 #                                                                             #
 # Copyright (C) 2007 University of Cologne,                                   #
 #                    Albertus-Magnus-Platz,                                   #
@@ -10,41 +10,46 @@
 # Authors:                                                                    #
 #     Jens Wille <jens.wille@uni-koeln.de>                                    #
 #                                                                             #
-# prometheus_conv is free software; you can redistribute it and/or modify it  #
-# under the terms of the GNU General Public License as published by the Free  #
-# Software Foundation; either version 3 of the License, or (at your option)   #
-# any later version.                                                          #
+# athena is free software; you can redistribute it and/or modify it under the #
+# terms of the GNU General Public License as published by the Free Software   #
+# Foundation; either version 3 of the License, or (at your option) any later  #
+# version.                                                                    #
 #                                                                             #
-# prometheus_conv is distributed in the hope that it will be useful, but      #
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY  #
-# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for #
-# more details.                                                               #
+# athena is distributed in the hope that it will be useful, but WITHOUT ANY   #
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS   #
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more       #
+# details.                                                                    #
 #                                                                             #
 # You should have received a copy of the GNU General Public License along     #
-# with prometheus_conv. If not, see <http://www.gnu.org/licenses/>.           #
+# with athena. If not, see <http://www.gnu.org/licenses/>.                    #
 #                                                                             #
 ###############################################################################
 #++
 
-module PrometheusConv
+module Athena
 
-  module Util
+  module Version
 
-    extend self
+    MAJOR = 0
+    MINOR = 0
+    TINY  = 1
 
-    def verbose(what, klass = self.class, &block)
-      if $_VERBOSE[what]
-        klass.send(:define_method, :spit) { |msg|
-          warn "*#{what}: #{msg}"
-        }
-        klass.send(:define_method, :indent) { |*level|
-          '  ' * (level.first || 0)
-        }
+    class << self
 
-        instance_eval(&block)
+      # Returns array representation.
+      def to_a
+        [MAJOR, MINOR, TINY]
       end
+
+      # Short-cut for version string.
+      def to_s
+        to_a.join('.')
+      end
+
     end
 
   end
+
+  VERSION = Version.to_s
 
 end

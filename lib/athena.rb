@@ -1,7 +1,7 @@
 #--
 ###############################################################################
 #                                                                             #
-# prometheus_conv -- Convert prometheus files to various formats              #
+# athena -- Convert database files to various formats                         #
 #                                                                             #
 # Copyright (C) 2007 University of Cologne,                                   #
 #                    Albertus-Magnus-Platz,                                   #
@@ -10,37 +10,37 @@
 # Authors:                                                                    #
 #     Jens Wille <jens.wille@uni-koeln.de>                                    #
 #                                                                             #
-# prometheus_conv is free software; you can redistribute it and/or modify it  #
-# under the terms of the GNU General Public License as published by the Free  #
-# Software Foundation; either version 3 of the License, or (at your option)   #
-# any later version.                                                          #
+# athena is free software; you can redistribute it and/or modify it under the #
+# terms of the GNU General Public License as published by the Free Software   #
+# Foundation; either version 3 of the License, or (at your option) any later  #
+# version.                                                                    #
 #                                                                             #
-# prometheus_conv is distributed in the hope that it will be useful, but      #
-# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY  #
-# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for #
-# more details.                                                               #
+# athena is distributed in the hope that it will be useful, but WITHOUT ANY   #
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS   #
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more       #
+# details.                                                                    #
 #                                                                             #
 # You should have received a copy of the GNU General Public License along     #
-# with prometheus_conv. If not, see <http://www.gnu.org/licenses/>.           #
+# with athena. If not, see <http://www.gnu.org/licenses/>.                    #
 #                                                                             #
 ###############################################################################
 #++
 
-# PrometheusConv is a library to convert (mainly) prometheus database files
-# to various output formats. It's accompanied by a corresponding script that
-# gives access to all its converting features.
+# Athena is a library to convert (mainly) prometheus database files to various
+# output formats. It's accompanied by a corresponding script that gives access
+# to all its converting features.
 #
-# In order to support additional input and/or output formats, PrometheusConv::Formats
-# needs to sub-classed and, respectively, an instance method _parse_ or a class
-# method _convert_ supplied. This way, a specific format can even function as
-# both input and output format.
+# In order to support additional input and/or output formats, Athena::Formats
+# needs to be sub-classed and, respectively, an instance method _parse_ or a
+# class method _convert_ supplied. This way, a specific format can even function
+# as both input and output format.
 
-require 'prometheus_conv/util'
-require 'prometheus_conv/parser'
-require 'prometheus_conv/record'
-require 'prometheus_conv/formats'
+require 'athena/util'
+require 'athena/parser'
+require 'athena/record'
+require 'athena/formats'
 
-module PrometheusConv
+module Athena
 
   extend self
 
