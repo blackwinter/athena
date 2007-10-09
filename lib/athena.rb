@@ -39,6 +39,7 @@ require 'athena/util'
 require 'athena/parser'
 require 'athena/record'
 require 'athena/formats'
+require 'athena/version'
 
 module Athena
 

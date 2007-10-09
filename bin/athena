@@ -50,7 +50,9 @@ options = {
 
 OptionParser.new { |opts|
   opts.banner = USAGE
+
   opts.separator ''
+  opts.separator 'Options:'
 
   opts.on('-c', '--config YAML', "Config file [Default: #{options[:config]}#{' (currently not present)' unless File.readable? options[:config]}]") { |f|
     abort "Can't find config file: #{f}." unless File.readable? f
@@ -74,7 +76,7 @@ OptionParser.new { |opts|
     options[:spec] = s.downcase
   }
 
-  opts.on('-L', '--list-specs', "List available input formats (specs) and exit.") {
+  opts.on('-L', '--list-specs', "List available input formats (specs) and exit") {
     puts "Available input formats (specs):"
     Athena.input_formats.each { |s, k|
       puts "  - #{s} = #{k}"
@@ -95,7 +97,7 @@ OptionParser.new { |opts|
     options[:format] = f.downcase
   }
 
-  opts.on('-l', '--list-formats', "List available output formats and exit.") {
+  opts.on('-l', '--list-formats', "List available output formats and exit") {
     puts "Available output formats:"
     Athena.output_formats.each { |f, k|
       puts "  - #{f} = #{k}"
@@ -111,8 +113,9 @@ OptionParser.new { |opts|
   }
 
   opts.separator ''
+  opts.separator 'Generic options:'
 
-  opts.on('-v', '--verbose [WHAT]', "Be verbose about what's being done. Optional argument is a comma-separated", "list of what should be output or 'all'.") { |what|
+  opts.on('-v', '--verbose [WHAT]', "Be verbose about what's being done. Optional argument is a comma-separated", "list of what should be output, or 'all' [Default: 'all']") { |what|
     if what.nil? || what == 'all'
       $_VERBOSE.default = true
     else
@@ -120,6 +123,14 @@ OptionParser.new { |opts|
         $_VERBOSE[w.to_sym] = true
       }
     end
+  }
+
+  opts.on('-h', '--help', 'Print this help message and exit') {
+    abort opts.to_s
+  }
+
+  opts.on('--version', 'Print program version and exit') {
+    abort "#{File.basename($0)} v#{Athena::VERSION}"
   }
 }.parse!
 
