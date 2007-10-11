@@ -72,6 +72,6 @@ module Athena
   
 end
 
-Dir.glob(__FILE__.sub(/\.rb$/, '/**/*.rb')).each { |rb|
+Dir[__FILE__.sub(/\.rb$/, '/**/*.rb')].each { |rb|
   require rb
 }
