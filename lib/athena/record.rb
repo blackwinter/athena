@@ -53,11 +53,11 @@ module Athena
     attr_reader :struct, :block, :id
 
     def initialize(block, id = object_id.abs)
-      self.class.records << self
-
       @struct = {}
       @block  = block
       @id     = id
+
+      add_record
     end
 
     def fill(field, config)
@@ -87,6 +87,12 @@ module Athena
 
     def to(format)
       Athena::Formats[:out, format].convert(self)
+    end
+
+    private
+
+    def add_record
+      self.class.records << self
     end
 
     class NoRecordError < StandardError

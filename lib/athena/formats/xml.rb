@@ -187,12 +187,12 @@ module Athena
         private
 
         def level
-          BaseSpec.instance_variable_get :@level
+          BaseSpec.instance_variable_get(:@level)
         end
 
         def step(direction)
           steps = { :down => 1, :up => -1 }
-          BaseSpec.instance_variable_set :@level, level + steps[direction]
+          BaseSpec.instance_variable_set(:@level, level + steps[direction])
         end
 
       end
@@ -244,7 +244,7 @@ module Athena
         def text(context, data)
           super
 
-          record.update name, data
+          record.update(name, data)
         end
 
       end
@@ -260,7 +260,7 @@ module Athena
           super()
 
           @parent = parent
-          default! self
+          default!(self)
         end
 
       end

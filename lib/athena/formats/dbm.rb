@@ -40,20 +40,25 @@ module Athena
 
       ICONV_TO_LATIN1 = Iconv.new('latin1', 'utf-8')
 
+      VALUE_SEPARATOR  = '|'
+      RECORD_SEPARATOR = '&&&'
+
       def self.convert(record)
         dbm = ["ID:#{record.id}"]
+
         record.struct.each { |field, struct|
           strings = struct[:elements].inject([]) { |array, element|
             values = (struct[:values][element] || []).map { |v|
               (v || '').strip.gsub(/(?:\r?\n)+/, ' ')
             }.reject { |v| v.empty? }
 
-            array << (values.empty? ? struct[:empty] : values.join('|'))
+            array << (values.empty? ? struct[:empty] : values.join(VALUE_SEPARATOR))
           }
 
           dbm << "#{field.to_s.upcase}:#{ICONV_TO_LATIN1.iconv(struct[:string] % strings)}"
         }
-        dbm << '&&&'
+
+        dbm << RECORD_SEPARATOR
 
         dbm.join(CRLF) << CRLF << CRLF
       end

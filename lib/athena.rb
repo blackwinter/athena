@@ -65,4 +65,8 @@ module Athena
     Formats.valid_format?(:out, format)
   end
 
+  def deferred_output?(format)
+    Formats[:out, format].deferred?
+  end
+
 end

@@ -32,6 +32,9 @@ module Athena
 
     include Util
 
+    DEFAULT_SEPARATOR = ', '
+    DEFAULT_EMPTY     = '<<EMPTY>>'
+
     attr_reader   :config, :spec
     attr_accessor :block
 
@@ -61,12 +64,13 @@ module Athena
             when Hash
               elements = v[:elements] || v[:element].to_a
 
-              raise ArgumentError, "no elements specified for field #{field}" unless elements.is_a?(Array)
+              raise ArgumentError, "no elements specified for field #{field}" \
+                unless elements.is_a?(Array)
             else
               raise ArgumentError, "illegal value for field #{field}"
           end
 
-          separator = v[:separator] || ', '
+          separator = v[:separator] || DEFAULT_SEPARATOR
 
           elements.each { |element|
             verbose(:config) do
@@ -75,7 +79,7 @@ module Athena
 
             (hash[element] ||= {})[field] = {
               :string   => v[:string] || ['%s'] * elements.size * separator,
-              :empty    => v[:empty]  || '<<EMPTY>>',
+              :empty    => v[:empty]  || DEFAULT_EMPTY,
               :elements => elements
             }
           }

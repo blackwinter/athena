@@ -35,7 +35,7 @@ module Athena
     class << self
 
       def formats
-        Formats.instance_variable_get :@formats
+        Formats.instance_variable_get(:@formats)
       end
 
       def [](direction, format)
@@ -43,7 +43,11 @@ module Athena
       end
 
       def valid_format?(direction, format)
-        formats[direction].has_key? format
+        formats[direction].has_key?(format)
+      end
+
+      def deferred?
+        false
       end
 
       def convert(*args)
@@ -53,6 +57,11 @@ module Athena
       private
 
       def register_format(direction, format)
+        if existing = formats[direction][format]
+          raise DuplicateFormatDefinitionError,
+            "format already defined (#{direction}): #{format} = #{existing}"
+        end
+
         formats[direction][format] = self
       end
 
@@ -66,6 +75,12 @@ module Athena
 
     def parse(*args)
       raise NotImplementedError, 'must be defined by sub-class'
+    end
+
+    class DuplicateFormatDefinitionError < StandardError
+    end
+
+    class FormatArgumentError < ArgumentError
     end
 
   end

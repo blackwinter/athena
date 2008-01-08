@@ -39,7 +39,7 @@ USAGE = "Usage: #{$0} [-h|--help] [options]"
 abort USAGE if ARGV.empty?
 
 # Global variable to handle verbosity
-$_VERBOSE = {}
+$Verbose = {}
 
 options = {
   :config => 'config.yaml',
@@ -54,16 +54,16 @@ OptionParser.new { |opts|
   opts.separator ''
   opts.separator 'Options:'
 
-  opts.on('-c', '--config YAML', "Config file [Default: #{options[:config]}#{' (currently not present)' unless File.readable? options[:config]}]") { |f|
-    abort "Can't find config file: #{f}." unless File.readable? f
+  opts.on('-c', '--config YAML', "Config file [Default: #{options[:config]}#{' (currently not present)' unless File.readable?(options[:config])}]") { |f|
+    abort "Can't find config file: #{f}." unless File.readable?(f)
 
     options[:config] = f
   }
 
   opts.separator ''
 
-  opts.on('-i', '--input FILE',  "Input file [Default: #{options[:input] == STDIN ? 'STDIN' : options[:input]}]") { |f|
-    abort "Can't find input file: #{f}." unless File.readable? f
+  opts.on('-i', '--input FILE',  "Input file [Default: STDIN]") { |f|
+    abort "Can't find input file: #{f}." unless File.readable?(f)
 
     options[:input] = File.open(f, 'r')
 
@@ -78,8 +78,11 @@ OptionParser.new { |opts|
 
   opts.on('-L', '--list-specs', "List available input formats (specs) and exit") {
     puts "Available input formats (specs):"
-    Athena.input_formats.each { |s, k|
-      puts "  - #{s} = #{k}"
+
+    formats = Athena.input_formats
+    max     = formats.map { |a, _| a.length }.max
+    formats.each { |f, k|
+      puts "  - %-#{max}s = %s" % [f, k]
     }
 
     exit 0
@@ -87,7 +90,7 @@ OptionParser.new { |opts|
 
   opts.separator ''
 
-  opts.on('-o', '--output FILE',  "Output file [Default: #{options[:output] == STDOUT ? 'STDOUT' : options[:output]}]") { |f|
+  opts.on('-o', '--output FILE',  "Output file [Default: STDOUT]") { |f|
     options[:output] = File.open(f, 'w')
 
     options[:format_fallback] = f.split('.').last.downcase
@@ -99,8 +102,11 @@ OptionParser.new { |opts|
 
   opts.on('-l', '--list-formats', "List available output formats and exit") {
     puts "Available output formats:"
-    Athena.output_formats.each { |f, k|
-      puts "  - #{f} = #{k}"
+
+    formats = Athena.output_formats
+    max     = formats.map { |a, _| a.length }.max
+    formats.each { |f, k|
+      puts "  - %-#{max}s = %s" % [f, k]
     }
 
     exit 0
@@ -117,10 +123,10 @@ OptionParser.new { |opts|
 
   opts.on('-v', '--verbose [WHAT]', "Be verbose about what's being done. Optional argument is a comma-separated", "list of what should be output, or 'all' [Default: 'all']") { |what|
     if what.nil? || what == 'all'
-      $_VERBOSE.default = true
+      $Verbose.default = true
     else
       what.split(',').each { |w|
-        $_VERBOSE[w.to_sym] = true
+        $Verbose[w.to_sym] = true
       }
     end
   }
@@ -136,11 +142,11 @@ OptionParser.new { |opts|
 
 spec = options[:spec] || options[:spec_fallback]
 abort "No input format (spec) specified and none could be inferred." unless spec
-abort "Invalid input format (spec): #{spec}. Use '-L' to get a list of available specs." unless Athena.valid_input_format? spec
+abort "Invalid input format (spec): #{spec}. Use '-L' to get a list of available specs." unless Athena.valid_input_format?(spec)
 
 format = options[:format] || options[:format_fallback]
 abort "No output format specified and none could be inferred." unless format
-abort "Invalid output format: #{format}. Use '-l' to get a list of available formats." unless Athena.valid_output_format? format
+abort "Invalid output format: #{format}. Use '-l' to get a list of available formats." unless Athena.valid_output_format?(format)
 
 yaml = YAML.load_file(options[:config])
 if t = options[:target]
@@ -156,9 +162,21 @@ else
 end
 abort "Config not found for target: #{target}." unless config
 
-records = Athena.parser(config, spec).parse(options[:input]) { |record|
-  options[:output].puts record.to(format)
-}
+parser = Athena.parser(config, spec)
+
+if Athena.deferred_output?(format)
+  records = parser.parse(options[:input])
+
+  records.map { |record|
+    record.to(format)
+  }.flatten.sort.uniq.each { |line|
+    options[:output].puts line
+  }
+else
+  records = parser.parse(options[:input]) { |record|
+    options[:output].puts record.to(format)
+  }
+end
 
 Athena::Util.verbose(:count) do
   spit records.size

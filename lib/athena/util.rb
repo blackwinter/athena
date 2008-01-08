@@ -33,7 +33,7 @@ module Athena
     extend self
 
     def verbose(what, klass = self.class, &block)
-      if $_VERBOSE[what]
+      if $Verbose[what]
         klass.send(:define_method, :spit) { |msg|
           warn "*#{what}: #{msg}"
         }
