@@ -69,7 +69,7 @@ OptionParser.new { |opts|
 
     p = File.basename(f).split('.')
     options[:spec_fallback]   = p.last.downcase
-    options[:target_fallback] = p[0..-2].join('.')
+    options[:target_fallback] = p.size > 1 ? p[0..-2].join('.') : p.first
   }
 
   opts.on('-s', '--spec SPEC', "Input format (spec) [Default: file ending of <input-file>]") { |s|
