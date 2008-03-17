@@ -3,9 +3,9 @@
 #                                                                             #
 # athena -- Convert database files to various formats                         #
 #                                                                             #
-# Copyright (C) 2007 University of Cologne,                                   #
-#                    Albertus-Magnus-Platz,                                   #
-#                    50932 Cologne, Germany                                   #
+# Copyright (C) 2007-2008 University of Cologne,                              #
+#                         Albertus-Magnus-Platz,                              #
+#                         50932 Cologne, Germany                              #
 #                                                                             #
 # Authors:                                                                    #
 #     Jens Wille <jens.wille@uni-koeln.de>                                    #
@@ -34,6 +34,9 @@
 # needs to be sub-classed and, respectively, an instance method _parse_ or a
 # class method _convert_ supplied. This way, a specific format can even function
 # as both input and output format.
+
+module Athena
+end
 
 require 'athena/util'
 require 'athena/parser'

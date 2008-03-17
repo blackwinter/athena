@@ -3,9 +3,9 @@
 #                                                                             #
 # A component of athena, the database file converter.                         #
 #                                                                             #
-# Copyright (C) 2007 University of Cologne,                                   #
-#                    Albertus-Magnus-Platz,                                   #
-#                    50932 Cologne, Germany                                   #
+# Copyright (C) 2007-2008 University of Cologne,                              #
+#                         Albertus-Magnus-Platz,                              #
+#                         50932 Cologne, Germany                              #
 #                                                                             #
 # Authors:                                                                    #
 #     Jens Wille <jens.wille@uni-koeln.de>                                    #
@@ -26,25 +26,21 @@
 ###############################################################################
 #++
 
-module Athena
+module Athena::Util
 
-  module Util
+  extend self
 
-    extend self
+  def verbose(what, klass = self.class, &block)
+    if $Verbose[what]
+      klass.send(:define_method, :spit) { |msg|
+        warn "*#{what}: #{msg}"
+      }
+      klass.send(:define_method, :indent) { |*level|
+        '  ' * (level.first || 0)
+      }
 
-    def verbose(what, klass = self.class, &block)
-      if $Verbose[what]
-        klass.send(:define_method, :spit) { |msg|
-          warn "*#{what}: #{msg}"
-        }
-        klass.send(:define_method, :indent) { |*level|
-          '  ' * (level.first || 0)
-        }
-
-        instance_eval(&block)
-      end
+      instance_eval(&block)
     end
-
   end
 
 end

@@ -3,9 +3,9 @@
 #                                                                             #
 # A component of athena, the database file converter.                         #
 #                                                                             #
-# Copyright (C) 2007 University of Cologne,                                   #
-#                    Albertus-Magnus-Platz,                                   #
-#                    50932 Cologne, Germany                                   #
+# Copyright (C) 2007-2008 University of Cologne,                              #
+#                         Albertus-Magnus-Platz,                              #
+#                         50932 Cologne, Germany                              #
 #                                                                             #
 # Authors:                                                                    #
 #     Jens Wille <jens.wille@uni-koeln.de>                                    #
@@ -28,41 +28,37 @@
 
 require 'iconv'
 
-module Athena
+class Athena::Formats
 
-  class Formats
+  class DBM < Athena::Formats
 
-    class DBM < Athena::Formats
+    register_formats :out, 'dbm', 'midos'
 
-      register_formats :out, 'dbm', 'midos'
+    CRLF = "\015\012"
 
-      CRLF = "\015\012"
+    ICONV_TO_LATIN1 = Iconv.new('latin1', 'utf-8')
 
-      ICONV_TO_LATIN1 = Iconv.new('latin1', 'utf-8')
+    VALUE_SEPARATOR  = '|'
+    RECORD_SEPARATOR = '&&&'
 
-      VALUE_SEPARATOR  = '|'
-      RECORD_SEPARATOR = '&&&'
+    def self.convert(record)
+      dbm = ["ID:#{record.id}"]
 
-      def self.convert(record)
-        dbm = ["ID:#{record.id}"]
+      record.struct.each { |field, struct|
+        strings = struct[:elements].inject([]) { |array, element|
+          values = (struct[:values][element] || []).map { |v|
+            (v || '').strip.gsub(/(?:\r?\n)+/, ' ')
+          }.reject { |v| v.empty? }
 
-        record.struct.each { |field, struct|
-          strings = struct[:elements].inject([]) { |array, element|
-            values = (struct[:values][element] || []).map { |v|
-              (v || '').strip.gsub(/(?:\r?\n)+/, ' ')
-            }.reject { |v| v.empty? }
-
-            array << (values.empty? ? struct[:empty] : values.join(VALUE_SEPARATOR))
-          }
-
-          dbm << "#{field.to_s.upcase}:#{ICONV_TO_LATIN1.iconv(struct[:string] % strings)}"
+          array << (values.empty? ? struct[:empty] : values.join(VALUE_SEPARATOR))
         }
 
-        dbm << RECORD_SEPARATOR
+        dbm << "#{field.to_s.upcase}:#{ICONV_TO_LATIN1.iconv(struct[:string] % strings)}"
+      }
 
-        dbm.join(CRLF) << CRLF << CRLF
-      end
+      dbm << RECORD_SEPARATOR
 
+      dbm.join(CRLF) << CRLF << CRLF
     end
 
   end

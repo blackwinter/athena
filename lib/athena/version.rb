@@ -3,9 +3,9 @@
 #                                                                             #
 # A component of athena, the database file converter.                         #
 #                                                                             #
-# Copyright (C) 2007 University of Cologne,                                   #
-#                    Albertus-Magnus-Platz,                                   #
-#                    50932 Cologne, Germany                                   #
+# Copyright (C) 2007-2008 University of Cologne,                              #
+#                         Albertus-Magnus-Platz,                              #
+#                         50932 Cologne, Germany                              #
 #                                                                             #
 # Authors:                                                                    #
 #     Jens Wille <jens.wille@uni-koeln.de>                                    #
@@ -26,30 +26,26 @@
 ###############################################################################
 #++
 
-module Athena
+module Athena::Version
 
-  module Version
+  MAJOR = 0
+  MINOR = 0
+  TINY  = 3
 
-    MAJOR = 0
-    MINOR = 0
-    TINY  = 2
+  class << self
 
-    class << self
+    # Returns array representation.
+    def to_a
+      [MAJOR, MINOR, TINY]
+    end
 
-      # Returns array representation.
-      def to_a
-        [MAJOR, MINOR, TINY]
-      end
-
-      # Short-cut for version string.
-      def to_s
-        to_a.join('.')
-      end
-
+    # Short-cut for version string.
+    def to_s
+      to_a.join('.')
     end
 
   end
 
-  VERSION = Version.to_s
+  Athena::VERSION = to_s
 
 end

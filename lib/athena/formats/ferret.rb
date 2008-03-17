@@ -26,74 +26,66 @@
 ###############################################################################
 #++
 
-class Athena::Record
+require 'rubygems'
+require 'ferret'
 
-  include Athena::Util
+class Athena::Formats
 
-  @records = []
+  class Ferret < Athena::Formats
 
-  class << self
+    register_format :in, 'ferret'
 
-    def records
-      @records
+    attr_reader :record_element, :config, :parser, :match_all_query
+
+    def initialize(parser)
+      config = parser.config.dup
+
+      case @record_element = config.delete(:__record_element)
+        when String
+          # fine!
+        when nil
+          raise NoRecordElementError, 'no record element specified'
+        else
+          raise IllegalRecordElementError, "illegal record element #{@record_element}"
+      end
+
+      @config = config
+      @parser = parser
+
+      @match_all_query = ::Ferret::Search::MatchAllQuery.new
     end
 
-    def [](field = nil, config = nil)
-      record = records.last
-      raise NoRecordError unless record
+    def parse(source)
+      search_all(source) { |doc|
+        record = Athena::Record.new(parser.block, doc[record_element])
 
-      record.fill(field, config) if field && config
-      record
-    end
+        config.each { |element, field_config|
+          record.update(element, doc[element], field_config)
+        }
 
-  end
-
-  attr_reader :struct, :block, :id
-
-  def initialize(block, id = object_id.abs)
-    @struct = {}
-    @block  = block
-    @id     = id
-
-    add_record
-  end
-
-  def fill(field, config)
-    struct[field] ||= config.merge({ :values => Hash.new { |h, k| h[k] = [] } })
-  end
-
-  def update(element, data, field_config = nil)
-    if field_config
-      field_config.each { |field, config|
-        fill(field, config)
+        record.close
       }
     end
 
-    struct.each_key { |field|
-      verbose(:data) do
-        value = data.strip
-        spit "#{field.to_s.upcase}[#{element}] << #{value}" unless value.empty?
-      end
+    private
 
-      struct[field][:values][element] << data
-    }
-  end
+    def search_all(source)
+      index = ::Ferret::Index::Index.new(
+        :path              => source.path,
+        :create_if_missing => false
+      ).searcher
 
-  def close
-    block ? block[self] : self
-  end
+      index.search_each(match_all_query, :limit => :all) { |doc_id, _|
+        yield index[doc_id] if block_given?
+      }
+    end
 
-  def to(format)
-    Athena::Formats[:out, format].convert(self)
-  end
+    class NoRecordElementError < StandardError
+    end
 
-  private
+    class IllegalRecordElementError < StandardError
+    end
 
-  def add_record
-    self.class.records << self
-  end
-
-  class NoRecordError < StandardError
   end
 
 end

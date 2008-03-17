@@ -3,9 +3,9 @@
 #                                                                             #
 # A component of athena, the database file converter.                         #
 #                                                                             #
-# Copyright (C) 2007 University of Cologne,                                   #
-#                    Albertus-Magnus-Platz,                                   #
-#                    50932 Cologne, Germany                                   #
+# Copyright (C) 2007-2008 University of Cologne,                              #
+#                         Albertus-Magnus-Platz,                              #
+#                         50932 Cologne, Germany                              #
 #                                                                             #
 # Authors:                                                                    #
 #     Jens Wille <jens.wille@uni-koeln.de>                                    #
@@ -26,69 +26,65 @@
 ###############################################################################
 #++
 
-module Athena
+class Athena::Parser
 
-  class Parser
+  include Athena::Util
 
-    include Util
+  DEFAULT_SEPARATOR = ', '
+  DEFAULT_EMPTY     = '<<EMPTY>>'
 
-    DEFAULT_SEPARATOR = ', '
-    DEFAULT_EMPTY     = '<<EMPTY>>'
+  attr_reader   :config, :spec
+  attr_accessor :block
 
-    attr_reader   :config, :spec
-    attr_accessor :block
+  def initialize(config, spec)
+    @config = build_config(config)
+    @spec   = Athena::Formats[:in, spec].new(self)
+  end
 
-    def initialize(config, spec)
-      @config = build_config(config)
-      @spec   = Athena::Formats[:in, spec].new(self)
-    end
+  def parse(source, &block)
+    self.block = block
 
-    def parse(source, &block)
-      self.block = block
+    spec.parse(source)
+    Athena::Record.records
+  end
 
-      spec.parse(source)
-      Athena::Record.records
-    end
+  private
 
-    private
+  def build_config(config)
+    config.inject({}) { |hash, (field, v)|
+      if field.to_s =~ /^__/
+        hash.merge(field => v)
+      else
+        case v
+          when String, Array
+            elements = [*v]
+            v = {}
+          when Hash
+            elements = v[:elements] || v[:element].to_a
 
-    def build_config(config)
-      config.inject({}) { |hash, (field, v)|
-        if field.to_s =~ /^__/
-          hash.merge(field => v)
-        else
-          case v
-            when String, Array
-              elements = [*v]
-              v = {}
-            when Hash
-              elements = v[:elements] || v[:element].to_a
+            raise ArgumentError, "no elements specified for field #{field}" \
+              unless elements.is_a?(Array)
+          else
+            raise ArgumentError, "illegal value for field #{field}"
+        end
 
-              raise ArgumentError, "no elements specified for field #{field}" \
-                unless elements.is_a?(Array)
-            else
-              raise ArgumentError, "illegal value for field #{field}"
+        separator = v[:separator] || DEFAULT_SEPARATOR
+
+        elements.each { |element|
+          verbose(:config) do
+            spit "#{field.to_s.upcase} -> #{element}"
           end
 
-          separator = v[:separator] || DEFAULT_SEPARATOR
-
-          elements.each { |element|
-            verbose(:config) do
-              spit "#{field.to_s.upcase} -> #{element}"
-            end
-
-            (hash[element] ||= {})[field] = {
-              :string   => v[:string] || ['%s'] * elements.size * separator,
-              :empty    => v[:empty]  || DEFAULT_EMPTY,
-              :elements => elements
-            }
+          (hash[element] ||= {})[field] = {
+            :string   => v[:string] || ['%s'] * elements.size * separator,
+            :empty    => v[:empty]  || DEFAULT_EMPTY,
+            :elements => elements
           }
+        }
 
-          hash
-        end
-      }
-    end
-
+        hash
+      end
+    }
   end
 
 end

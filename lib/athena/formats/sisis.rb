@@ -3,9 +3,9 @@
 #                                                                             #
 # A component of athena, the database file converter.                         #
 #                                                                             #
-# Copyright (C) 2007 University of Cologne,                                   #
-#                    Albertus-Magnus-Platz,                                   #
-#                    50932 Cologne, Germany                                   #
+# Copyright (C) 2007-2008 University of Cologne,                              #
+#                         Albertus-Magnus-Platz,                              #
+#                         50932 Cologne, Germany                              #
 #                                                                             #
 # Authors:                                                                    #
 #     Jens Wille <jens.wille@uni-koeln.de>                                    #
@@ -26,56 +26,52 @@
 ###############################################################################
 #++
 
-module Athena
+class Athena::Formats
 
-  class Formats
+  class Sisis < Athena::Formats
 
-    class Sisis < Athena::Formats
+    register_format :in, 'sisis'
 
-      register_format :in, 'sisis'
+    attr_reader :record_element, :config, :parser
 
-      attr_reader :record_element, :config, :parser
+    def initialize(parser)
+      config = parser.config.dup
 
-      def initialize(parser)
-        config = parser.config.dup
+      case @record_element = config.delete(:__record_element)
+        when String
+          # fine!
+        when nil
+          raise NoRecordElementError, 'no record element specified'
+        else
+          raise IllegalRecordElementError, "illegal record element #{@record_element}"
+      end
 
-        case @record_element = config.delete(:__record_element)
-          when String
-            # fine!
-          when nil
-            raise NoRecordElementError, 'no record element specified'
+      @config = config
+      @parser = parser
+    end
+
+    def parse(source)
+      record = nil
+
+      source.each { |line|
+        element, value = line.match(/(\d+).*?:\s*(.*)/)[1, 2]
+
+        case element
+          when record_element
+            record.close if record
+            record = Athena::Record.new(parser.block, value)
           else
-            raise IllegalRecordElementError, "illegal record element #{@record_element}"
+            record.update(element, value, config[element])
         end
+      }
 
-        @config = config
-        @parser = parser
-      end
+      record.close if record
+    end
 
-      def parse(source)
-        record = nil
+    class NoRecordElementError < StandardError
+    end
 
-        source.each { |line|
-          element, value = line.match(/(\d+).*?:\s*(.*)/)[1, 2]
-
-          case element
-            when record_element
-              record.close if record
-              record = Athena::Record.new(parser.block, value)
-            else
-              record.update(element, value, config[element])
-          end
-        }
-
-        record.close if record
-      end
-
-      class NoRecordElementError < StandardError
-      end
-
-      class IllegalRecordElementError < StandardError
-      end
-
+    class IllegalRecordElementError < StandardError
     end
 
   end

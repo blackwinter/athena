@@ -5,9 +5,9 @@
 #                                                                             #
 # athena -- Convert database files to various formats                         #
 #                                                                             #
-# Copyright (C) 2007 University of Cologne,                                   #
-#                    Albertus-Magnus-Platz,                                   #
-#                    50932 Cologne, Germany                                   #
+# Copyright (C) 2007-2008 University of Cologne,                              #
+#                         Albertus-Magnus-Platz,                              #
+#                         50932 Cologne, Germany                              #
 #                                                                             #
 # Authors:                                                                    #
 #     Jens Wille <jens.wille@uni-koeln.de>                                    #
@@ -65,7 +65,7 @@ OptionParser.new { |opts|
   opts.on('-i', '--input FILE',  "Input file [Default: STDIN]") { |f|
     abort "Can't find input file: #{f}." unless File.readable?(f)
 
-    options[:input] = File.open(f, 'r')
+    options[:input] = File.directory?(f) ? Dir.open(f) : File.open(f, 'r')
 
     p = File.basename(f).split('.')
     options[:spec_fallback]   = p.last.downcase
