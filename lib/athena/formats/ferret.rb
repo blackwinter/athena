@@ -51,12 +51,17 @@ class Athena::Formats
 
       @config = config
       @parser = parser
-
-      @match_all_query = ::Ferret::Search::MatchAllQuery.new
     end
 
     def parse(source)
-      search_all(source) { |doc|
+      path = source.path
+      raise "index not found: #{path}" unless File.readable?(File.join(path, 'segments'))
+
+      index = ::Ferret::Index::IndexReader.new(path)
+
+      0.upto(index.max_doc - 1) { |i|
+        doc = index[i]
+
         record = Athena::Record.new(parser.block, doc[record_element])
 
         config.each { |element, field_config|
@@ -65,20 +70,11 @@ class Athena::Formats
 
         record.close
       }
+
+      index.num_docs
     end
 
     private
-
-    def search_all(source)
-      index = ::Ferret::Index::Index.new(
-        :path              => source.path,
-        :create_if_missing => false
-      ).searcher
-
-      index.search_each(match_all_query, :limit => :all) { |doc_id, _|
-        yield index[doc_id] if block_given?
-      }
-    end
 
     class NoRecordElementError < StandardError
     end

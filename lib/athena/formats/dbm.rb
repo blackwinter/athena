@@ -36,7 +36,7 @@ class Athena::Formats
 
     CRLF = "\015\012"
 
-    ICONV_TO_LATIN1 = Iconv.new('latin1', 'utf-8')
+    ICONV_TO_LATIN1 = Iconv.new('latin1//TRANSLIT//IGNORE', 'utf-8')
 
     VALUE_SEPARATOR  = '|'
     RECORD_SEPARATOR = '&&&'
