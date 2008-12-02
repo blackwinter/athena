@@ -27,6 +27,8 @@
 #++
 
 require 'rubygems'
+
+gem 'ferret', ENV['FERRET_VERSION'] if ENV['FERRET_VERSION']
 require 'ferret'
 
 class Athena::Formats
@@ -60,7 +62,13 @@ class Athena::Formats
       index = ::Ferret::Index::IndexReader.new(path)
 
       0.upto(index.max_doc - 1) { |i|
-        doc = index[i]
+        next if index.deleted?(i)
+
+        doc = begin
+          index[i]
+        rescue StandardError  # "Not available"
+          next
+        end
 
         record = Athena::Record.new(parser.block, doc[record_element])
 
