@@ -82,13 +82,11 @@ class Athena::Formats
         unless index.deleted?(i)
           doc = index[i]
 
-          record = Athena::Record.new(parser.block, doc[record_element])
-
-          config.each { |element, field_config|
-            record.update(element, doc[element], field_config)
+          Athena::Record.new(parser.block, doc[record_element]) { |record|
+            config.each { |element, field_config|
+              record.update(element, doc[element], field_config)
+            }
           }
-
-          record.close
         end
       }
 

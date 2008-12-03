@@ -56,6 +56,12 @@ class Athena::Record
     @id     = id
 
     add_record
+
+    if block_given?
+      yield self
+    ensure
+      close
+    end
   end
 
   def fill(field, config)
