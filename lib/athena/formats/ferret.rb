@@ -62,27 +62,34 @@ class Athena::Formats
       begin
         File.open(File.join(path, 'segments')) {}
       rescue Errno::ENOENT, Errno::EACCES => err
-        raise "can't open index: #{path} (#{err.to_s.sub(/ - .*/, '')})"
+        raise "can't open index at #{path} (#{err.to_s.sub(/ - .*/, '')})"
       end
 
       index = ::Ferret::Index::IndexReader.new(path)
+      first, last = 0, index.max_doc - 1
 
-      0.upto(index.max_doc - 1) { |i|
-        next if index.deleted?(i)
+      # make sure we can read from the index
+      begin
+        index[first]
+        index[last]
+      rescue StandardError  # EOFError, "Not available", ...
+        raise "possible Ferret version mismatch; try to set the " <<
+              "FERRET_VERSION environment variable to something " <<
+              "other than #{Ferret::VERSION}"
+      end
 
-        doc = begin
-          index[i]
-        rescue StandardError  # "Not available"
-          next
+      first.upto(last) { |i|
+        unless index.deleted?(i)
+          doc = index[i]
+
+          record = Athena::Record.new(parser.block, doc[record_element])
+
+          config.each { |element, field_config|
+            record.update(element, doc[element], field_config)
+          }
+
+          record.close
         end
-
-        record = Athena::Record.new(parser.block, doc[record_element])
-
-        config.each { |element, field_config|
-          record.update(element, doc[element], field_config)
-        }
-
-        record.close
       }
 
       index.num_docs
