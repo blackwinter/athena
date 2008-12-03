@@ -57,7 +57,13 @@ class Athena::Formats
 
     def parse(source)
       path = source.path
-      raise "index not found: #{path}" unless File.readable_real?(File.join(path, 'segments'))
+
+      # make sure the index can be opened
+      begin
+        File.open(File.join(path, 'segments')) {}
+      rescue Errno::ENOENT, Errno::EACCES => err
+        raise "can't open index: #{path} (#{err.to_s.sub(/ - .*/, '')})"
+      end
 
       index = ::Ferret::Index::IndexReader.new(path)
 
