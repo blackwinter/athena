@@ -3,7 +3,7 @@
 #                                                                             #
 # A component of athena, the database file converter.                         #
 #                                                                             #
-# Copyright (C) 2007-2008 University of Cologne,                              #
+# Copyright (C) 2007-2009 University of Cologne,                              #
 #                         Albertus-Magnus-Platz,                              #
 #                         50932 Cologne, Germany                              #
 #                                                                             #
@@ -44,8 +44,8 @@ class Athena::Parser
   def parse(source, &block)
     self.block = block
 
-    spec.parse(source)
-    Athena::Record.records
+    res = spec.parse(source)
+    block ? res : Athena::Record.records
   end
 
   private
