@@ -3,7 +3,7 @@
 #                                                                             #
 # A component of athena, the database file converter.                         #
 #                                                                             #
-# Copyright (C) 2007-2008 University of Cologne,                              #
+# Copyright (C) 2007-2009 University of Cologne,                              #
 #                         Albertus-Magnus-Platz,                              #
 #                         50932 Cologne, Germany                              #
 #                                                                             #
@@ -30,7 +30,7 @@ module Athena::Version
 
   MAJOR = 0
   MINOR = 0
-  TINY  = 6
+  TINY  = 7
 
   class << self
 
