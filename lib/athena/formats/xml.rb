@@ -109,7 +109,7 @@ class Athena::Formats
     end
 
     def merge_specs(container, key, spec)
-      container.insert!(key, spec) { |s1, s2|
+      container.insert!(key => spec) { |_, s1, s2|
         if s1.respond_to?(:specs!)
           s1.specs!(s2.respond_to?(:specs) ? s2.specs : s2)
           s1
