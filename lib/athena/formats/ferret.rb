@@ -55,7 +55,7 @@ class Athena::Formats
       @parser = parser
     end
 
-    def parse(source)
+    def parse(source, &block)
       path = source.path
 
       # make sure the index can be opened
@@ -82,7 +82,7 @@ class Athena::Formats
         unless index.deleted?(i)
           doc = index[i]
 
-          Athena::Record.new(parser.block, doc[record_element]) { |record|
+          Athena::Record.new(doc[record_element], block) { |record|
             config.each { |element, field_config|
               record.update(element, doc[element], field_config)
             }

@@ -41,32 +41,29 @@ class Athena::Formats
 
     register_format :in, 'xml'
 
-    attr_reader :spec, :listener
+    attr_reader :specs, :record_element
 
     def initialize(parser)
-      @spec     = build_spec(parser)
-      @listener = XMLStreamin::XMLStreamListener.new(@spec)
+      @specs = setup_specs(parser.config.dup)
     end
 
-    def parse(source)
-      REXML::Document.parse_stream(source, listener)
+    def parse(source, &block)
+      REXML::Document.parse_stream(source, listener(&block))
     end
 
     private
 
-    def build_spec(parser)
-      config = parser.config.dup
-
-      case record_element = config.delete(:__record_element)
+    def setup_specs(config)
+      case @record_element = config.delete(:__record_element)
         when String
           # fine!
         when nil
           raise NoRecordElementError, 'no record element specified'
         else
-          raise IllegalRecordElementError, "illegal record element #{record_element.inspect}"
+          raise IllegalRecordElementError, "illegal record element #{@record_element.inspect}"
       end
 
-      element_specs = config.inject({}) { |specs, (element, element_spec)|
+      config.inject({}) { |specs, (element, element_spec)|
         element_spec.each { |field, c|
           element.split('/').reverse.inject({}) { |hash, part|
             s = define_spec(element, field, c, hash.empty? ? :default : hash)
@@ -78,9 +75,11 @@ class Athena::Formats
 
         specs
       }
+    end
 
-      record_spec = RecordSpec.new(parser)
-      record_spec.specs!(element_specs)
+    def listener(&block)
+      record_spec = RecordSpec.new(&block)
+      record_spec.specs!(specs)
 
       root_spec   = BaseSpec.new
       root_spec.specs!(record_element => record_spec)
@@ -92,7 +91,7 @@ class Athena::Formats
         spec.inspect_spec
       end
 
-      spec
+      XMLStreamin::XMLStreamListener.new(spec)
     end
 
     def define_spec(element, field, config, arg)
@@ -197,19 +196,19 @@ class Athena::Formats
 
     class RecordSpec < BaseSpec
 
-      attr_reader   :parser
+      attr_reader   :block
       attr_accessor :record
 
-      def initialize(parser)
+      def initialize(&block)
         super()
 
-        @parser = parser
+        @block  = block
       end
 
       def start(context, name, attrs)
         super
 
-        self.record = Athena::Record.new(parser.block, nil, true)
+        self.record = Athena::Record.new(nil, block, true)
       end
 
       def done(context, name)

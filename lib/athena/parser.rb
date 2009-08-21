@@ -33,8 +33,7 @@ class Athena::Parser
   DEFAULT_SEPARATOR = ', '
   DEFAULT_EMPTY     = '<<EMPTY>>'
 
-  attr_reader   :config, :spec
-  attr_accessor :block
+  attr_reader :config, :spec
 
   def initialize(config, spec)
     @config = build_config(config)
@@ -42,9 +41,7 @@ class Athena::Parser
   end
 
   def parse(source, &block)
-    self.block = block
-
-    res = spec.parse(source)
+    res = spec.parse(source, &block)
     res.is_a?(Numeric) ? res : Athena::Record.records
   end
 

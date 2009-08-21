@@ -50,7 +50,7 @@ class Athena::Formats
       @parser = parser
     end
 
-    def parse(source)
+    def parse(source, &block)
       record, num = nil, 0
 
       source.each { |line|
@@ -59,7 +59,7 @@ class Athena::Formats
         case element
           when record_element
             record.close if record
-            record = Athena::Record.new(parser.block, value)
+            record = Athena::Record.new(value, block)
             num += 1
           else
             record.update(element, value, config[element])
