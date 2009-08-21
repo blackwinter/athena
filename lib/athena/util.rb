@@ -3,7 +3,7 @@
 #                                                                             #
 # A component of athena, the database file converter.                         #
 #                                                                             #
-# Copyright (C) 2007-2008 University of Cologne,                              #
+# Copyright (C) 2007-2009 University of Cologne,                              #
 #                         Albertus-Magnus-Platz,                              #
 #                         50932 Cologne, Germany                              #
 #                                                                             #
@@ -31,7 +31,7 @@ module Athena::Util
   extend self
 
   def verbose(what, klass = self.class, &block)
-    if $Verbose[what]
+    if $Verbose && $Verbose[what]
       klass.send(:define_method, :spit) { |msg|
         warn "*#{what}: #{msg}"
       }

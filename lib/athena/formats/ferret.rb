@@ -3,7 +3,7 @@
 #                                                                             #
 # A component of athena, the database file converter.                         #
 #                                                                             #
-# Copyright (C) 2007-2008 University of Cologne,                              #
+# Copyright (C) 2007-2009 University of Cologne,                              #
 #                         Albertus-Magnus-Platz,                              #
 #                         50932 Cologne, Germany                              #
 #                                                                             #
@@ -48,7 +48,7 @@ class Athena::Formats
         when nil
           raise NoRecordElementError, 'no record element specified'
         else
-          raise IllegalRecordElementError, "illegal record element #{@record_element}"
+          raise IllegalRecordElementError, "illegal record element #{@record_element.inspect}"
       end
 
       @config = config

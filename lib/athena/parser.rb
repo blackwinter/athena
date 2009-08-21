@@ -62,8 +62,7 @@ class Athena::Parser
           when Hash
             elements = v[:elements] || v[:element].to_a
 
-            raise ArgumentError, "no elements specified for field #{field}" \
-              unless elements.is_a?(Array)
+            raise ArgumentError, "no elements specified for field #{field}" unless elements.is_a?(Array)
           else
             raise ArgumentError, "illegal value for field #{field}"
         end
