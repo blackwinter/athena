@@ -209,7 +209,7 @@ class Athena::Formats
       def start(context, name, attrs)
         super
 
-        self.record = Athena::Record.new(parser.block)
+        self.record = Athena::Record.new(parser.block, nil, true)
       end
 
       def done(context, name)

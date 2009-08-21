@@ -45,7 +45,7 @@ class Athena::Parser
     self.block = block
 
     res = spec.parse(source)
-    block ? res : Athena::Record.records
+    res.is_a?(Numeric) ? res : Athena::Record.records
   end
 
   private

@@ -50,12 +50,12 @@ class Athena::Record
 
   attr_reader :struct, :block, :id
 
-  def initialize(block, id = object_id.abs)
+  def initialize(block, id = nil, _add_record = !block)
     @struct = {}
     @block  = block
-    @id     = id
+    @id     = id || object_id.abs
 
-    add_record unless block
+    add_record if _add_record
 
     if block_given?
       begin

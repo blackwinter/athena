@@ -5,7 +5,7 @@
 #                                                                             #
 # athena -- Convert database files to various formats                         #
 #                                                                             #
-# Copyright (C) 2007-2008 University of Cologne,                              #
+# Copyright (C) 2007-2009 University of Cologne,                              #
 #                         Albertus-Magnus-Platz,                              #
 #                         50932 Cologne, Germany                              #
 #                                                                             #
@@ -165,19 +165,19 @@ abort "Config not found for target: #{target}." unless config
 parser = Athena.parser(config, spec)
 
 if Athena.deferred_output?(format)
-  records = parser.parse(options[:input])
+  res = parser.parse(options[:input])
 
-  records.map { |record|
+  res.map { |record|
     record.to(format)
   }.flatten.sort.uniq.each { |line|
     options[:output].puts line
   }
 else
-  records = parser.parse(options[:input]) { |record|
+  res = parser.parse(options[:input]) { |record|
     options[:output].puts record.to(format)
   }
 end
 
 Athena::Util.verbose(:count) do
-  spit records.size
+  spit res.is_a?(Numeric) ? res : res.size
 end

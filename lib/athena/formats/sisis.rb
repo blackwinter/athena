@@ -51,7 +51,7 @@ class Athena::Formats
     end
 
     def parse(source)
-      record = nil
+      record, num = nil, 0
 
       source.each { |line|
         element, value = line.match(/(\d+).*?:\s*(.*)/)[1, 2]
@@ -60,12 +60,15 @@ class Athena::Formats
           when record_element
             record.close if record
             record = Athena::Record.new(parser.block, value)
+            num += 1
           else
             record.update(element, value, config[element])
         end
       }
 
       record.close if record
+
+      num
     end
 
     class NoRecordElementError < StandardError
