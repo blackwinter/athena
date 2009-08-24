@@ -30,6 +30,7 @@ require 'forwardable'
 
 require 'rubygems'
 
+require 'builder'
 require 'xmlstreamin'
 require 'nuggets/hash/insert'
 
@@ -38,6 +39,12 @@ module Athena::Formats
   class XML < Base
 
     include Athena::Util
+
+    # <http://www.w3.org/TR/2006/REC-xml-20060816/#NT-Name>
+    ELEMENT_START = %r{^[a-zA-Z_:]}
+    ELEMENT_CHARS = %q{\w:.-}
+
+    VALUE_SEPARATOR = '|'
 
     register_format :in do
 
@@ -53,15 +60,80 @@ module Athena::Formats
       REXML::Document.parse_stream(source, listener(&block))
     end
 
-=begin
     register_format :out
 
     def convert(record)
-      # ...
+      builder.row {
+        builder.id record.id
+
+        record.struct.each { |field, struct|
+          if block_given?
+            yield field, struct
+          else
+            builder.tag!(field) {
+              struct[:elements].each { |element|
+                (struct[:values][element] || []).each { |value|
+                  value = (value || '').strip
+                  builder.tag!(element, value) unless value.empty?
+                }
+              }
+            }
+          end
+        }
+      }
     end
-=end
+
+    register_format! :out, 'xml/flat' do
+
+      def convert(record)
+        super { |field, struct|
+          strings = struct[:elements].inject([]) { |array, element|
+            values = (struct[:values][element] || []).map { |v|
+              (v || '').strip
+            }.reject { |v| v.empty? }
+
+            array << (values.empty? ? struct[:empty] : values.join(VALUE_SEPARATOR))
+          }
+
+          builder.tag!(field, struct[:string] % strings)
+        }
+      end
+
+    end
+
+    def wrap(out = nil)
+      res = nil
+
+      builder(:target => out).database {
+        res = super()
+      }
+
+      res
+    end
+
+    def raw?
+      true
+    end
 
     private
+
+    def builder(options = {})
+      @builder ||= begin
+        builder = Builder::XmlMarkup.new({ :indent => 2 }.merge(options))
+        builder.instruct!
+
+        def builder.method_missing(sym, *args, &block)
+          elem = sym.to_s
+
+          elem.insert(0, '_') unless elem =~ ELEMENT_START
+          elem.gsub!(/[^#{ELEMENT_CHARS}]/, '_')
+
+          super(elem, *args, &block)
+        end
+
+        builder
+      end
+    end
 
     def setup_specs(config)
       case @record_element = config.delete(:__record_element)
