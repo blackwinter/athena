@@ -3,7 +3,7 @@
 #                                                                             #
 # A component of athena, the database file converter.                         #
 #                                                                             #
-# Copyright (C) 2007-2008 University of Cologne,                              #
+# Copyright (C) 2007-2009 University of Cologne,                              #
 #                         Albertus-Magnus-Platz,                              #
 #                         50932 Cologne, Germany                              #
 #                                                                             #
@@ -26,56 +26,99 @@
 ###############################################################################
 #++
 
-class Athena::Formats
+module Athena::Formats
 
-  @formats = { :in => {}, :out => {} }
+  def self.[](direction, format)
+    if direction == :out
+      if format.class < Base
+        if format.class.direction != direction
+          raise DirectionMismatchError,
+            "expected #{direction}, got #{format.class.direction}"
+        else
+          format
+        end
+      else
+        Base.formats[direction][format].new
+      end
+    else
+      Base.formats[direction][format]
+    end
+  end
 
-  class << self
+  class Base
 
-    def formats
-      Athena::Formats.instance_variable_get(:@formats)
+    @formats = { :in => {}, :out => {} }
+
+    class << self
+
+      def formats
+        Base.instance_variable_get(:@formats)
+      end
+
+      def valid_format?(direction, format)
+        if format.class < Base
+          direction == format.class.direction
+        else
+          formats[direction].has_key?(format)
+        end
+      end
+
+      private
+
+      def register_format(direction, *aliases, &block)
+        format = name.split('::').last.
+          gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2').
+          gsub(/([a-z\d])([A-Z])/, '\1_\2').
+          downcase
+
+        register_format!(direction, format, *aliases, &block)
+      end
+
+      def register_format!(direction, format, *aliases, &block)
+        raise "must be a sub-class of #{Base}" unless self < Base
+
+        klass = Class.new(self, &block)
+
+        klass.instance_eval %Q{
+          def direction; #{direction.inspect}; end
+          def name; '#{format}::#{direction}'; end
+          def to_s; '#{format}'; end
+        }
+
+        [format, *aliases].each { |name|
+          if existing = formats[direction][name]
+            raise DuplicateFormatDefinitionError,
+              "format already defined (#{direction}): #{name}"
+          else
+            formats[direction][name] = klass
+          end
+        }
+      end
+
     end
 
-    def [](direction, format)
-      formats[direction][format]
+    def parse(*args)
+      raise NotImplementedError, 'must be defined by sub-class'
     end
 
-    def valid_format?(direction, format)
-      formats[direction].has_key?(format)
+    def convert(record)
+      raise NotImplementedError, 'must be defined by sub-class'
+    end
+
+    def wrap
+      yield self
     end
 
     def deferred?
       false
     end
 
-    def convert(*args)
-      raise NotImplementedError, 'must be defined by sub-class'
-    end
-
-    private
-
-    def register_format(direction, format)
-      if existing = formats[direction][format]
-        raise DuplicateFormatDefinitionError,
-          "format already defined (#{direction}): #{format} = #{existing}"
-      end
-
-      formats[direction][format] = self
-    end
-
-    def register_formats(direction, *formats)
-      formats.each { |format|
-        register_format(direction, format)
-      }
-    end
-
-  end
-
-  def parse(*args)
-    raise NotImplementedError, 'must be defined by sub-class'
   end
 
   class DuplicateFormatDefinitionError < StandardError
+  end
+
+  class DirectionMismatchError < ArgumentError
   end
 
   class FormatArgumentError < ArgumentError
@@ -83,6 +126,4 @@ class Athena::Formats
 
 end
 
-Dir[__FILE__.sub(/\.rb$/, '/**/*.rb')].each { |rb|
-  require rb
-}
+Dir[__FILE__.sub(/\.rb\z/, '/**/*.rb')].sort.each { |rb| require rb }

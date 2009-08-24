@@ -29,68 +29,56 @@
 require 'iconv'
 require 'enumerator'
 
-class Athena::Formats
+module Athena::Formats
 
-  module Lingo
+  class Lingo < Base
 
-    class Base < Athena::Formats
+    def convert(record)
+      record.struct.inject([]) { |terms, (field, struct)|
+        terms << struct[:elements].inject([]) { |array, element|
+          array += (struct[:values][element] || []).map { |v|
+            (v || '').strip.gsub(/(?:\r?\n)+/, ' ')
+          }.reject { |v| v.empty? }
+        }
+      }
+    end
 
-      class << self
+    def deferred?
+      true
+    end
 
-        def convert(record)
-          record.struct.inject([]) { |terms, (field, struct)|
-            terms << struct[:elements].inject([]) { |array, element|
-              array += (struct[:values][element] || []).map { |v|
-                (v || '').strip.gsub(/(?:\r?\n)+/, ' ')
-              }.reject { |v| v.empty? }
-            }
-          }
-        end
+    private
 
-        def deferred?
-          true
-        end
+    def check_number_of_arguments(expected, actual, blow = false, &block)
+      return true if block ? block[actual] : expected == actual
 
-        private
+      msg = "wrong number of arguments for #{self} (#{actual} for #{expected})"
 
-        def check_number_of_arguments(expected, actual, blow = false, &block)
-          return true if block ? block[actual] : expected == actual
-
-          msg = "wrong number of arguments for #{self} (#{actual} for #{expected})"
-
-          if blow
-            raise FormatArgumentError, msg
-          else
-            warn msg
-            return false
-          end
-        end
-
-        def check_number_of_arguments!(expected, actual, &block)
-          check_number_of_arguments(expected, actual, true, &block)
-        end
-
+      if blow
+        raise FormatArgumentError, msg
+      else
+        warn msg
+        return false
       end
+    end
 
+    def check_number_of_arguments!(expected, actual, &block)
+      check_number_of_arguments(expected, actual, true, &block)
     end
 
     # "Nasenbär\n"
-    class SingleWord < Athena::Formats::Lingo::Base
+    register_format! :out, 'lingo/single_word' do
 
-      register_formats :out, 'lingo/single_word'
-
-      def self.convert(record)
+      def convert(record)
         super.flatten
       end
 
     end
 
     # "John Vorhauer*Vorhauer, John\n"
-    class KeyValue < Athena::Formats::Lingo::Base
+    register_format! :out, 'lingo/key_value' do
 
-      register_formats :out, 'lingo/key_value'
-
-      def self.convert(record)
+      def convert(record)
         super.map { |terms|
           next unless check_number_of_arguments(2, terms.size)
 
@@ -101,11 +89,9 @@ class Athena::Formats
     end
 
     # "Essen,essen #v Essen #s Esse #s\n"
-    class WordClass < Athena::Formats::Lingo::Base
+    register_format! :out, 'lingo/word_class' do
 
-      register_formats :out, 'lingo/word_class'
-
-      def self.convert(record)
+      def convert(record)
         super.map { |terms|
           next unless check_number_of_arguments('odd, > 1', terms.size) { |actual|
             actual > 1 && actual % 2 == 1
@@ -120,11 +106,9 @@ class Athena::Formats
     end
 
     # "Fax;Faxkopie;Telefax\n"
-    class MultiValue < Athena::Formats::Lingo::Base
+    register_format! :out, 'lingo/multi_value', 'lingo/multi_key' do
 
-      register_formats :out, 'lingo/multi_value', 'lingo/multi_key'
-
-      def self.convert(record)
+      def convert(record)
         super.map { |terms|
           next unless check_number_of_arguments('> 1', terms.size) { |actual|
             actual > 1

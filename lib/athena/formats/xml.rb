@@ -33,23 +33,33 @@ require 'rubygems'
 require 'xmlstreamin'
 require 'nuggets/hash/insert'
 
-class Athena::Formats
+module Athena::Formats
 
-  class XML < Athena::Formats
+  class XML < Base
 
     include Athena::Util
 
-    register_format :in, 'xml'
+    register_format :in do
 
-    attr_reader :specs, :record_element
+      attr_reader :specs, :record_element
 
-    def initialize(parser)
-      @specs = setup_specs(parser.config.dup)
+      def initialize(parser)
+        @specs = setup_specs(parser.config.dup)
+      end
+
     end
 
     def parse(source, &block)
       REXML::Document.parse_stream(source, listener(&block))
     end
+
+=begin
+    register_format :out
+
+    def convert(record)
+      # ...
+    end
+=end
 
     private
 

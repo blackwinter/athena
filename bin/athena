@@ -77,12 +77,10 @@ OptionParser.new { |opts|
   }
 
   opts.on('-L', '--list-specs', "List available input formats (specs) and exit") {
-    puts "Available input formats (specs):"
+    puts 'Available input formats (specs):'
 
-    formats = Athena.input_formats
-    max     = formats.map { |a, _| a.length }.max
-    formats.each { |f, k|
-      puts "  - %-#{max}s = %s" % [f, k]
+    Athena.input_formats.each { |f, k|
+      puts "  - #{f}#{" (= #{k})" if f != k.to_s}"
     }
 
     exit 0
@@ -101,12 +99,10 @@ OptionParser.new { |opts|
   }
 
   opts.on('-l', '--list-formats', "List available output formats and exit") {
-    puts "Available output formats:"
+    puts 'Available output formats:'
 
-    formats = Athena.output_formats
-    max     = formats.map { |a, _| a.length }.max
-    formats.each { |f, k|
-      puts "  - %-#{max}s = %s" % [f, k]
+    Athena.output_formats.each { |f, k|
+      puts "  - #{f}#{" (= #{k})" if f != k.to_s}"
     }
 
     exit 0
@@ -173,8 +169,10 @@ if Athena.deferred_output?(format)
     options[:output].puts line
   }
 else
-  res = parser.parse(options[:input]) { |record|
-    options[:output].puts record.to(format)
+  res = Athena.with_format(format) { |_format|
+    parser.parse(options[:input]) { |record|
+      options[:output].puts record.to(_format)
+    }
   }
 end
 

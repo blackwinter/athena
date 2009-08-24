@@ -26,28 +26,30 @@
 ###############################################################################
 #++
 
-class Athena::Formats
+module Athena::Formats
 
-  class Sisis < Athena::Formats
+  class Sisis < Base
 
-    register_format :in, 'sisis'
+    register_format :in do
 
-    attr_reader :record_element, :config, :parser
+      attr_reader :record_element, :config, :parser
 
-    def initialize(parser)
-      config = parser.config.dup
+      def initialize(parser)
+        config = parser.config.dup
 
-      case @record_element = config.delete(:__record_element)
-        when String
-          # fine!
-        when nil
-          raise NoRecordElementError, 'no record element specified'
-        else
-          raise IllegalRecordElementError, "illegal record element #{@record_element.inspect}"
+        case @record_element = config.delete(:__record_element)
+          when String
+            # fine!
+          when nil
+            raise NoRecordElementError, 'no record element specified'
+          else
+            raise IllegalRecordElementError, "illegal record element #{@record_element.inspect}"
+        end
+
+        @config = config
+        @parser = parser
       end
 
-      @config = config
-      @parser = parser
     end
 
     def parse(source, &block)

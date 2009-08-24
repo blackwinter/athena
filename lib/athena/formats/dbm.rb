@@ -28,11 +28,9 @@
 
 require 'iconv'
 
-class Athena::Formats
+module Athena::Formats
 
-  class DBM < Athena::Formats
-
-    register_formats :out, 'dbm', 'midos'
+  class DBM < Base
 
     CRLF = "\015\012"
 
@@ -41,7 +39,9 @@ class Athena::Formats
     VALUE_SEPARATOR  = '|'
     RECORD_SEPARATOR = '&&&'
 
-    def self.convert(record)
+    register_format :out, 'midos'
+
+    def convert(record)
       dbm = ["ID:#{record.id}"]
 
       record.struct.each { |field, struct|

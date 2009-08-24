@@ -30,9 +30,9 @@
 # output formats. It's accompanied by a corresponding script that gives access
 # to all its converting features.
 #
-# In order to support additional input and/or output formats, Athena::Formats
-# needs to be sub-classed and, respectively, an instance method _parse_ or a
-# class method _convert_ supplied. This way, a specific format can even function
+# In order to support additional input and/or output formats, Athena::Formats::Base
+# needs to be sub-classed and, respectively, an instance method _parse_ or an
+# instance method _convert_ supplied. This way, a specific format can even function
 # as both input and output format.
 
 module Athena
@@ -53,23 +53,27 @@ module Athena
   end
 
   def input_formats
-    Formats.formats[:in].sort
+    Formats::Base.formats[:in].sort
   end
 
   def valid_input_format?(format)
-    Formats.valid_format?(:in, format)
+    Formats::Base.valid_format?(:in, format)
   end
 
   def output_formats
-    Formats.formats[:out].sort
+    Formats::Base.formats[:out].sort
   end
 
   def valid_output_format?(format)
-    Formats.valid_format?(:out, format)
+    Formats::Base.valid_format?(:out, format)
   end
 
   def deferred_output?(format)
     Formats[:out, format].deferred?
+  end
+
+  def with_format(format, &block)
+    Formats[:out, format].wrap(&block)
   end
 
 end
