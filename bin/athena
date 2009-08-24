@@ -168,6 +168,12 @@ if Athena.deferred_output?(format)
   }.flatten.sort.uniq.each { |line|
     options[:output].puts line
   }
+elsif Athena.raw_output?(format)
+  res = Athena.with_format(format, options[:output]) { |_format|
+    parser.parse(options[:input]) { |record|
+      record.to(_format)
+    }
+  }
 else
   res = Athena.with_format(format) { |_format|
     parser.parse(options[:input]) { |record|

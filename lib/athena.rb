@@ -72,8 +72,12 @@ module Athena
     Formats[:out, format].deferred?
   end
 
-  def with_format(format, &block)
-    Formats[:out, format].wrap(&block)
+  def raw_output?(format)
+    Formats[:out, format].raw?
+  end
+
+  def with_format(format, *args, &block)
+    Formats[:out, format].wrap(*args, &block)
   end
 
 end

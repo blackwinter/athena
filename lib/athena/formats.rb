@@ -113,6 +113,10 @@ module Athena::Formats
       false
     end
 
+    def raw?
+      false
+    end
+
   end
 
   class DuplicateFormatDefinitionError < StandardError
