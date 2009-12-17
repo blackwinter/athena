@@ -6,7 +6,8 @@ begin
 
   Hen.lay! {{
     :rubyforge => {
-      :package => 'athena'
+      :project => %q{prometheus},
+      :package => %q{athena}
     },
 
     :gem => {
