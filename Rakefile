@@ -15,7 +15,7 @@ begin
       :summary      => 'Convert database files to various formats.',
       :files        => FileList['lib/**/*.rb', 'bin/*'].to_a,
       :extra_files  => FileList['[A-Z]*', 'example/*'].to_a,
-      :dependencies     => %w[xmlstreamin ruby-nuggets]
+      :dependencies     => %w[builder xmlstreamin ruby-nuggets]
     }
   }}
 rescue LoadError
