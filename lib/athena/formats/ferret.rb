@@ -3,7 +3,7 @@
 #                                                                             #
 # A component of athena, the database file converter.                         #
 #                                                                             #
-# Copyright (C) 2007-2009 University of Cologne,                              #
+# Copyright (C) 2007-2010 University of Cologne,                              #
 #                         Albertus-Magnus-Platz,                              #
 #                         50932 Cologne, Germany                              #
 #                                                                             #
@@ -28,8 +28,11 @@
 
 require 'rubygems'
 
-gem 'ferret', ENV['FERRET_VERSION'] if ENV['FERRET_VERSION']
-require 'ferret'
+begin
+  gem 'ferret', ENV['FERRET_VERSION'] if ENV['FERRET_VERSION']
+  require 'ferret'
+rescue LoadError
+end
 
 module Athena::Formats
 
@@ -55,7 +58,7 @@ module Athena::Formats
         @parser = parser
       end
 
-    end
+    end if Object.const_defined?(:Ferret)
 
     def parse(source, &block)
       path = source.path
