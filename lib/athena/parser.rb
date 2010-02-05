@@ -83,4 +83,7 @@ class Athena::Parser
     }
   end
 
+  class ConfigError < StandardError
+  end
+
 end

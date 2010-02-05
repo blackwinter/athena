@@ -344,10 +344,12 @@ module Athena::Formats
 
     end
 
-    class NoRecordElementError < StandardError
+    ConfigError = Athena::Parser::ConfigError
+
+    class NoRecordElementError < ConfigError
     end
 
-    class IllegalRecordElementError < StandardError
+    class IllegalRecordElementError < ConfigError
     end
 
   end
