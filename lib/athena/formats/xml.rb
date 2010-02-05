@@ -145,6 +145,15 @@ module Athena::Formats
           raise IllegalRecordElementError, "illegal record element #{@record_element.inspect}"
       end
 
+      case @skip_hierarchy = config.delete(:__skip_hierarchy)
+        when Integer
+          # fine!
+        when nil
+          @skip_hierarchy = 0
+        else
+          raise ConfigError, "illegal value #{@skip_hierarchy.inspect} for skip hierarchy"
+      end
+
       config.inject({}) { |specs, (element, element_spec)|
         element_spec.each { |field, c|
           element.split('/').reverse.inject({}) { |hash, part|
@@ -168,6 +177,11 @@ module Athena::Formats
 
       spec        = BaseSpec.new
       spec.default!(root_spec)
+
+      @skip_hierarchy.times {
+        prev_spec, spec = spec, BaseSpec.new
+        spec.default!(prev_spec)
+      }
 
       verbose(:spec, BaseSpec) do
         spec.inspect_spec
