@@ -137,7 +137,7 @@ module Athena::Formats
 
     def setup_specs(config)
       case @record_element = config.delete(:__record_element)
-        when String
+        when String, Array
           # fine!
         when nil
           raise NoRecordElementError, 'no record element specified'
@@ -164,7 +164,7 @@ module Athena::Formats
       record_spec.specs!(specs)
 
       root_spec   = BaseSpec.new
-      root_spec.specs!(record_element => record_spec)
+      [*record_element].each { |re| root_spec.specs!(re => record_spec) }
 
       spec        = BaseSpec.new
       spec.default!(root_spec)
