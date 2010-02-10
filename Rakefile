@@ -1,5 +1,4 @@
-$:.unshift('lib')
-require 'athena'
+require %q{lib/athena/version}
 
 begin
   require 'hen'
@@ -12,10 +11,10 @@ begin
 
     :gem => {
       :version      => Athena::VERSION,
-      :summary      => 'Convert database files to various formats.',
+      :summary      => %q{Convert database files to various formats.},
       :files        => FileList['lib/**/*.rb', 'bin/*'].to_a,
       :extra_files  => FileList['[A-Z]*', 'example/*'].to_a,
-      :dependencies     => %w[builder xmlstreamin ruby-nuggets]
+      :dependencies => %w[builder xmlstreamin ruby-nuggets]
     }
   }}
 rescue LoadError

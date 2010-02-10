@@ -3,7 +3,7 @@
 #                                                                             #
 # A component of athena, the database file converter.                         #
 #                                                                             #
-# Copyright (C) 2007-2008 University of Cologne,                              #
+# Copyright (C) 2007-2010 University of Cologne,                              #
 #                         Albertus-Magnus-Platz,                              #
 #                         50932 Cologne, Germany                              #
 #                                                                             #
@@ -29,18 +29,33 @@
 require 'iconv'
 require 'enumerator'
 
-module Athena::Formats
+module Athena
+  module Formats
 
   class Lingo < Base
 
     def convert(record)
-      record.struct.inject([]) { |terms, (field, struct)|
-        terms << struct[:elements].inject([]) { |array, element|
-          array += (struct[:values][element] || []).map { |v|
-            (v || '').strip.gsub(/(?:\r?\n)+/, ' ')
-          }.reject { |v| v.empty? }
+      terms = []
+
+      record.struct.each { |field, struct|
+        struct_values = struct[:values]
+        struct_values.default = []
+
+        values = []
+
+        struct[:elements].each { |element|
+          struct_values[element].each { |value|
+            if value
+              value = value.strip.gsub(CRLF_RE, ' ')
+              values << value unless value.empty?
+            end
+          }
         }
+
+        terms << values
       }
+
+      terms
     end
 
     def deferred?
@@ -49,21 +64,13 @@ module Athena::Formats
 
     private
 
-    def check_number_of_arguments(expected, actual, blow = false, &block)
-      return true if block ? block[actual] : expected == actual
-
-      msg = "wrong number of arguments for #{self} (#{actual} for #{expected})"
-
-      if blow
-        raise FormatArgumentError, msg
+    def check_args(expected, actual, &block)
+      if block ? block[actual] : expected == actual
+        true
       else
-        warn msg
-        return false
+        warn "wrong number of arguments for #{self} (#{actual} for #{expected})"
+        false
       end
-    end
-
-    def check_number_of_arguments!(expected, actual, &block)
-      check_number_of_arguments(expected, actual, true, &block)
     end
 
     # "Nasenbär\n"
@@ -80,9 +87,7 @@ module Athena::Formats
 
       def convert(record)
         super.map { |terms|
-          next unless check_number_of_arguments(2, terms.size)
-
-          terms.join('*')
+          terms.join('*') if check_args(2, terms.size)
         }.compact
       end
 
@@ -93,13 +98,11 @@ module Athena::Formats
 
       def convert(record)
         super.map { |terms|
-          next unless check_number_of_arguments('odd, > 1', terms.size) { |actual|
+          [ terms.shift,
+            terms.to_enum(:each_slice, 2).map { |w, c| "#{w} ##{c}" }.join(' ')
+          ].join(',') if check_args('odd, > 1', terms.size) { |actual|
             actual > 1 && actual % 2 == 1
           }
-
-          [terms.shift, terms.to_enum(:each_slice, 2).map { |form, wc|
-            "#{form} ##{wc}"
-          }.join(' ')].join(',')
         }.compact
       end
 
@@ -110,11 +113,7 @@ module Athena::Formats
 
       def convert(record)
         super.map { |terms|
-          next unless check_number_of_arguments('> 1', terms.size) { |actual|
-            actual > 1
-          }
-
-          terms.join(';')
+          terms.join(';') if check_args('> 1', terms.size) { |actual| actual > 1 }
         }.compact
       end
 
@@ -122,4 +121,5 @@ module Athena::Formats
 
   end
 
+  end
 end

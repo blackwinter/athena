@@ -34,11 +34,12 @@ require 'builder'
 require 'xmlstreamin'
 require 'nuggets/hash/insert'
 
-module Athena::Formats
+module Athena
+  module Formats
 
   class XML < Base
 
-    include Athena::Util
+    include Util
 
     # <http://www.w3.org/TR/2006/REC-xml-20060816/#NT-Name>
     ELEMENT_START = %r{^[a-zA-Z_:]}
@@ -183,9 +184,7 @@ module Athena::Formats
         spec.default!(prev_spec)
       }
 
-      verbose(:spec, BaseSpec) do
-        spec.inspect_spec
-      end
+      verbose(:spec, BaseSpec) { spec.inspect_spec }
 
       XMLStreamin::XMLStreamListener.new(spec)
     end
@@ -216,68 +215,54 @@ module Athena::Formats
 
     class BaseSpec < XMLStreamin::XMLSpec
 
-      include Athena::Util
+      include Util
 
       @level = 0
 
       def start(context, name, attrs)
-        verbose(:xml) do
-          spit "#{indent(level)}<#{name}>"
-          step :down
+        verbose(:xml) {
+          spit "#{indent(level)}<#{name}>"; step :down
+          attrs.each { |attr| spit "#{indent(level + 1)}[#{attr[0]} = #{attr[1]}]" }
+        }
 
-          attrs.each { |attr|
-            spit "#{indent(level + 1)}[#{attr[0]} = #{attr[1]}]"
-          }
-        end
-
-        return context
+        context
       end
 
       def text(context, data)
-        verbose(:xml) do
-          content = data.strip
-          spit "#{indent(level)}#{content}" unless content.empty?
-        end
-
-        return context
+        verbose(:xml) { spit "#{indent(level)}#{data.strip}" unless data.strip.empty?  }
+        context
       end
 
       def done(context, name)
-        verbose(:xml) do
-          step :up
-          spit "#{indent(level)}</#{name}>"
-        end
-
-        return context
+        verbose(:xml) { step :up; spit "#{indent(level)}</#{name}>" }
+        context
       end
 
       def empty(context)
-        verbose(:xml) do
-          step :up
-        end
-
-        return context
+        verbose(:xml) { step :up }
+        context
       end
 
       def inspect_spec(element = nil, level = 0)
         if respond_to?(:field)
           msg = "#{indent(level)}[#{element}] #{field.to_s.upcase} -> #{name}"
           respond_to?(:spit) ? spit(msg) : warn(msg)
-          specs.each { |e, s|
-            s.inspect_spec(e, level + 1)
-          }
+
+          inspect_specs(level + 1)
         else
           if specs.empty?
             specs.default.inspect_spec('?', level)
           else
-            specs.each { |e, s|
-              s.inspect_spec(e, level)
-            }
+            inspect_specs(level)
           end
         end
       end
 
       private
+
+      def inspect_specs(level = 0)
+        specs.each { |element, spec| spec.inspect_spec(element, level) }
+      end
 
       def level
         BaseSpec.instance_variable_get(:@level)
@@ -298,19 +283,19 @@ module Athena::Formats
       def initialize(&block)
         super()
 
-        @block  = block
+        @block = block
       end
 
       def start(context, name, attrs)
-        super
-
-        self.record = Athena::Record.new(nil, block, true)
+        context = super
+        self.record = Record.new(nil, block, true)
+        context
       end
 
       def done(context, name)
-        super
-
+        context = super
         record.close
+        context
       end
 
     end
@@ -329,15 +314,15 @@ module Athena::Formats
       end
 
       def start(context, name, attrs)
-        super
-
-        self.record = Athena::Record[field, config]
+        context = super
+        self.record = Record[field, config]
+        context
       end
 
       def text(context, data)
-        super
-
+        context = super
         record.update(name, data)
+        context
       end
 
     end
@@ -353,19 +338,13 @@ module Athena::Formats
         super()
 
         @parent = parent
+
         default!(self)
       end
 
     end
 
-    ConfigError = Athena::Parser::ConfigError
-
-    class NoRecordElementError < ConfigError
-    end
-
-    class IllegalRecordElementError < ConfigError
-    end
-
   end
 
+  end
 end

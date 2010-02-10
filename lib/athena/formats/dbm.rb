@@ -3,7 +3,7 @@
 #                                                                             #
 # A component of athena, the database file converter.                         #
 #                                                                             #
-# Copyright (C) 2007-2008 University of Cologne,                              #
+# Copyright (C) 2007-2010 University of Cologne,                              #
 #                         Albertus-Magnus-Platz,                              #
 #                         50932 Cologne, Germany                              #
 #                                                                             #
@@ -28,16 +28,15 @@
 
 require 'iconv'
 
-module Athena::Formats
+module Athena
+  module Formats
 
   class DBM < Base
 
-    CRLF = "\015\012"
-
-    ICONV_TO_LATIN1 = Iconv.new('latin1//TRANSLIT//IGNORE', 'utf-8')
-
     VALUE_SEPARATOR  = '|'
     RECORD_SEPARATOR = '&&&'
+
+    ICONV_TO_LATIN1 = Iconv.new('latin1//TRANSLIT//IGNORE', 'utf-8')
 
     register_format :out, 'midos'
 
@@ -45,22 +44,31 @@ module Athena::Formats
       dbm = ["ID:#{record.id}"]
 
       record.struct.each { |field, struct|
-        strings = struct[:elements].inject([]) { |array, element|
-          values = (struct[:values][element] || []).map { |v|
-            (v || '').strip.gsub(/(?:\r?\n)+/, ' ')
-          }.reject { |v| v.empty? }
+        struct_values = struct[:values]
+        struct_values.default = []
 
-          array << (values.empty? ? struct[:empty] : values.join(VALUE_SEPARATOR))
+        strings = struct[:elements].map { |element|
+          values = []
+
+          struct_values[element].each { |value|
+            if value
+              value = value.strip.gsub(CRLF_RE, ' ')
+              values << value unless value.empty?
+            end
+          }
+
+          values.empty? ? struct[:empty] : values.join(VALUE_SEPARATOR)
         }
 
         dbm << "#{field.to_s.upcase}:#{ICONV_TO_LATIN1.iconv(struct[:string] % strings)}"
       }
 
-      dbm << RECORD_SEPARATOR
+      dbm << RECORD_SEPARATOR << CRLF
 
-      dbm.join(CRLF) << CRLF << CRLF
+      dbm.join(CRLF)
     end
 
   end
 
+  end
 end

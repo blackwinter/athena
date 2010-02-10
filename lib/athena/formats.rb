@@ -3,7 +3,7 @@
 #                                                                             #
 # A component of athena, the database file converter.                         #
 #                                                                             #
-# Copyright (C) 2007-2009 University of Cologne,                              #
+# Copyright (C) 2007-2010 University of Cologne,                              #
 #                         Albertus-Magnus-Platz,                              #
 #                         50932 Cologne, Germany                              #
 #                                                                             #
@@ -26,7 +26,11 @@
 ###############################################################################
 #++
 
-module Athena::Formats
+module Athena
+  module Formats
+
+  CRLF    = %Q{\015\012}
+  CRLF_RE = %r{(?:\r?\n)+}
 
   def self.[](direction, format)
     if direction == :out
@@ -119,15 +123,17 @@ module Athena::Formats
 
   end
 
-  class DuplicateFormatDefinitionError < StandardError
-  end
+  class FormatError < StandardError; end
 
-  class DirectionMismatchError < ArgumentError
-  end
+  class DuplicateFormatDefinitionError < FormatError; end
+  class DirectionMismatchError         < FormatError; end
 
-  class FormatArgumentError < ArgumentError
-  end
+  ConfigError = Parser::ConfigError
 
+  class NoRecordElementError      < ConfigError; end
+  class IllegalRecordElementError < ConfigError; end
+
+  end
 end
 
 Dir[__FILE__.sub(/\.rb\z/, '/**/*.rb')].sort.each { |rb| require rb }

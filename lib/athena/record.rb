@@ -3,7 +3,7 @@
 #                                                                             #
 # A component of athena, the database file converter.                         #
 #                                                                             #
-# Copyright (C) 2007-2009 University of Cologne,                              #
+# Copyright (C) 2007-2010 University of Cologne,                              #
 #                         Albertus-Magnus-Platz,                              #
 #                         50932 Cologne, Germany                              #
 #                                                                             #
@@ -26,9 +26,10 @@
 ###############################################################################
 #++
 
-class Athena::Record
+module Athena
+  class Record
 
-  include Athena::Util
+  include Util
 
   @records = []
 
@@ -50,12 +51,12 @@ class Athena::Record
 
   attr_reader :struct, :block, :id
 
-  def initialize(id = nil, block = nil, _add_record = !block)
-    @id     = id || object_id.abs
+  def initialize(id = nil, block = nil, add = !block)
+    @id     = id || 2 * object_id.abs + (object_id < 0 ? 0 : 1)
     @block  = block
     @struct = {}
 
-    add_record if _add_record
+    add_record if add
 
     if block_given?
       begin
@@ -67,7 +68,7 @@ class Athena::Record
   end
 
   def fill(field, config)
-    struct[field] ||= config.merge({ :values => Hash.new { |h, k| h[k] = [] } })
+    struct[field] ||= config.merge(:values => Hash.new { |h, k| h[k] = [] })
   end
 
   def update(element, data, field_config = nil)
@@ -78,10 +79,9 @@ class Athena::Record
     end
 
     struct.each_key { |field|
-      verbose(:data) do
-        value = data.strip
-        spit "#{field.to_s.upcase}[#{element}] << #{value}" unless value.empty?
-      end
+      verbose(:data) {
+        spit "#{field.to_s.upcase}[#{element}] << #{data.strip}" unless data.strip.empty?
+      }
 
       struct[field][:values][element] << data
     }
@@ -92,7 +92,7 @@ class Athena::Record
   end
 
   def to(format)
-    Athena::Formats[:out, format].convert(self)
+    Formats[:out, format].convert(self)
   end
 
   private
@@ -104,4 +104,5 @@ class Athena::Record
   class NoRecordError < StandardError
   end
 
+  end
 end

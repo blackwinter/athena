@@ -3,7 +3,7 @@
 #                                                                             #
 # A component of athena, the database file converter.                         #
 #                                                                             #
-# Copyright (C) 2007-2009 University of Cologne,                              #
+# Copyright (C) 2007-2010 University of Cologne,                              #
 #                         Albertus-Magnus-Platz,                              #
 #                         50932 Cologne, Germany                              #
 #                                                                             #
@@ -26,7 +26,8 @@
 ###############################################################################
 #++
 
-module Athena::Formats
+module Athena
+  module Formats
 
   class Sisis < Base
 
@@ -58,13 +59,12 @@ module Athena::Formats
       source.each { |line|
         element, value = line.match(/(\d+).*?:\s*(.*)/)[1, 2]
 
-        case element
-          when record_element
-            record.close if record
-            record = Athena::Record.new(value, block)
-            num += 1
-          else
-            record.update(element, value, config[element])
+        if element == record_element
+          record.close if record
+          record = Record.new(value, block)
+          num += 1
+        else
+          record.update(element, value, config[element])
         end
       }
 
@@ -73,12 +73,7 @@ module Athena::Formats
       num
     end
 
-    class NoRecordElementError < StandardError
-    end
-
-    class IllegalRecordElementError < StandardError
-    end
-
   end
 
+  end
 end

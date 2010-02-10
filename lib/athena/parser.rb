@@ -26,9 +26,10 @@
 ###############################################################################
 #++
 
-class Athena::Parser
+module Athena
+  class Parser
 
-  include Athena::Util
+  include Util
 
   DEFAULT_SEPARATOR = ', '
   DEFAULT_EMPTY     = '<<EMPTY>>'
@@ -37,53 +38,53 @@ class Athena::Parser
 
   def initialize(config, spec)
     @config = build_config(config)
-    @spec   = Athena::Formats[:in, spec].new(self)
+    @spec   = Formats[:in, spec].new(self)
   end
 
   def parse(source, &block)
     res = spec.parse(source, &block)
-    res.is_a?(Numeric) ? res : Athena::Record.records
+    res.is_a?(Numeric) ? res : Record.records
   end
 
   private
 
   def build_config(config)
-    config.inject({}) { |hash, (field, v)|
+    hash = {}
+
+    config.each { |field, value|
       if field.to_s =~ /^__/
-        hash.merge(field => v)
+        hash[field] = value
       else
-        case v
+        case value
           when String, Array
-            elements = [*v]
-            v = {}
+            elements, value = [*value], {}
           when Hash
-            elements = v[:elements] || v[:element].to_a
+            elements = value[:elements] || value[:element].to_a
 
             raise ArgumentError, "no elements specified for field #{field}" unless elements.is_a?(Array)
           else
             raise ArgumentError, "illegal value for field #{field}"
         end
 
-        separator = v[:separator] || DEFAULT_SEPARATOR
+        separator = value[:separator] || DEFAULT_SEPARATOR
 
         elements.each { |element|
-          verbose(:config) do
-            spit "#{field.to_s.upcase} -> #{element}"
-          end
+          verbose(:config) { spit "#{field.to_s.upcase} -> #{element}" }
 
           (hash[element] ||= {})[field] = {
-            :string   => v[:string] || ['%s'] * elements.size * separator,
-            :empty    => v[:empty]  || DEFAULT_EMPTY,
+            :string   => value[:string] || ['%s'] * elements.size * separator,
+            :empty    => value[:empty]  || DEFAULT_EMPTY,
             :elements => elements
           }
         }
-
-        hash
       end
     }
+
+    hash
   end
 
   class ConfigError < StandardError
   end
 
+  end
 end

@@ -34,7 +34,8 @@ begin
 rescue LoadError
 end
 
-module Athena::Formats
+module Athena
+  module Formats
 
   class Ferret < Base
 
@@ -87,7 +88,7 @@ module Athena::Formats
         unless index.deleted?(i)
           doc = index[i]
 
-          Athena::Record.new(doc[record_element], block) { |record|
+          Record.new(doc[record_element], block) { |record|
             config.each { |element, field_config|
               record.update(element, doc[element], field_config)
             }
@@ -98,14 +99,7 @@ module Athena::Formats
       index.num_docs
     end
 
-    private
-
-    class NoRecordElementError < StandardError
-    end
-
-    class IllegalRecordElementError < StandardError
-    end
-
   end
 
+  end
 end

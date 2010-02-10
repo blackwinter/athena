@@ -5,7 +5,7 @@
 #                                                                             #
 # athena -- Convert database files to various formats                         #
 #                                                                             #
-# Copyright (C) 2007-2009 University of Cologne,                              #
+# Copyright (C) 2007-2010 University of Cologne,                              #
 #                         Albertus-Magnus-Platz,                              #
 #                         50932 Cologne, Germany                              #
 #                                                                             #
@@ -72,7 +72,7 @@ OptionParser.new { |opts|
     options[:target_fallback] = p.size > 1 ? p[0..-2].join('.') : p.first
   }
 
-  opts.on('-s', '--spec SPEC', "Input format (spec) [Default: file ending of <input-file>]") { |s|
+  opts.on('-s', '--spec SPEC', "Input format (spec) [Default: file extension of <input-file>]") { |s|
     options[:spec] = s.downcase
   }
 
@@ -94,7 +94,7 @@ OptionParser.new { |opts|
     options[:format_fallback] = f.split('.').last.downcase
   }
 
-  opts.on('-f', '--format FORMAT', "Output format [Default: file ending of <output-file>]") { |f|
+  opts.on('-f', '--format FORMAT', "Output format [Default: file extension of <output-file>]") { |f|
     options[:format] = f.downcase
   }
 
@@ -110,7 +110,7 @@ OptionParser.new { |opts|
 
   opts.separator ''
 
-  opts.on('-t', '--target ID', "Target whose config to use [Default: <input-file> minus file ending,", "plus '.<spec>', plus ':<format>' (reversely in turn)]") { |t|
+  opts.on('-t', '--target ID', "Target whose config to use [Default: <input-file> minus file extension,", "plus '.<spec>', plus ':<format>' (reversely in turn)]") { |t|
     options[:target] = t
   }
 
@@ -182,6 +182,4 @@ else
   }
 end
 
-Athena::Util.verbose(:count) do
-  spit res.is_a?(Numeric) ? res : res.size
-end
+Athena::Util.verbose(:count) { spit res.is_a?(Numeric) ? res : res.size }
