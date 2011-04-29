@@ -26,6 +26,8 @@
 ###############################################################################
 #++
 
+require 'nuggets/integer/map'
+
 module Athena
   class Record
 
@@ -52,7 +54,7 @@ module Athena
   attr_reader :struct, :block, :id
 
   def initialize(id = nil, block = nil, add = !block)
-    @id     = id || 2 * object_id.abs + (object_id < 0 ? 0 : 1)
+    @id     = id || object_id.map_positive
     @block  = block
     @struct = {}
 
@@ -72,11 +74,7 @@ module Athena
   end
 
   def update(element, data, field_config = nil)
-    if field_config
-      field_config.each { |field, config|
-        fill(field, config)
-      }
-    end
+    field_config.each { |field, config| fill(field, config) } if field_config
 
     struct.each_key { |field|
       verbose(:data) {

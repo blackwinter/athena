@@ -26,12 +26,15 @@
 ###############################################################################
 #++
 
-require 'rubygems'
+if ferret_version = ENV['FERRET_VERSION']
+  require 'rubygems'
+  gem 'ferret', ferret_version
+end
 
 begin
-  gem 'ferret', ENV['FERRET_VERSION'] if ENV['FERRET_VERSION']
   require 'ferret'
-rescue LoadError
+rescue LoadError => err
+  warn "ferret#{" #{ferret_version}" if ferret_version} not available (#{err})"
 end
 
 module Athena

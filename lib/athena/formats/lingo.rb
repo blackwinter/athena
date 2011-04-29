@@ -34,6 +34,10 @@ module Athena
 
   class Lingo < Base
 
+    KV_SEPARATOR = '*'
+    WC_SEPARATOR = ','
+    MV_SEPARATOR = ';'
+
     def convert(record)
       terms = []
 
@@ -87,7 +91,7 @@ module Athena
 
       def convert(record)
         super.map { |terms|
-          terms.join('*') if check_args(2, terms.size)
+          terms.join(KV_SEPARATOR) if check_args(2, terms.size)
         }.compact
       end
 
@@ -100,7 +104,7 @@ module Athena
         super.map { |terms|
           [ terms.shift,
             terms.to_enum(:each_slice, 2).map { |w, c| "#{w} ##{c}" }.join(' ')
-          ].join(',') if check_args('odd, > 1', terms.size) { |actual|
+          ].join(WC_SEPARATOR) if check_args('odd, > 1', terms.size) { |actual|
             actual > 1 && actual % 2 == 1
           }
         }.compact
@@ -113,7 +117,9 @@ module Athena
 
       def convert(record)
         super.map { |terms|
-          terms.join(';') if check_args('> 1', terms.size) { |actual| actual > 1 }
+          terms.join(MV_SEPARATOR) if check_args('> 1', terms.size) { |actual|
+            actual > 1
+          }
         }.compact
       end
 

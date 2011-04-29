@@ -28,8 +28,6 @@
 
 require 'forwardable'
 
-require 'rubygems'
-
 require 'builder'
 require 'xmlstreamin'
 require 'nuggets/hash/insert'
@@ -42,8 +40,8 @@ module Athena
     include Util
 
     # <http://www.w3.org/TR/2006/REC-xml-20060816/#NT-Name>
-    ELEMENT_START = %r{^[a-zA-Z_:]}
-    ELEMENT_CHARS = %q{\w:.-}
+    ELEMENT_START_RE    = %r{\A[a-zA-Z_:]}
+    NON_ELEMENT_CHAR_RE = %r{[^\w:.-]}
 
     VALUE_SEPARATOR = '|'
 
@@ -88,12 +86,14 @@ module Athena
 
       def convert(record)
         super { |field, struct|
-          strings = struct[:elements].inject([]) { |array, element|
+          strings = []
+
+          struct[:elements].each { |element|
             values = (struct[:values][element] || []).map { |v|
               (v || '').strip
             }.reject { |v| v.empty? }
 
-            array << (values.empty? ? struct[:empty] : values.join(VALUE_SEPARATOR))
+            strings << (values.empty? ? struct[:empty] : values.join(VALUE_SEPARATOR))
           }
 
           builder.tag!(field, struct[:string] % strings)
@@ -126,8 +126,8 @@ module Athena
         def builder.method_missing(sym, *args, &block)
           elem = sym.to_s
 
-          elem.insert(0, '_') unless elem =~ ELEMENT_START
-          elem.gsub!(/[^#{ELEMENT_CHARS}]/, '_')
+          elem.insert(0, '_') unless elem =~ ELEMENT_START_RE
+          elem.gsub!(NON_ELEMENT_CHAR_RE, '_')
 
           super(elem, *args, &block)
         end
@@ -193,10 +193,8 @@ module Athena
       spec = ElementSpec.new(element, field, config)
 
       case arg
-        when Hash
-          spec.specs!(arg)
-        else
-          spec.default!(SubElementSpec.new(spec))
+        when Hash then spec.specs!(arg)
+        else spec.default!(SubElementSpec.new(spec))
       end
 
       spec
@@ -250,11 +248,7 @@ module Athena
 
           inspect_specs(level + 1)
         else
-          if specs.empty?
-            specs.default.inspect_spec('?', level)
-          else
-            inspect_specs(level)
-          end
+          specs.empty? ? specs.default.inspect_spec('?', level) : inspect_specs(level)
         end
       end
 

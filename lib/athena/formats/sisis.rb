@@ -31,6 +31,8 @@ module Athena
 
   class Sisis < Base
 
+    RECORD_RE = %r{(\d+).*?:\s*(.*)}
+
     register_format :in do
 
       attr_reader :record_element, :config, :parser
@@ -57,7 +59,7 @@ module Athena
       record, num = nil, 0
 
       source.each { |line|
-        element, value = line.match(/(\d+).*?:\s*(.*)/)[1, 2]
+        element, value = line.match(RECORD_RE)[1, 2]
 
         if element == record_element
           record.close if record

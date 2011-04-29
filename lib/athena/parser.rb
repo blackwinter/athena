@@ -52,7 +52,7 @@ module Athena
     hash = {}
 
     config.each { |field, value|
-      if field.to_s =~ /^__/
+      if field.to_s =~ /\A__/
         hash[field] = value
       else
         case value
