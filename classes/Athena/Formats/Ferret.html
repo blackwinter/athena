@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Athena::Formats::Ferret</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Athena::Formats::Ferret</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/lib/athena/formats/ferret_rb.html">
+                lib/athena/formats/ferret.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                <a href="Base.html">
+                Base
+               </a>
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000056">new</a>&nbsp;&nbsp;
+      <a href="#M000057">parse</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Class <a href="Ferret/IllegalRecordElementError.html" class="link">Athena::Formats::Ferret::IllegalRecordElementError</a><br />
+Class <a href="Ferret/NoRecordElementError.html" class="link">Athena::Formats::Ferret::NoRecordElementError</a><br />
+
+    </div>
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000056" class="method-detail">
+        <a name="M000056"></a>
+
+        <div class="method-heading">
+          <a href="#M000056" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">(parser)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000056-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000056-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/athena/formats/ferret.rb, line 45</span>
+45:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">parser</span>)
+46:         <span class="ruby-identifier">config</span> = <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">dup</span>
+47: 
+48:         <span class="ruby-keyword kw">case</span> <span class="ruby-ivar">@record_element</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">:__record_element</span>)
+49:           <span class="ruby-keyword kw">when</span> <span class="ruby-constant">String</span>
+50:             <span class="ruby-comment cmt"># fine!</span>
+51:           <span class="ruby-keyword kw">when</span> <span class="ruby-keyword kw">nil</span>
+52:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">NoRecordElementError</span>, <span class="ruby-value str">'no record element specified'</span>
+53:           <span class="ruby-keyword kw">else</span>
+54:             <span class="ruby-identifier">raise</span> <span class="ruby-constant">IllegalRecordElementError</span>, <span class="ruby-node">&quot;illegal record element #{@record_element.inspect}&quot;</span>
+55:         <span class="ruby-keyword kw">end</span>
+56: 
+57:         <span class="ruby-ivar">@config</span> = <span class="ruby-identifier">config</span>
+58:         <span class="ruby-ivar">@parser</span> = <span class="ruby-identifier">parser</span>
+59:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000057" class="method-detail">
+        <a name="M000057"></a>
+
+        <div class="method-heading">
+          <a href="#M000057" class="method-signature">
+          <span class="method-name">parse</span><span class="method-args">(source, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000057-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000057-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/athena/formats/ferret.rb, line 63</span>
+63:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">source</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+64:       <span class="ruby-identifier">path</span> = <span class="ruby-identifier">source</span>.<span class="ruby-identifier">path</span>
+65: 
+66:       <span class="ruby-comment cmt"># make sure the index can be opened</span>
+67:       <span class="ruby-keyword kw">begin</span>
+68:         <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">path</span>, <span class="ruby-value str">'segments'</span>)) {}
+69:       <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Errno</span><span class="ruby-operator">::</span><span class="ruby-constant">ENOENT</span>, <span class="ruby-constant">Errno</span><span class="ruby-operator">::</span><span class="ruby-constant">EACCES</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">err</span>
+70:         <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;can't open index at #{path} (#{err.to_s.sub(/ - .*/, '')})&quot;</span>
+71:       <span class="ruby-keyword kw">end</span>
+72: 
+73:       <span class="ruby-identifier">index</span> = <span class="ruby-operator">::</span><span class="ruby-constant">Ferret</span><span class="ruby-operator">::</span><span class="ruby-constant">Index</span><span class="ruby-operator">::</span><span class="ruby-constant">IndexReader</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">path</span>)
+74:       <span class="ruby-identifier">first</span>, <span class="ruby-identifier">last</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">index</span>.<span class="ruby-identifier">max_doc</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
+75: 
+76:       <span class="ruby-comment cmt"># make sure we can read from the index</span>
+77:       <span class="ruby-keyword kw">begin</span>
+78:         <span class="ruby-identifier">index</span>[<span class="ruby-identifier">first</span>]
+79:         <span class="ruby-identifier">index</span>[<span class="ruby-identifier">last</span>]
+80:       <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">StandardError</span>  <span class="ruby-comment cmt"># EOFError, &quot;Not available&quot;, ...</span>
+81:         <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;possible Ferret version mismatch; try to set the &quot;</span> <span class="ruby-operator">&lt;&lt;</span>
+82:               <span class="ruby-value str">&quot;FERRET_VERSION environment variable to something &quot;</span> <span class="ruby-operator">&lt;&lt;</span>
+83:               <span class="ruby-node">&quot;other than #{Ferret::VERSION}&quot;</span>
+84:       <span class="ruby-keyword kw">end</span>
+85: 
+86:       <span class="ruby-identifier">first</span>.<span class="ruby-identifier">upto</span>(<span class="ruby-identifier">last</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+87:         <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">index</span>.<span class="ruby-identifier">deleted?</span>(<span class="ruby-identifier">i</span>)
+88:           <span class="ruby-identifier">doc</span> = <span class="ruby-identifier">index</span>[<span class="ruby-identifier">i</span>]
+89: 
+90:           <span class="ruby-constant">Athena</span><span class="ruby-operator">::</span><span class="ruby-constant">Record</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">doc</span>[<span class="ruby-identifier">record_element</span>], <span class="ruby-identifier">block</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
+91:             <span class="ruby-identifier">config</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">element</span>, <span class="ruby-identifier">field_config</span><span class="ruby-operator">|</span>
+92:               <span class="ruby-identifier">record</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">element</span>, <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">element</span>], <span class="ruby-identifier">field_config</span>)
+93:             }
+94:           }
+95:         <span class="ruby-keyword kw">end</span>
+96:       }
+97: 
+98:       <span class="ruby-identifier">index</span>.<span class="ruby-identifier">num_docs</span>
+99:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

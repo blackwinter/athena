@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+
+  <title>Class: Athena::Formats::XML</title>
+
+  <link rel="stylesheet" href="../../rdoc.css" type="text/css" media="screen" />
+
+  <script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../js/darkfish.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body id="top" class="class">
+
+  <div id="metadata">
+    <div id="home-metadata">
+      <div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#classes">Classes</a>
+          <a href="../../index.html#methods">Methods</a>
+        </h3>
+      </div>
+    </div>
+
+    <div id="file-metadata">
+      <div id="file-list-section" class="section">
+        <h3 class="section-header">In Files</h3>
+        <div class="section-body">
+          <ul>
+          
+            <li><a href="../../lib/athena/formats/xml_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="lib/athena/formats/xml.rb">lib/athena/formats/xml.rb</a></li>
+          
+          </ul>
+        </div>
+      </div>
+
+      
+    </div>
+
+    <div id="class-metadata">
+      
+      <!-- Parent Class -->
+      <div id="parent-class-section" class="section">
+        <h3 class="section-header">Parent</h3>
+        
+        <p class="link">Base</p>
+        
+      </div>
+      
+
+      
+
+      
+      <!-- Namespace Contents -->
+      <div id="namespace-list-section" class="section">
+        <h3 class="section-header">Namespace</h3>
+        <ul class="link-list">
+          
+          <li><span class="type">CLASS</span> <a href="XML/BaseSpec.html">Athena::Formats::XML::BaseSpec</a></li>
+          
+          <li><span class="type">CLASS</span> <a href="XML/ElementSpec.html">Athena::Formats::XML::ElementSpec</a></li>
+          
+          <li><span class="type">CLASS</span> <a href="XML/RecordSpec.html">Athena::Formats::XML::RecordSpec</a></li>
+          
+          <li><span class="type">CLASS</span> <a href="XML/SubElementSpec.html">Athena::Formats::XML::SubElementSpec</a></li>
+          
+        </ul>
+      </div>
+      
+
+      
+      <!-- Method Quickref -->
+      <div id="method-list-section" class="section">
+        <h3 class="section-header">Methods</h3>
+        <ul class="link-list">
+          
+          <li><a href="#method-c-new">::new</a></li>
+          
+          <li><a href="#method-i-builder">#builder</a></li>
+          
+          <li><a href="#method-i-convert">#convert</a></li>
+          
+          <li><a href="#method-i-define_spec">#define_spec</a></li>
+          
+          <li><a href="#method-i-listener">#listener</a></li>
+          
+          <li><a href="#method-i-merge_specs">#merge_specs</a></li>
+          
+          <li><a href="#method-i-parse">#parse</a></li>
+          
+          <li><a href="#method-i-raw-3F">#raw?</a></li>
+          
+          <li><a href="#method-i-setup_specs">#setup_specs</a></li>
+          
+          <li><a href="#method-i-wrap">#wrap</a></li>
+          
+        </ul>
+      </div>
+      
+
+      
+      <!-- Included Modules -->
+      <div id="includes-section" class="section">
+        <h3 class="section-header">Included Modules</h3>
+        <ul class="link-list">
+        
+        
+          <li><a class="include" href="../Util.html">Athena::Util</a></li>
+        
+        
+        </ul>
+      </div>
+      
+    </div>
+
+    <div id="project-metadata">
+      
+      
+      <div id="fileindex-section" class="section project-section">
+        <h3 class="section-header">Files</h3>
+        <ul>
+        
+          <li class="file"><a href="../../COPYING.html">COPYING</a></li>
+        
+          <li class="file"><a href="../../ChangeLog.html">ChangeLog</a></li>
+        
+          <li class="file"><a href="../../README.html">README</a></li>
+        
+        </ul>
+      </div>
+      
+
+      <div id="classindex-section" class="section project-section">
+        <h3 class="section-header">Class/Module Index
+          <span class="search-toggle"><img src="../../images/find.png"
+            height="16" width="16" alt="[+]"
+            title="show/hide quicksearch" /></span></h3>
+        <form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+        <fieldset>
+          <legend>Quicksearch</legend>
+          <input type="text" name="quicksearch" value=""
+            class="quicksearch-field" />
+        </fieldset>
+        </form>
+
+        <ul class="link-list">
+        
+          <li><a href="../../Athena.html">Athena</a></li>
+        
+          <li><a href="../../Athena/Formats.html">Athena::Formats</a></li>
+        
+          <li><a href="../../Athena/Formats/Base.html">Athena::Formats::Base</a></li>
+        
+          <li><a href="../../Athena/Formats/DBM.html">Athena::Formats::DBM</a></li>
+        
+          <li><a href="../../Athena/Formats/DirectionMismatchError.html">Athena::Formats::DirectionMismatchError</a></li>
+        
+          <li><a href="../../Athena/Formats/DuplicateFormatDefinitionError.html">Athena::Formats::DuplicateFormatDefinitionError</a></li>
+        
+          <li><a href="../../Athena/Formats/Ferret.html">Athena::Formats::Ferret</a></li>
+        
+          <li><a href="../../Athena/Formats/FormatError.html">Athena::Formats::FormatError</a></li>
+        
+          <li><a href="../../Athena/Formats/IllegalRecordElementError.html">Athena::Formats::IllegalRecordElementError</a></li>
+        
+          <li><a href="../../Athena/Formats/Lingo.html">Athena::Formats::Lingo</a></li>
+        
+          <li><a href="../../Athena/Formats/NoRecordElementError.html">Athena::Formats::NoRecordElementError</a></li>
+        
+          <li><a href="../../Athena/Formats/Sisis.html">Athena::Formats::Sisis</a></li>
+        
+          <li><a href="../../Athena/Formats/XML.html">Athena::Formats::XML</a></li>
+        
+          <li><a href="../../Athena/Formats/XML/BaseSpec.html">Athena::Formats::XML::BaseSpec</a></li>
+        
+          <li><a href="../../Athena/Formats/XML/ElementSpec.html">Athena::Formats::XML::ElementSpec</a></li>
+        
+          <li><a href="../../Athena/Formats/XML/RecordSpec.html">Athena::Formats::XML::RecordSpec</a></li>
+        
+          <li><a href="../../Athena/Formats/XML/SubElementSpec.html">Athena::Formats::XML::SubElementSpec</a></li>
+        
+          <li><a href="../../Athena/Parser.html">Athena::Parser</a></li>
+        
+          <li><a href="../../Athena/Parser/ConfigError.html">Athena::Parser::ConfigError</a></li>
+        
+          <li><a href="../../Athena/Record.html">Athena::Record</a></li>
+        
+          <li><a href="../../Athena/Record/NoRecordError.html">Athena::Record::NoRecordError</a></li>
+        
+          <li><a href="../../Athena/Util.html">Athena::Util</a></li>
+        
+          <li><a href="../../Athena/Version.html">Athena::Version</a></li>
+        
+        </ul>
+        <div id="no-class-search-results" style="display: none;">No matching classes.</div>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <div id="documentation">
+    <h1 class="class">Athena::Formats::XML</h1>
+
+    <div id="description" class="description">
+      
+    </div><!-- description -->
+
+    
+    <div id="5Buntitled-5D" class="documentation-section">
+      
+
+      
+
+      
+      <!-- Constants -->
+      <div id="constants-list" class="section">
+        <h3 class="section-header">Constants</h3>
+        <dl>
+        
+          <dt><a name="ELEMENT_START_RE">ELEMENT_START_RE</a></dt>
+          
+          <dd class="description"><p>&lt;<a
+href="http://www.w3.org/TR/2006/REC-xml-20060816/#NT-Name">www.w3.org/TR/2006/REC-xml-20060816/#NT-Name</a>&gt;</p></dd>
+          
+        
+          <dt><a name="NON_ELEMENT_CHAR_RE">NON_ELEMENT_CHAR_RE</a></dt>
+          
+          <dd class="description"></dd>
+          
+        
+          <dt><a name="VALUE_SEPARATOR">VALUE_SEPARATOR</a></dt>
+          
+          <dd class="description"></dd>
+          
+        
+        </dl>
+      </div>
+      
+
+      
+
+      <!-- Methods -->
+      
+      <div id="public-class-method-details" class="method-section section">
+        <h3 class="section-header">Public Class Methods</h3>
+
+      
+        <div id="new-method" class="method-detail ">
+          <a name="method-c-new"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">new</span><span
+              class="method-args">(parser)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="new-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 52</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">parser</span>)
+  <span class="ruby-ivar">@specs</span> = <span class="ruby-identifier">setup_specs</span>(<span class="ruby-identifier">parser</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">dup</span>)
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- new-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- new-method -->
+
+      
+      </div><!-- public-class-method-details -->
+    
+      <div id="public-instance-method-details" class="method-section section">
+        <h3 class="section-header">Public Instance Methods</h3>
+
+      
+        <div id="convert-method" class="method-detail ">
+          <a name="method-i-convert"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">convert</span><span
+              class="method-args">(record)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="convert-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 64</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">convert</span>(<span class="ruby-identifier">record</span>)
+  <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">row</span> {
+    <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">id</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">id</span>
+
+    <span class="ruby-identifier">record</span>.<span class="ruby-identifier">struct</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">field</span>, <span class="ruby-identifier">struct</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
+        <span class="ruby-keyword">yield</span> <span class="ruby-identifier">field</span>, <span class="ruby-identifier">struct</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">tag!</span>(<span class="ruby-identifier">field</span>) {
+          <span class="ruby-identifier">struct</span>[<span class="ruby-value">:elements</span>].<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">element</span><span class="ruby-operator">|</span>
+            (<span class="ruby-identifier">struct</span>[<span class="ruby-value">:values</span>][<span class="ruby-identifier">element</span>] <span class="ruby-operator">||</span> []).<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+              <span class="ruby-identifier">value</span> = (<span class="ruby-identifier">value</span> <span class="ruby-operator">||</span> <span class="ruby-string">''</span>).<span class="ruby-identifier">strip</span>
+              <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">tag!</span>(<span class="ruby-identifier">element</span>, <span class="ruby-identifier">value</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">empty?</span>
+            }
+          }
+        }
+      <span class="ruby-keyword">end</span>
+    }
+  }
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- convert-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- convert-method -->
+
+      
+        <div id="parse-method" class="method-detail ">
+          <a name="method-i-parse"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">parse</span><span
+              class="method-args">(source, &block)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="parse-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 58</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">source</span>, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-constant">REXML</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">parse_stream</span>(<span class="ruby-identifier">source</span>, <span class="ruby-identifier">listener</span>(&amp;<span class="ruby-identifier">block</span>))
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- parse-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- parse-method -->
+
+      
+        <div id="raw-3F-method" class="method-detail ">
+          <a name="method-i-raw-3F"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">raw?</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="raw-3F-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 115</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">raw?</span>
+  <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- raw-3F-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- raw-3F-method -->
+
+      
+        <div id="wrap-method" class="method-detail ">
+          <a name="method-i-wrap"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">wrap</span><span
+              class="method-args">(out = nil)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="wrap-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 105</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">wrap</span>(<span class="ruby-identifier">out</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">res</span> = <span class="ruby-keyword">nil</span>
+
+  <span class="ruby-identifier">builder</span>(<span class="ruby-value">:target</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">out</span>).<span class="ruby-identifier">database</span> {
+    <span class="ruby-identifier">res</span> = <span class="ruby-keyword">super</span>()
+  }
+
+  <span class="ruby-identifier">res</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- wrap-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- wrap-method -->
+
+      
+      </div><!-- public-instance-method-details -->
+    
+      <div id="private-instance-method-details" class="method-section section">
+        <h3 class="section-header">Private Instance Methods</h3>
+
+      
+        <div id="builder-method" class="method-detail ">
+          <a name="method-i-builder"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">builder</span><span
+              class="method-args">(options = {})</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="builder-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 121</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">builder</span>(<span class="ruby-identifier">options</span> = {})
+  <span class="ruby-ivar">@builder</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">begin</span>
+    <span class="ruby-identifier">builder</span> = <span class="ruby-constant">Builder</span><span class="ruby-operator">::</span><span class="ruby-constant">XmlMarkup</span>.<span class="ruby-identifier">new</span>({ <span class="ruby-value">:indent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">2</span> }.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>))
+    <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">instruct!</span>
+
+    <span class="ruby-keyword">def</span> <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">method_missing</span>(<span class="ruby-identifier">sym</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+      <span class="ruby-identifier">elem</span> = <span class="ruby-identifier">sym</span>.<span class="ruby-identifier">to_s</span>
+
+      <span class="ruby-identifier">elem</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-value">0</span>, <span class="ruby-string">'_'</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">elem</span> <span class="ruby-operator">=~</span> <span class="ruby-constant">ELEMENT_START_RE</span>
+      <span class="ruby-identifier">elem</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-constant">NON_ELEMENT_CHAR_RE</span>, <span class="ruby-string">'_'</span>)
+
+      <span class="ruby-keyword">super</span>(<span class="ruby-identifier">elem</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">builder</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- builder-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- builder-method -->
+
+      
+        <div id="define_spec-method" class="method-detail ">
+          <a name="method-i-define_spec"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">define_spec</span><span
+              class="method-args">(element, field, config, arg)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="define_spec-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 192</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">define_spec</span>(<span class="ruby-identifier">element</span>, <span class="ruby-identifier">field</span>, <span class="ruby-identifier">config</span>, <span class="ruby-identifier">arg</span>)
+  <span class="ruby-identifier">spec</span> = <span class="ruby-constant">ElementSpec</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">element</span>, <span class="ruby-identifier">field</span>, <span class="ruby-identifier">config</span>)
+
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">arg</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">spec</span>.<span class="ruby-identifier">specs!</span>(<span class="ruby-identifier">arg</span>)
+    <span class="ruby-keyword">else</span> <span class="ruby-identifier">spec</span>.<span class="ruby-identifier">default!</span>(<span class="ruby-constant">SubElementSpec</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">spec</span>))
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">spec</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- define_spec-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- define_spec-method -->
+
+      
+        <div id="listener-method" class="method-detail ">
+          <a name="method-i-listener"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">listener</span><span
+              class="method-args">(&block)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="listener-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 172</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">listener</span>(&amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-identifier">record_spec</span> = <span class="ruby-constant">RecordSpec</span>.<span class="ruby-identifier">new</span>(&amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-identifier">record_spec</span>.<span class="ruby-identifier">specs!</span>(<span class="ruby-identifier">specs</span>)
+
+  <span class="ruby-identifier">root_spec</span>   = <span class="ruby-constant">BaseSpec</span>.<span class="ruby-identifier">new</span>
+  [*<span class="ruby-identifier">record_element</span>].<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">re</span><span class="ruby-operator">|</span> <span class="ruby-identifier">root_spec</span>.<span class="ruby-identifier">specs!</span>(<span class="ruby-identifier">re</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">record_spec</span>) }
+
+  <span class="ruby-identifier">spec</span>        = <span class="ruby-constant">BaseSpec</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">spec</span>.<span class="ruby-identifier">default!</span>(<span class="ruby-identifier">root_spec</span>)
+
+  <span class="ruby-ivar">@skip_hierarchy</span>.<span class="ruby-identifier">times</span> {
+    <span class="ruby-identifier">prev_spec</span>, <span class="ruby-identifier">spec</span> = <span class="ruby-identifier">spec</span>, <span class="ruby-constant">BaseSpec</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">spec</span>.<span class="ruby-identifier">default!</span>(<span class="ruby-identifier">prev_spec</span>)
+  }
+
+  <span class="ruby-identifier">verbose</span>(<span class="ruby-value">:spec</span>, <span class="ruby-constant">BaseSpec</span>) { <span class="ruby-identifier">spec</span>.<span class="ruby-identifier">inspect_spec</span> }
+
+  <span class="ruby-constant">XMLStreamin</span><span class="ruby-operator">::</span><span class="ruby-constant">XMLStreamListener</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">spec</span>)
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- listener-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- listener-method -->
+
+      
+        <div id="merge_specs-method" class="method-detail ">
+          <a name="method-i-merge_specs"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">merge_specs</span><span
+              class="method-args">(container, key, spec)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="merge_specs-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 203</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">merge_specs</span>(<span class="ruby-identifier">container</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">spec</span>)
+  <span class="ruby-identifier">container</span>.<span class="ruby-identifier">insert!</span>(<span class="ruby-identifier">key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">spec</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">_</span>, <span class="ruby-identifier">s1</span>, <span class="ruby-identifier">s2</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">s1</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:specs!</span>)
+      <span class="ruby-identifier">s1</span>.<span class="ruby-identifier">specs!</span>(<span class="ruby-identifier">s2</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:specs</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">s2</span>.<span class="ruby-identifier">specs</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">s2</span>)
+      <span class="ruby-identifier">s1</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">s1</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">s2</span>)
+    <span class="ruby-keyword">end</span>
+  }
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- merge_specs-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- merge_specs-method -->
+
+      
+        <div id="setup_specs-method" class="method-detail ">
+          <a name="method-i-setup_specs"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">setup_specs</span><span
+              class="method-args">(config)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="setup_specs-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 139</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">setup_specs</span>(<span class="ruby-identifier">config</span>)
+  <span class="ruby-keyword">case</span> <span class="ruby-ivar">@record_element</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:__record_element</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>, <span class="ruby-constant">Array</span>
+      <span class="ruby-comment"># fine!</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">NoRecordElementError</span>, <span class="ruby-string">'no record element specified'</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">IllegalRecordElementError</span>, <span class="ruby-node">&quot;illegal record element #{@record_element.inspect}&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">case</span> <span class="ruby-ivar">@skip_hierarchy</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:__skip_hierarchy</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Integer</span>
+      <span class="ruby-comment"># fine!</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
+      <span class="ruby-ivar">@skip_hierarchy</span> = <span class="ruby-value">0</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">ConfigError</span>, <span class="ruby-node">&quot;illegal value #{@skip_hierarchy.inspect} for skip hierarchy&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">inject</span>({}) { <span class="ruby-operator">|</span><span class="ruby-identifier">specs</span>, (<span class="ruby-identifier">element</span>, <span class="ruby-identifier">element_spec</span>)<span class="ruby-operator">|</span>
+    <span class="ruby-identifier">element_spec</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">field</span>, <span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">element</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">'/'</span>).<span class="ruby-identifier">reverse</span>.<span class="ruby-identifier">inject</span>({}) { <span class="ruby-operator">|</span><span class="ruby-identifier">hash</span>, <span class="ruby-identifier">part</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">s</span> = <span class="ruby-identifier">define_spec</span>(<span class="ruby-identifier">element</span>, <span class="ruby-identifier">field</span>, <span class="ruby-identifier">c</span>, <span class="ruby-identifier">hash</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">?</span> <span class="ruby-value">:default</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">hash</span>)
+        <span class="ruby-identifier">merge_specs</span>(<span class="ruby-identifier">hash</span>, <span class="ruby-identifier">part</span>, <span class="ruby-identifier">s</span>)
+      }.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">s</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">merge_specs</span>(<span class="ruby-identifier">specs</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">s</span>)
+      }
+    }
+
+    <span class="ruby-identifier">specs</span>
+  }
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- setup_specs-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- setup_specs-method -->
+
+      
+      </div><!-- private-instance-method-details -->
+    
+    </div><!-- 5Buntitled-5D -->
+  
+
+  </div><!-- documentation -->
+
+  <div id="validator-badges">
+    <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+    <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+      Rdoc Generator</a> 2</small>.</p>
+  </div>
+
+</body>
+</html>
+

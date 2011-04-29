@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+
+  <title>Class: Athena::Formats::Base</title>
+
+  <link rel="stylesheet" href="../../rdoc.css" type="text/css" media="screen" />
+
+  <script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../js/darkfish.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body id="top" class="class">
+
+  <div id="metadata">
+    <div id="home-metadata">
+      <div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#classes">Classes</a>
+          <a href="../../index.html#methods">Methods</a>
+        </h3>
+      </div>
+    </div>
+
+    <div id="file-metadata">
+      <div id="file-list-section" class="section">
+        <h3 class="section-header">In Files</h3>
+        <div class="section-body">
+          <ul>
+          
+            <li><a href="../../lib/athena/formats_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="lib/athena/formats.rb">lib/athena/formats.rb</a></li>
+          
+          </ul>
+        </div>
+      </div>
+
+      
+    </div>
+
+    <div id="class-metadata">
+      
+      <!-- Parent Class -->
+      <div id="parent-class-section" class="section">
+        <h3 class="section-header">Parent</h3>
+        
+        <p class="link">Object</p>
+        
+      </div>
+      
+
+      
+
+      
+
+      
+      <!-- Method Quickref -->
+      <div id="method-list-section" class="section">
+        <h3 class="section-header">Methods</h3>
+        <ul class="link-list">
+          
+          <li><a href="#method-c-formats">::formats</a></li>
+          
+          <li><a href="#method-c-register_format">::register_format</a></li>
+          
+          <li><a href="#method-c-register_format-21">::register_format!</a></li>
+          
+          <li><a href="#method-c-valid_format-3F">::valid_format?</a></li>
+          
+          <li><a href="#method-i-convert">#convert</a></li>
+          
+          <li><a href="#method-i-deferred-3F">#deferred?</a></li>
+          
+          <li><a href="#method-i-parse">#parse</a></li>
+          
+          <li><a href="#method-i-raw-3F">#raw?</a></li>
+          
+          <li><a href="#method-i-wrap">#wrap</a></li>
+          
+        </ul>
+      </div>
+      
+
+      
+    </div>
+
+    <div id="project-metadata">
+      
+      
+      <div id="fileindex-section" class="section project-section">
+        <h3 class="section-header">Files</h3>
+        <ul>
+        
+          <li class="file"><a href="../../COPYING.html">COPYING</a></li>
+        
+          <li class="file"><a href="../../ChangeLog.html">ChangeLog</a></li>
+        
+          <li class="file"><a href="../../README.html">README</a></li>
+        
+        </ul>
+      </div>
+      
+
+      <div id="classindex-section" class="section project-section">
+        <h3 class="section-header">Class/Module Index
+          <span class="search-toggle"><img src="../../images/find.png"
+            height="16" width="16" alt="[+]"
+            title="show/hide quicksearch" /></span></h3>
+        <form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+        <fieldset>
+          <legend>Quicksearch</legend>
+          <input type="text" name="quicksearch" value=""
+            class="quicksearch-field" />
+        </fieldset>
+        </form>
+
+        <ul class="link-list">
+        
+          <li><a href="../../Athena.html">Athena</a></li>
+        
+          <li><a href="../../Athena/Formats.html">Athena::Formats</a></li>
+        
+          <li><a href="../../Athena/Formats/Base.html">Athena::Formats::Base</a></li>
+        
+          <li><a href="../../Athena/Formats/DBM.html">Athena::Formats::DBM</a></li>
+        
+          <li><a href="../../Athena/Formats/DirectionMismatchError.html">Athena::Formats::DirectionMismatchError</a></li>
+        
+          <li><a href="../../Athena/Formats/DuplicateFormatDefinitionError.html">Athena::Formats::DuplicateFormatDefinitionError</a></li>
+        
+          <li><a href="../../Athena/Formats/Ferret.html">Athena::Formats::Ferret</a></li>
+        
+          <li><a href="../../Athena/Formats/FormatError.html">Athena::Formats::FormatError</a></li>
+        
+          <li><a href="../../Athena/Formats/IllegalRecordElementError.html">Athena::Formats::IllegalRecordElementError</a></li>
+        
+          <li><a href="../../Athena/Formats/Lingo.html">Athena::Formats::Lingo</a></li>
+        
+          <li><a href="../../Athena/Formats/NoRecordElementError.html">Athena::Formats::NoRecordElementError</a></li>
+        
+          <li><a href="../../Athena/Formats/Sisis.html">Athena::Formats::Sisis</a></li>
+        
+          <li><a href="../../Athena/Formats/XML.html">Athena::Formats::XML</a></li>
+        
+          <li><a href="../../Athena/Formats/XML/BaseSpec.html">Athena::Formats::XML::BaseSpec</a></li>
+        
+          <li><a href="../../Athena/Formats/XML/ElementSpec.html">Athena::Formats::XML::ElementSpec</a></li>
+        
+          <li><a href="../../Athena/Formats/XML/RecordSpec.html">Athena::Formats::XML::RecordSpec</a></li>
+        
+          <li><a href="../../Athena/Formats/XML/SubElementSpec.html">Athena::Formats::XML::SubElementSpec</a></li>
+        
+          <li><a href="../../Athena/Parser.html">Athena::Parser</a></li>
+        
+          <li><a href="../../Athena/Parser/ConfigError.html">Athena::Parser::ConfigError</a></li>
+        
+          <li><a href="../../Athena/Record.html">Athena::Record</a></li>
+        
+          <li><a href="../../Athena/Record/NoRecordError.html">Athena::Record::NoRecordError</a></li>
+        
+          <li><a href="../../Athena/Util.html">Athena::Util</a></li>
+        
+          <li><a href="../../Athena/Version.html">Athena::Version</a></li>
+        
+        </ul>
+        <div id="no-class-search-results" style="display: none;">No matching classes.</div>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <div id="documentation">
+    <h1 class="class">Athena::Formats::Base</h1>
+
+    <div id="description" class="description">
+      
+    </div><!-- description -->
+
+    
+    <div id="5Buntitled-5D" class="documentation-section">
+      
+
+      
+
+      
+
+      
+
+      <!-- Methods -->
+      
+      <div id="public-class-method-details" class="method-section section">
+        <h3 class="section-header">Public Class Methods</h3>
+
+      
+        <div id="formats-method" class="method-detail ">
+          <a name="method-c-formats"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">formats</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="formats-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats.rb, line 58</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">formats</span>
+  <span class="ruby-constant">Base</span>.<span class="ruby-identifier">instance_variable_get</span>(<span class="ruby-value">:@formats</span>)
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- formats-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- formats-method -->
+
+      
+        <div id="valid_format-3F-method" class="method-detail ">
+          <a name="method-c-valid_format-3F"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">valid_format?</span><span
+              class="method-args">(direction, format)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="valid_format-3F-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats.rb, line 62</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">valid_format?</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">format</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">format</span>.<span class="ruby-identifier">class</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Base</span>
+    <span class="ruby-identifier">direction</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">format</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">direction</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">formats</span>[<span class="ruby-identifier">direction</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">format</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- valid_format-3F-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- valid_format-3F-method -->
+
+      
+      </div><!-- public-class-method-details -->
+    
+      <div id="private-class-method-details" class="method-section section">
+        <h3 class="section-header">Private Class Methods</h3>
+
+      
+        <div id="register_format-method" class="method-detail ">
+          <a name="method-c-register_format"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">register_format</span><span
+              class="method-args">(direction, *aliases, &block)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="register_format-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats.rb, line 72</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">register_format</span>(<span class="ruby-identifier">direction</span>, *<span class="ruby-identifier">aliases</span>, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-identifier">format</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">'::'</span>).<span class="ruby-identifier">last</span>.
+    <span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/([A-Z]+)([A-Z][a-z])/</span>, <span class="ruby-string">'\1_\2'</span>).
+    <span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/([a-z\d])([A-Z])/</span>, <span class="ruby-string">'\1_\2'</span>).
+    <span class="ruby-identifier">downcase</span>
+
+  <span class="ruby-identifier">register_format!</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">format</span>, *<span class="ruby-identifier">aliases</span>, &amp;<span class="ruby-identifier">block</span>)
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- register_format-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- register_format-method -->
+
+      
+        <div id="register_format-21-method" class="method-detail ">
+          <a name="method-c-register_format-21"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">register_format!</span><span
+              class="method-args">(direction, format, *aliases, &block)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="register_format-21-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats.rb, line 81</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">register_format!</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">format</span>, *<span class="ruby-identifier">aliases</span>, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;must be a sub-class of #{Base}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-keyword">self</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Base</span>
+
+  <span class="ruby-identifier">klass</span> = <span class="ruby-constant">Class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>, &amp;<span class="ruby-identifier">block</span>)
+
+  <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">instance_eval</span> <span class="ruby-node">%{
+    def direction; #{direction.inspect}; end
+    def name; '#{format}::#{direction}'; end
+    def to_s; '#{format}'; end
+  }</span>
+
+  [<span class="ruby-identifier">format</span>, *<span class="ruby-identifier">aliases</span>].<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">existing</span> = <span class="ruby-identifier">formats</span>[<span class="ruby-identifier">direction</span>][<span class="ruby-identifier">name</span>]
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">DuplicateFormatDefinitionError</span>,
+        <span class="ruby-node">&quot;format already defined (#{direction}): #{name}&quot;</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">formats</span>[<span class="ruby-identifier">direction</span>][<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">klass</span>
+    <span class="ruby-keyword">end</span>
+  }
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- register_format-21-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- register_format-21-method -->
+
+      
+      </div><!-- private-class-method-details -->
+    
+      <div id="public-instance-method-details" class="method-section section">
+        <h3 class="section-header">Public Instance Methods</h3>
+
+      
+        <div id="convert-method" class="method-detail ">
+          <a name="method-i-convert"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">convert</span><span
+              class="method-args">(record)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="convert-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats.rb, line 108</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">convert</span>(<span class="ruby-identifier">record</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotImplementedError</span>, <span class="ruby-string">'must be defined by sub-class'</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- convert-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- convert-method -->
+
+      
+        <div id="deferred-3F-method" class="method-detail ">
+          <a name="method-i-deferred-3F"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">deferred?</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="deferred-3F-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats.rb, line 116</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">deferred?</span>
+  <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- deferred-3F-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- deferred-3F-method -->
+
+      
+        <div id="parse-method" class="method-detail ">
+          <a name="method-i-parse"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">parse</span><span
+              class="method-args">(*args)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="parse-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats.rb, line 104</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(*<span class="ruby-identifier">args</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotImplementedError</span>, <span class="ruby-string">'must be defined by sub-class'</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- parse-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- parse-method -->
+
+      
+        <div id="raw-3F-method" class="method-detail ">
+          <a name="method-i-raw-3F"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">raw?</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="raw-3F-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats.rb, line 120</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">raw?</span>
+  <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- raw-3F-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- raw-3F-method -->
+
+      
+        <div id="wrap-method" class="method-detail ">
+          <a name="method-i-wrap"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">wrap</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="wrap-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats.rb, line 112</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">wrap</span>
+  <span class="ruby-keyword">yield</span> <span class="ruby-keyword">self</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- wrap-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- wrap-method -->
+
+      
+      </div><!-- public-instance-method-details -->
+    
+    </div><!-- 5Buntitled-5D -->
+  
+
+  </div><!-- documentation -->
+
+  <div id="validator-badges">
+    <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+    <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+      Rdoc Generator</a> 2</small>.</p>
+  </div>
+
+</body>
+</html>
+

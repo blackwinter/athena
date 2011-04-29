@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Athena::Formats::XML::BaseSpec</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Athena::Formats::XML::BaseSpec</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../../files/lib/athena/formats/xml_rb.html">
+                lib/athena/formats/xml.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                XMLStreamin::XMLSpec
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000032">done</a>&nbsp;&nbsp;
+      <a href="#M000033">empty</a>&nbsp;&nbsp;
+      <a href="#M000034">inspect_spec</a>&nbsp;&nbsp;
+      <a href="#M000035">level</a>&nbsp;&nbsp;
+      <a href="#M000030">start</a>&nbsp;&nbsp;
+      <a href="#M000036">step</a>&nbsp;&nbsp;
+      <a href="#M000031">text</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name"><a href="../../Util.html">Athena::Util</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000032" class="method-detail">
+        <a name="M000032"></a>
+
+        <div class="method-heading">
+          <a href="#M000032" class="method-signature">
+          <span class="method-name">done</span><span class="method-args">(context, name)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000032-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000032-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/athena/formats/xml.rb, line 245</span>
+245:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">done</span>(<span class="ruby-identifier">context</span>, <span class="ruby-identifier">name</span>)
+246:         <span class="ruby-identifier">verbose</span>(<span class="ruby-identifier">:xml</span>) <span class="ruby-keyword kw">do</span>
+247:           <span class="ruby-identifier">step</span> <span class="ruby-identifier">:up</span>
+248:           <span class="ruby-identifier">spit</span> <span class="ruby-node">&quot;#{indent(level)}&lt;/#{name}&gt;&quot;</span>
+249:         <span class="ruby-keyword kw">end</span>
+250: 
+251:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">context</span>
+252:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000033" class="method-detail">
+        <a name="M000033"></a>
+
+        <div class="method-heading">
+          <a href="#M000033" class="method-signature">
+          <span class="method-name">empty</span><span class="method-args">(context)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000033-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000033-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/athena/formats/xml.rb, line 254</span>
+254:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">empty</span>(<span class="ruby-identifier">context</span>)
+255:         <span class="ruby-identifier">verbose</span>(<span class="ruby-identifier">:xml</span>) <span class="ruby-keyword kw">do</span>
+256:           <span class="ruby-identifier">step</span> <span class="ruby-identifier">:up</span>
+257:         <span class="ruby-keyword kw">end</span>
+258: 
+259:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">context</span>
+260:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000034" class="method-detail">
+        <a name="M000034"></a>
+
+        <div class="method-heading">
+          <a href="#M000034" class="method-signature">
+          <span class="method-name">inspect_spec</span><span class="method-args">(element = nil, level = 0)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000034-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000034-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/athena/formats/xml.rb, line 262</span>
+262:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">inspect_spec</span>(<span class="ruby-identifier">element</span> = <span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">level</span> = <span class="ruby-value">0</span>)
+263:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:field</span>)
+264:           <span class="ruby-identifier">msg</span> = <span class="ruby-node">&quot;#{indent(level)}[#{element}] #{field.to_s.upcase} -&gt; #{name}&quot;</span>
+265:           <span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:spit</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">spit</span>(<span class="ruby-identifier">msg</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">warn</span>(<span class="ruby-identifier">msg</span>)
+266:           <span class="ruby-identifier">specs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span>, <span class="ruby-identifier">s</span><span class="ruby-operator">|</span>
+267:             <span class="ruby-identifier">s</span>.<span class="ruby-identifier">inspect_spec</span>(<span class="ruby-identifier">e</span>, <span class="ruby-identifier">level</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>)
+268:           }
+269:         <span class="ruby-keyword kw">else</span>
+270:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">specs</span>.<span class="ruby-identifier">empty?</span>
+271:             <span class="ruby-identifier">specs</span>.<span class="ruby-identifier">default</span>.<span class="ruby-identifier">inspect_spec</span>(<span class="ruby-value str">'?'</span>, <span class="ruby-identifier">level</span>)
+272:           <span class="ruby-keyword kw">else</span>
+273:             <span class="ruby-identifier">specs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span>, <span class="ruby-identifier">s</span><span class="ruby-operator">|</span>
+274:               <span class="ruby-identifier">s</span>.<span class="ruby-identifier">inspect_spec</span>(<span class="ruby-identifier">e</span>, <span class="ruby-identifier">level</span>)
+275:             }
+276:           <span class="ruby-keyword kw">end</span>
+277:         <span class="ruby-keyword kw">end</span>
+278:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000030" class="method-detail">
+        <a name="M000030"></a>
+
+        <div class="method-heading">
+          <a href="#M000030" class="method-signature">
+          <span class="method-name">start</span><span class="method-args">(context, name, attrs)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000030-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000030-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/athena/formats/xml.rb, line 223</span>
+223:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">start</span>(<span class="ruby-identifier">context</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">attrs</span>)
+224:         <span class="ruby-identifier">verbose</span>(<span class="ruby-identifier">:xml</span>) <span class="ruby-keyword kw">do</span>
+225:           <span class="ruby-identifier">spit</span> <span class="ruby-node">&quot;#{indent(level)}&lt;#{name}&gt;&quot;</span>
+226:           <span class="ruby-identifier">step</span> <span class="ruby-identifier">:down</span>
+227: 
+228:           <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">attr</span><span class="ruby-operator">|</span>
+229:             <span class="ruby-identifier">spit</span> <span class="ruby-node">&quot;#{indent(level + 1)}[#{attr[0]} = #{attr[1]}]&quot;</span>
+230:           }
+231:         <span class="ruby-keyword kw">end</span>
+232: 
+233:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">context</span>
+234:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000031" class="method-detail">
+        <a name="M000031"></a>
+
+        <div class="method-heading">
+          <a href="#M000031" class="method-signature">
+          <span class="method-name">text</span><span class="method-args">(context, data)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000031-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000031-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/athena/formats/xml.rb, line 236</span>
+236:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">text</span>(<span class="ruby-identifier">context</span>, <span class="ruby-identifier">data</span>)
+237:         <span class="ruby-identifier">verbose</span>(<span class="ruby-identifier">:xml</span>) <span class="ruby-keyword kw">do</span>
+238:           <span class="ruby-identifier">content</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">strip</span>
+239:           <span class="ruby-identifier">spit</span> <span class="ruby-node">&quot;#{indent(level)}#{content}&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">content</span>.<span class="ruby-identifier">empty?</span>
+240:         <span class="ruby-keyword kw">end</span>
+241: 
+242:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">context</span>
+243:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Private Instance methods</h3>
+
+      <div id="method-M000035" class="method-detail">
+        <a name="M000035"></a>
+
+        <div class="method-heading">
+          <a href="#M000035" class="method-signature">
+          <span class="method-name">level</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000035-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000035-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/athena/formats/xml.rb, line 282</span>
+282:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">level</span>
+283:         <span class="ruby-constant">BaseSpec</span>.<span class="ruby-identifier">instance_variable_get</span>(<span class="ruby-identifier">:@level</span>)
+284:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000036" class="method-detail">
+        <a name="M000036"></a>
+
+        <div class="method-heading">
+          <a href="#M000036" class="method-signature">
+          <span class="method-name">step</span><span class="method-args">(direction)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000036-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000036-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/athena/formats/xml.rb, line 286</span>
+286:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">step</span>(<span class="ruby-identifier">direction</span>)
+287:         <span class="ruby-identifier">steps</span> = { <span class="ruby-identifier">:down</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">:up</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">-1</span> }
+288:         <span class="ruby-constant">BaseSpec</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-identifier">:@level</span>, <span class="ruby-identifier">level</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">steps</span>[<span class="ruby-identifier">direction</span>])
+289:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
