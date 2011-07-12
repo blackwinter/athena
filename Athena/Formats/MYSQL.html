@@ -5,7 +5,7 @@
 <head>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 
-  <title>Class: Athena::Formats::Ferret</title>
+  <title>Class: Athena::Formats::MySQL</title>
 
   <link rel="stylesheet" href="../../rdoc.css" type="text/css" media="screen" />
 
@@ -34,8 +34,8 @@
         <div class="section-body">
           <ul>
           
-            <li><a href="../../lib/athena/formats/ferret_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/formats/ferret.rb">lib/athena/formats/ferret.rb</a></li>
+            <li><a href="../../lib/athena/formats/sql_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="lib/athena/formats/sql.rb">lib/athena/formats/sql.rb</a></li>
           
           </ul>
         </div>
@@ -57,6 +57,16 @@
 
       
 
+      
+      <!-- Namespace Contents -->
+      <div id="namespace-list-section" class="section">
+        <h3 class="section-header">Namespace</h3>
+        <ul class="link-list">
+          
+          <li><span class="type">CLASS</span> <a href="MYSQL/SQLParser.html">Athena::Formats::MYSQL::SQLParser</a></li>
+          
+        </ul>
+      </div>
       
 
       
@@ -173,7 +183,7 @@
   </div>
 
   <div id="documentation">
-    <h1 class="class">Athena::Formats::Ferret</h1>
+    <h1 class="class">Athena::Formats::MySQL</h1>
 
     <div id="description" class="description">
       
@@ -214,18 +224,18 @@
             
             <div class="method-source-code" id="new-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/ferret.rb, line 49</span>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 40</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">parser</span>)
   <span class="ruby-ivar">@config</span> = <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">dup</span>
 
   <span class="ruby-keyword">case</span> <span class="ruby-ivar">@record_element</span> = <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:__record_element</span>)
-    <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>, <span class="ruby-keyword">nil</span>
       <span class="ruby-comment"># fine!</span>
-    <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
-      <span class="ruby-identifier">raise</span> <span class="ruby-constant">NoRecordElementError</span>, <span class="ruby-string">'no record element specified'</span>
     <span class="ruby-keyword">else</span>
       <span class="ruby-identifier">raise</span> <span class="ruby-constant">IllegalRecordElementError</span>, <span class="ruby-node">&quot;illegal record element #{@record_element.inspect}&quot;</span>
   <span class="ruby-keyword">end</span>
+
+  <span class="ruby-ivar">@sql_parser</span> = <span class="ruby-constant">SQLParser</span>.<span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
             </div><!-- new-source -->
             
@@ -262,43 +272,41 @@
             
             <div class="method-source-code" id="parse-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/ferret.rb, line 64</span>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 55</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">source</span>, &amp;<span class="ruby-identifier">block</span>)
-  <span class="ruby-identifier">path</span> = <span class="ruby-identifier">source</span>.<span class="ruby-identifier">path</span>
+  <span class="ruby-identifier">columns</span>, <span class="ruby-identifier">table</span>, <span class="ruby-identifier">num</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">h</span>, <span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-identifier">h</span>[<span class="ruby-identifier">k</span>] = [] }, <span class="ruby-keyword">nil</span>, <span class="ruby-value">0</span>
 
-  <span class="ruby-comment"># make sure the index can be opened</span>
-  <span class="ruby-keyword">begin</span>
-    <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">path</span>, <span class="ruby-string">'segments'</span>)) {}
-  <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Errno</span><span class="ruby-operator">::</span><span class="ruby-constant">ENOENT</span>, <span class="ruby-constant">Errno</span><span class="ruby-operator">::</span><span class="ruby-constant">EACCES</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">err</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;can't open index at #{path} (#{err.to_s.sub(/ - .*/, '')})&quot;</span>
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">source</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">line</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">line</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">chomp</span>
+      <span class="ruby-keyword">when</span> <span class="ruby-regexp">/\ACREATE\s+TABLE\s+`(.+?)`/</span>
+        <span class="ruby-identifier">table</span> = <span class="ruby-node">$1</span>
+      <span class="ruby-keyword">when</span> <span class="ruby-regexp">/\A\s+`(.+?)`/</span>
+        <span class="ruby-identifier">columns</span>[<span class="ruby-identifier">table</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">$1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">table</span>
+      <span class="ruby-keyword">when</span> <span class="ruby-regexp">/\A\).*;\z/</span>
+        <span class="ruby-identifier">table</span> = <span class="ruby-keyword">nil</span>
+      <span class="ruby-keyword">when</span> <span class="ruby-regexp">/\AINSERT\s+INTO\s+`(.+?)`\s+VALUES\s*(.*);\z/</span>
+        <span class="ruby-identifier">_columns</span> = <span class="ruby-identifier">columns</span>[<span class="ruby-node">$1</span>]
+        <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">_columns</span>.<span class="ruby-identifier">empty?</span>
 
-  <span class="ruby-identifier">index</span> = <span class="ruby-operator">::</span><span class="ruby-constant">Ferret</span><span class="ruby-operator">::</span><span class="ruby-constant">Index</span><span class="ruby-operator">::</span><span class="ruby-constant">IndexReader</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">path</span>)
-  <span class="ruby-identifier">first</span>, <span class="ruby-identifier">last</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">index</span>.<span class="ruby-identifier">max_doc</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>
+        <span class="ruby-identifier">sql_parser</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-node">$2</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
+          <span class="ruby-constant">Record</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">block</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
+            <span class="ruby-identifier">row</span>.<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">value</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+              <span class="ruby-identifier">column</span> = <span class="ruby-identifier">_columns</span>[<span class="ruby-identifier">index</span>] <span class="ruby-keyword">or</span> <span class="ruby-keyword">next</span>
 
-  <span class="ruby-comment"># make sure we can read from the index</span>
-  <span class="ruby-keyword">begin</span>
-    <span class="ruby-identifier">index</span>[<span class="ruby-identifier">first</span>]
-    <span class="ruby-identifier">index</span>[<span class="ruby-identifier">last</span>]
-  <span class="ruby-keyword">rescue</span> <span class="ruby-constant">StandardError</span>  <span class="ruby-comment"># EOFError, &quot;Not available&quot;, ...</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-string">&quot;possible Ferret version mismatch; try to set the &quot;</span> <span class="ruby-operator">&lt;&lt;</span>
-          <span class="ruby-string">&quot;FERRET_VERSION environment variable to something &quot;</span> <span class="ruby-operator">&lt;&lt;</span>
-          <span class="ruby-node">&quot;other than #{Ferret::VERSION}&quot;</span>
-  <span class="ruby-keyword">end</span>
+              <span class="ruby-keyword">if</span> <span class="ruby-identifier">column</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">record_element</span>
+                <span class="ruby-identifier">record</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@id</span>, <span class="ruby-identifier">value</span>)
+              <span class="ruby-keyword">end</span>
 
-  <span class="ruby-identifier">first</span>.<span class="ruby-identifier">upto</span>(<span class="ruby-identifier">last</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
-    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">index</span>.<span class="ruby-identifier">deleted?</span>(<span class="ruby-identifier">i</span>)
-      <span class="ruby-identifier">doc</span> = <span class="ruby-identifier">index</span>[<span class="ruby-identifier">i</span>]
+              <span class="ruby-identifier">record</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">column</span>, <span class="ruby-identifier">value</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-identifier">config</span>[<span class="ruby-identifier">column</span>])
+            }
+          }
 
-      <span class="ruby-constant">Record</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">doc</span>[<span class="ruby-identifier">record_element</span>], <span class="ruby-identifier">block</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
-        <span class="ruby-identifier">config</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">element</span>, <span class="ruby-identifier">field_config</span><span class="ruby-operator">|</span>
-          <span class="ruby-identifier">record</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">element</span>, <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">element</span>], <span class="ruby-identifier">field_config</span>)
+          <span class="ruby-identifier">num</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
         }
-      }
     <span class="ruby-keyword">end</span>
   }
 
-  <span class="ruby-identifier">index</span>.<span class="ruby-identifier">num_docs</span>
+  <span class="ruby-identifier">num</span>
 <span class="ruby-keyword">end</span></pre>
             </div><!-- parse-source -->
             

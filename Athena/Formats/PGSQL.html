@@ -5,7 +5,7 @@
 <head>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 
-  <title>Class: Athena::Formats::Lingo</title>
+  <title>Class: Athena::Formats::PgSQL</title>
 
   <link rel="stylesheet" href="../../rdoc.css" type="text/css" media="screen" />
 
@@ -34,8 +34,8 @@
         <div class="section-body">
           <ul>
           
-            <li><a href="../../lib/athena/formats/lingo_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/formats/lingo.rb">lib/athena/formats/lingo.rb</a></li>
+            <li><a href="../../lib/athena/formats/sql_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="lib/athena/formats/sql.rb">lib/athena/formats/sql.rb</a></li>
           
           </ul>
         </div>
@@ -65,11 +65,9 @@
         <h3 class="section-header">Methods</h3>
         <ul class="link-list">
           
-          <li><a href="#method-i-check_args">#check_args</a></li>
+          <li><a href="#method-c-new">::new</a></li>
           
-          <li><a href="#method-i-convert">#convert</a></li>
-          
-          <li><a href="#method-i-deferred-3F">#deferred?</a></li>
+          <li><a href="#method-i-parse">#parse</a></li>
           
         </ul>
       </div>
@@ -175,7 +173,7 @@
   </div>
 
   <div id="documentation">
-    <h1 class="class">Athena::Formats::Lingo</h1>
+    <h1 class="class">Athena::Formats::PgSQL</h1>
 
     <div id="description" class="description">
       
@@ -188,45 +186,68 @@
       
 
       
-      <!-- Constants -->
-      <div id="constants-list" class="section">
-        <h3 class="section-header">Constants</h3>
-        <dl>
-        
-          <dt><a name="KV_SEPARATOR">KV_SEPARATOR</a></dt>
-          
-          <dd class="description"></dd>
-          
-        
-          <dt><a name="MV_SEPARATOR">MV_SEPARATOR</a></dt>
-          
-          <dd class="description"></dd>
-          
-        
-          <dt><a name="WC_SEPARATOR">WC_SEPARATOR</a></dt>
-          
-          <dd class="description"></dd>
-          
-        
-        </dl>
-      </div>
-      
 
       
 
       <!-- Methods -->
       
+      <div id="public-class-method-details" class="method-section section">
+        <h3 class="section-header">Public Class Methods</h3>
+
+      
+        <div id="new-method" class="method-detail ">
+          <a name="method-c-new"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">new</span><span
+              class="method-args">(parser)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="new-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 196</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">parser</span>)
+  <span class="ruby-ivar">@config</span> = <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">dup</span>
+
+  <span class="ruby-keyword">case</span> <span class="ruby-ivar">@record_element</span> = <span class="ruby-ivar">@config</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:__record_element</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>, <span class="ruby-keyword">nil</span>
+      <span class="ruby-comment"># fine!</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">IllegalRecordElementError</span>, <span class="ruby-node">&quot;illegal record element #{@record_element.inspect}&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- new-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- new-method -->
+
+      
+      </div><!-- public-class-method-details -->
+    
       <div id="public-instance-method-details" class="method-section section">
         <h3 class="section-header">Public Instance Methods</h3>
 
       
-        <div id="convert-method" class="method-detail ">
-          <a name="method-i-convert"></a>
+        <div id="parse-method" class="method-detail ">
+          <a name="method-i-parse"></a>
 
           
           <div class="method-heading">
-            <span class="method-name">convert</span><span
-              class="method-args">(record)</span>
+            <span class="method-name">parse</span><span
+              class="method-args">(source, &block)</span>
             <span class="method-click-advice">click to toggle source</span>
           </div>
           
@@ -237,120 +258,53 @@
             
 
             
-            <div class="method-source-code" id="convert-source">
+            <div class="method-source-code" id="parse-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/lingo.rb, line 41</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">convert</span>(<span class="ruby-identifier">record</span>)
-  <span class="ruby-identifier">terms</span> = []
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 209</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">source</span>, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-identifier">columns</span>, <span class="ruby-identifier">table</span>, <span class="ruby-identifier">num</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">h</span>, <span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-identifier">h</span>[<span class="ruby-identifier">k</span>] = [] }, <span class="ruby-keyword">nil</span>, <span class="ruby-value">0</span>
 
-  <span class="ruby-identifier">record</span>.<span class="ruby-identifier">struct</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">field</span>, <span class="ruby-identifier">struct</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">struct_values</span> = <span class="ruby-identifier">struct</span>[<span class="ruby-value">:values</span>]
-    <span class="ruby-identifier">struct_values</span>.<span class="ruby-identifier">default</span> = []
+  <span class="ruby-identifier">source</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">line</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">line</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">chomp</span>
+      <span class="ruby-keyword">when</span> <span class="ruby-regexp">/\ACOPY\s+(\S+)\s+\((.+?)\)\s+FROM\s+stdin;\z/</span>
+        <span class="ruby-identifier">columns</span>[<span class="ruby-identifier">table</span> = <span class="ruby-node">$1</span>] = <span class="ruby-node">$2</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">/\s*,\s*/</span>)
+      <span class="ruby-keyword">when</span> <span class="ruby-regexp">/\A\\\.\z/</span>
+        <span class="ruby-identifier">table</span> = <span class="ruby-keyword">nil</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">table</span>
 
-    <span class="ruby-identifier">values</span> = []
+        <span class="ruby-identifier">cols</span> = <span class="ruby-identifier">columns</span>[<span class="ruby-identifier">table</span>]
+        <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">empty?</span>
 
-    <span class="ruby-identifier">struct</span>[<span class="ruby-value">:elements</span>].<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">element</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">struct_values</span>[<span class="ruby-identifier">element</span>].<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
-        <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>
-          <span class="ruby-identifier">value</span> = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">strip</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-constant">CRLF_RE</span>, <span class="ruby-string">' '</span>)
-          <span class="ruby-identifier">values</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">value</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">empty?</span>
-        <span class="ruby-keyword">end</span>
-      }
-    }
+        <span class="ruby-constant">Record</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">block</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">/\t/</span>).<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">value</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+            <span class="ruby-identifier">column</span> = <span class="ruby-identifier">cols</span>[<span class="ruby-identifier">index</span>] <span class="ruby-keyword">or</span> <span class="ruby-keyword">next</span>
 
-    <span class="ruby-identifier">terms</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">values</span>
+            <span class="ruby-keyword">if</span> <span class="ruby-identifier">column</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">record_element</span>
+              <span class="ruby-identifier">record</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@id</span>, <span class="ruby-identifier">value</span>)
+            <span class="ruby-keyword">end</span>
+
+            <span class="ruby-identifier">record</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">column</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">config</span>[<span class="ruby-identifier">column</span>])
+          }
+        }
+
+        <span class="ruby-identifier">num</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+    <span class="ruby-keyword">end</span>
   }
 
-  <span class="ruby-identifier">terms</span>
+  <span class="ruby-identifier">num</span>
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- convert-source -->
+            </div><!-- parse-source -->
             
           </div>
 
           
 
           
-        </div><!-- convert-method -->
-
-      
-        <div id="deferred-3F-method" class="method-detail ">
-          <a name="method-i-deferred-3F"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">deferred?</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="deferred-3F-source">
-<pre>
-<span class="ruby-comment"># File lib/athena/formats/lingo.rb, line 65</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">deferred?</span>
-  <span class="ruby-keyword">true</span>
-<span class="ruby-keyword">end</span></pre>
-            </div><!-- deferred-3F-source -->
-            
-          </div>
-
-          
-
-          
-        </div><!-- deferred-3F-method -->
+        </div><!-- parse-method -->
 
       
       </div><!-- public-instance-method-details -->
-    
-      <div id="private-instance-method-details" class="method-section section">
-        <h3 class="section-header">Private Instance Methods</h3>
-
-      
-        <div id="check_args-method" class="method-detail ">
-          <a name="method-i-check_args"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">check_args</span><span
-              class="method-args">(expected, actual, &block)</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="check_args-source">
-<pre>
-<span class="ruby-comment"># File lib/athena/formats/lingo.rb, line 71</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_args</span>(<span class="ruby-identifier">expected</span>, <span class="ruby-identifier">actual</span>, &amp;<span class="ruby-identifier">block</span>)
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">block</span>[<span class="ruby-identifier">actual</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">expected</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">actual</span>
-    <span class="ruby-keyword">true</span>
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;wrong number of arguments for #{self} (#{actual} for #{expected})&quot;</span>
-    <span class="ruby-keyword">false</span>
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
-            </div><!-- check_args-source -->
-            
-          </div>
-
-          
-
-          
-        </div><!-- check_args-method -->
-
-      
-      </div><!-- private-instance-method-details -->
     
     </div><!-- 5Buntitled-5D -->
   

@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+
+  <title>Class: Athena::Formats::MYSQL::SQLParser</title>
+
+  <link rel="stylesheet" href="../../../rdoc.css" type="text/css" media="screen" />
+
+  <script src="../../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../../js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../../js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../../js/darkfish.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body id="top" class="class">
+
+  <div id="metadata">
+    <div id="home-metadata">
+      <div id="home-section" class="section">
+        <h3 class="section-header">
+          <a href="../../../index.html">Home</a>
+          <a href="../../../index.html#classes">Classes</a>
+          <a href="../../../index.html#methods">Methods</a>
+        </h3>
+      </div>
+    </div>
+
+    <div id="file-metadata">
+      <div id="file-list-section" class="section">
+        <h3 class="section-header">In Files</h3>
+        <div class="section-body">
+          <ul>
+          
+            <li><a href="../../../lib/athena/formats/sql_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="lib/athena/formats/sql.rb">lib/athena/formats/sql.rb</a></li>
+          
+          </ul>
+        </div>
+      </div>
+
+      
+    </div>
+
+    <div id="class-metadata">
+      
+      <!-- Parent Class -->
+      <div id="parent-class-section" class="section">
+        <h3 class="section-header">Parent</h3>
+        
+        <p class="link">Object</p>
+        
+      </div>
+      
+
+      
+
+      
+
+      
+      <!-- Method Quickref -->
+      <div id="method-list-section" class="section">
+        <h3 class="section-header">Methods</h3>
+        <ul class="link-list">
+          
+          <li><a href="#method-c-parse">::parse</a></li>
+          
+          <li><a href="#method-i-error">#error</a></li>
+          
+          <li><a href="#method-i-parse">#parse</a></li>
+          
+          <li><a href="#method-i-parse_keyword">#parse_keyword</a></li>
+          
+          <li><a href="#method-i-parse_number">#parse_number</a></li>
+          
+          <li><a href="#method-i-parse_row">#parse_row</a></li>
+          
+          <li><a href="#method-i-parse_string">#parse_string</a></li>
+          
+          <li><a href="#method-i-parse_string_content">#parse_string_content</a></li>
+          
+          <li><a href="#method-i-parse_string_escape">#parse_string_escape</a></li>
+          
+          <li><a href="#method-i-parse_value">#parse_value</a></li>
+          
+        </ul>
+      </div>
+      
+
+      
+    </div>
+
+    <div id="project-metadata">
+      
+      
+      <div id="fileindex-section" class="section project-section">
+        <h3 class="section-header">Files</h3>
+        <ul>
+        
+          <li class="file"><a href="../../../COPYING.html">COPYING</a></li>
+        
+          <li class="file"><a href="../../../ChangeLog.html">ChangeLog</a></li>
+        
+          <li class="file"><a href="../../../README.html">README</a></li>
+        
+        </ul>
+      </div>
+      
+
+      <div id="classindex-section" class="section project-section">
+        <h3 class="section-header">Class/Module Index
+          <span class="search-toggle"><img src="../../../images/find.png"
+            height="16" width="16" alt="[+]"
+            title="show/hide quicksearch" /></span></h3>
+        <form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+        <fieldset>
+          <legend>Quicksearch</legend>
+          <input type="text" name="quicksearch" value=""
+            class="quicksearch-field" />
+        </fieldset>
+        </form>
+
+        <ul class="link-list">
+        
+          <li><a href="../../../Athena.html">Athena</a></li>
+        
+          <li><a href="../../../Athena/Formats.html">Athena::Formats</a></li>
+        
+          <li><a href="../../../Athena/Formats/Base.html">Athena::Formats::Base</a></li>
+        
+          <li><a href="../../../Athena/Formats/DBM.html">Athena::Formats::DBM</a></li>
+        
+          <li><a href="../../../Athena/Formats/DirectionMismatchError.html">Athena::Formats::DirectionMismatchError</a></li>
+        
+          <li><a href="../../../Athena/Formats/DuplicateFormatDefinitionError.html">Athena::Formats::DuplicateFormatDefinitionError</a></li>
+        
+          <li><a href="../../../Athena/Formats/Ferret.html">Athena::Formats::Ferret</a></li>
+        
+          <li><a href="../../../Athena/Formats/FormatError.html">Athena::Formats::FormatError</a></li>
+        
+          <li><a href="../../../Athena/Formats/IllegalRecordElementError.html">Athena::Formats::IllegalRecordElementError</a></li>
+        
+          <li><a href="../../../Athena/Formats/Lingo.html">Athena::Formats::Lingo</a></li>
+        
+          <li><a href="../../../Athena/Formats/MYSQL.html">Athena::Formats::MYSQL</a></li>
+        
+          <li><a href="../../../Athena/Formats/MYSQL/SQLParser.html">Athena::Formats::MYSQL::SQLParser</a></li>
+        
+          <li><a href="../../../Athena/Formats/MYSQL.html">Athena::Formats::MySQL</a></li>
+        
+          <li><a href="../../../Athena/Formats/NoRecordElementError.html">Athena::Formats::NoRecordElementError</a></li>
+        
+          <li><a href="../../../Athena/Formats/PGSQL.html">Athena::Formats::PGSQL</a></li>
+        
+          <li><a href="../../../Athena/Formats/PGSQL.html">Athena::Formats::PgSQL</a></li>
+        
+          <li><a href="../../../Athena/Formats/Sisis.html">Athena::Formats::Sisis</a></li>
+        
+          <li><a href="../../../Athena/Formats/XML.html">Athena::Formats::XML</a></li>
+        
+          <li><a href="../../../Athena/Formats/XML/BaseSpec.html">Athena::Formats::XML::BaseSpec</a></li>
+        
+          <li><a href="../../../Athena/Formats/XML/ElementSpec.html">Athena::Formats::XML::ElementSpec</a></li>
+        
+          <li><a href="../../../Athena/Formats/XML/RecordSpec.html">Athena::Formats::XML::RecordSpec</a></li>
+        
+          <li><a href="../../../Athena/Formats/XML/SubElementSpec.html">Athena::Formats::XML::SubElementSpec</a></li>
+        
+          <li><a href="../../../Athena/Parser.html">Athena::Parser</a></li>
+        
+          <li><a href="../../../Athena/Parser/ConfigError.html">Athena::Parser::ConfigError</a></li>
+        
+          <li><a href="../../../Athena/Record.html">Athena::Record</a></li>
+        
+          <li><a href="../../../Athena/Record/NoRecordError.html">Athena::Record::NoRecordError</a></li>
+        
+          <li><a href="../../../Athena/Util.html">Athena::Util</a></li>
+        
+          <li><a href="../../../Athena/Version.html">Athena::Version</a></li>
+        
+        </ul>
+        <div id="no-class-search-results" style="display: none;">No matching classes.</div>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <div id="documentation">
+    <h1 class="class">Athena::Formats::MYSQL::SQLParser</h1>
+
+    <div id="description" class="description">
+      
+    </div><!-- description -->
+
+    
+    <div id="5Buntitled-5D" class="documentation-section">
+      
+
+      
+
+      
+      <!-- Constants -->
+      <div id="constants-list" class="section">
+        <h3 class="section-header">Constants</h3>
+        <dl>
+        
+          <dt><a name="AST">AST</a></dt>
+          
+          <dd class="description"></dd>
+          
+        
+        </dl>
+      </div>
+      
+
+      
+
+      <!-- Methods -->
+      
+      <div id="public-class-method-details" class="method-section section">
+        <h3 class="section-header">Public Class Methods</h3>
+
+      
+        <div id="parse-method" class="method-detail ">
+          <a name="method-c-parse"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">parse</span><span
+              class="method-args">(input)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="parse-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 95</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">input</span>)
+  <span class="ruby-identifier">new</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">input</span>)
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- parse-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- parse-method -->
+
+      
+      </div><!-- public-class-method-details -->
+    
+      <div id="public-instance-method-details" class="method-section section">
+        <h3 class="section-header">Public Instance Methods</h3>
+
+      
+        <div id="parse-method" class="method-detail ">
+          <a name="method-i-parse"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">parse</span><span
+              class="method-args">(input)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="parse-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 99</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">input</span>)
+  <span class="ruby-ivar">@input</span> = <span class="ruby-constant">StringScanner</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">input</span>)
+
+  <span class="ruby-identifier">rows</span>, <span class="ruby-identifier">block_given</span> = [], <span class="ruby-identifier">block_given?</span>
+
+  <span class="ruby-keyword">while</span> <span class="ruby-identifier">result</span> = <span class="ruby-identifier">parse_row</span>
+    <span class="ruby-identifier">row</span> = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">value</span>
+    <span class="ruby-identifier">block_given</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">row</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">rows</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">row</span>
+    <span class="ruby-keyword">break</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/,/</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/;/</span>)  <span class="ruby-comment"># optional</span>
+
+  <span class="ruby-identifier">error</span>(<span class="ruby-string">'Unexpected data'</span>) <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">eos?</span>
+
+  <span class="ruby-identifier">rows</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">block_given</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- parse-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- parse-method -->
+
+      
+      </div><!-- public-instance-method-details -->
+    
+      <div id="private-instance-method-details" class="method-section section">
+        <h3 class="section-header">Private Instance Methods</h3>
+
+      
+        <div id="error-method" class="method-detail ">
+          <a name="method-i-error"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">error</span><span
+              class="method-args">(message)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="error-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 178</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">error</span>(<span class="ruby-identifier">message</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">eos?</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unexpected end of input (#{message}).&quot;</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;#{message} at #{@input.pos}: #{@input.peek(8).inspect}&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- error-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- error-method -->
+
+      
+        <div id="parse_keyword-method" class="method-detail ">
+          <a name="method-i-parse_keyword"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">parse_keyword</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="parse_keyword-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 172</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse_keyword</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/null/</span>)
+    <span class="ruby-constant">AST</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- parse_keyword-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- parse_keyword-method -->
+
+      
+        <div id="parse_number-method" class="method-detail ">
+          <a name="method-i-parse_number"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">parse_number</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="parse_number-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 166</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse_number</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/</span>)
+    <span class="ruby-constant">AST</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">eval</span>(<span class="ruby-ivar">@input</span>.<span class="ruby-identifier">matched</span>))
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- parse_number-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- parse_number-method -->
+
+      
+        <div id="parse_row-method" class="method-detail ">
+          <a name="method-i-parse_row"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">parse_row</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="parse_row-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 119</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse_row</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/\(/</span>)
+
+  <span class="ruby-identifier">row</span> = []
+
+  <span class="ruby-keyword">while</span> <span class="ruby-identifier">result</span> = <span class="ruby-identifier">parse_value</span>
+    <span class="ruby-identifier">row</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">value</span>
+    <span class="ruby-keyword">break</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/,/</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">error</span>(<span class="ruby-string">'Unclosed row'</span>) <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/\)/</span>)
+
+  <span class="ruby-constant">AST</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">row</span>)
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- parse_row-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- parse_row-method -->
+
+      
+        <div id="parse_string-method" class="method-detail ">
+          <a name="method-i-parse_string"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">parse_string</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="parse_string-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 140</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse_string</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/'/</span>)
+
+  <span class="ruby-identifier">string</span> = <span class="ruby-string">''</span>
+
+  <span class="ruby-keyword">while</span> <span class="ruby-identifier">contents</span> = <span class="ruby-identifier">parse_string_content</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">parse_string_escape</span>
+    <span class="ruby-identifier">string</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">contents</span>.<span class="ruby-identifier">value</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">error</span>(<span class="ruby-string">'Unclosed string'</span>) <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/'/</span>)
+
+  <span class="ruby-constant">AST</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">string</span>)
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- parse_string-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- parse_string-method -->
+
+      
+        <div id="parse_string_content-method" class="method-detail ">
+          <a name="method-i-parse_string_content"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">parse_string_content</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="parse_string_content-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 154</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse_string_content</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/[^\\']+/</span>)
+    <span class="ruby-constant">AST</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@input</span>.<span class="ruby-identifier">matched</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- parse_string_content-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- parse_string_content-method -->
+
+      
+        <div id="parse_string_escape-method" class="method-detail ">
+          <a name="method-i-parse_string_escape"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">parse_string_escape</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="parse_string_escape-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 160</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse_string_escape</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/\\['\\]|''/</span>)
+    <span class="ruby-constant">AST</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@input</span>.<span class="ruby-identifier">matched</span>[<span class="ruby-value">-1</span>, <span class="ruby-value">1</span>])
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- parse_string_escape-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- parse_string_escape-method -->
+
+      
+        <div id="parse_value-method" class="method-detail ">
+          <a name="method-i-parse_value"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">parse_value</span><span
+              class="method-args">()</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            
+            
+
+            
+            <div class="method-source-code" id="parse_value-source">
+<pre>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 134</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse_value</span>
+  <span class="ruby-identifier">parse_string</span> <span class="ruby-operator">||</span>
+  <span class="ruby-identifier">parse_number</span> <span class="ruby-operator">||</span>
+  <span class="ruby-identifier">parse_keyword</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- parse_value-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- parse_value-method -->
+
+      
+      </div><!-- private-instance-method-details -->
+    
+    </div><!-- 5Buntitled-5D -->
+  
+
+  </div><!-- documentation -->
+
+  <div id="validator-badges">
+    <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+    <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+      Rdoc Generator</a> 2</small>.</p>
+  </div>
+
+</body>
+</html>
+

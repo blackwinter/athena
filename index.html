@@ -6,7 +6,7 @@
 <head>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 
-  <title>athena Application documentation (v0.1.4)</title>
+  <title>athena Application documentation (v0.1.5)</title>
 
   <link type="text/css" media="screen" href="rdoc.css" rel="stylesheet" />
 
@@ -19,7 +19,7 @@
 <body class="indexpage">
 
   
-  <h1>athena Application documentation (v0.1.4)</h1>
+  <h1>athena Application documentation (v0.1.5)</h1>
 
   
   <div id="main">
@@ -27,7 +27,7 @@
 
 <h2>VERSION</h2>
 
-<p>This documentation refers to athena version 0.1.4</p>
+<p>This documentation refers to athena version 0.1.5</p>
 
 <h2>DESCRIPTION</h2>
 
@@ -115,7 +115,17 @@ href="http://www.gnu.org/licenses/">www.gnu.org/licenses/</a>&gt;.</p>
     
     <li class="class"><a href="Athena/Formats/Lingo.html">Athena::Formats::Lingo</a></li>
     
+    <li class="class"><a href="Athena/Formats/MYSQL.html">Athena::Formats::MYSQL</a></li>
+    
+    <li class="class"><a href="Athena/Formats/MYSQL/SQLParser.html">Athena::Formats::MYSQL::SQLParser</a></li>
+    
+    <li class="class"><a href="Athena/Formats/MYSQL.html">Athena::Formats::MySQL</a></li>
+    
     <li class="class"><a href="Athena/Formats/NoRecordElementError.html">Athena::Formats::NoRecordElementError</a></li>
+    
+    <li class="class"><a href="Athena/Formats/PGSQL.html">Athena::Formats::PGSQL</a></li>
+    
+    <li class="class"><a href="Athena/Formats/PGSQL.html">Athena::Formats::PgSQL</a></li>
     
     <li class="class"><a href="Athena/Formats/Sisis.html">Athena::Formats::Sisis</a></li>
     
@@ -152,21 +162,31 @@ href="http://www.gnu.org/licenses/">www.gnu.org/licenses/</a>&gt;.</p>
     
       <li><a href="Athena/Formats/Base.html#method-c-formats">::formats &mdash; Athena::Formats::Base</a></li>
     
-      <li><a href="Athena/Formats/XML/RecordSpec.html#method-c-new">::new &mdash; Athena::Formats::XML::RecordSpec</a></li>
-    
-      <li><a href="Athena/Record.html#method-c-new">::new &mdash; Athena::Record</a></li>
-    
-      <li><a href="Athena/Formats/XML/ElementSpec.html#method-c-new">::new &mdash; Athena::Formats::XML::ElementSpec</a></li>
-    
-      <li><a href="Athena/Formats/Sisis.html#method-c-new">::new &mdash; Athena::Formats::Sisis</a></li>
-    
-      <li><a href="Athena/Parser.html#method-c-new">::new &mdash; Athena::Parser</a></li>
+      <li><a href="Athena/Formats/MYSQL.html#method-c-new">::new &mdash; Athena::Formats::MYSQL</a></li>
     
       <li><a href="Athena/Formats/Ferret.html#method-c-new">::new &mdash; Athena::Formats::Ferret</a></li>
     
-      <li><a href="Athena/Formats/XML/SubElementSpec.html#method-c-new">::new &mdash; Athena::Formats::XML::SubElementSpec</a></li>
+      <li><a href="Athena/Formats/XML/RecordSpec.html#method-c-new">::new &mdash; Athena::Formats::XML::RecordSpec</a></li>
+    
+      <li><a href="Athena/Formats/Sisis.html#method-c-new">::new &mdash; Athena::Formats::Sisis</a></li>
+    
+      <li><a href="Athena/Formats/MYSQL.html#method-c-new">::new &mdash; Athena::Formats::MYSQL</a></li>
+    
+      <li><a href="Athena/Record.html#method-c-new">::new &mdash; Athena::Record</a></li>
+    
+      <li><a href="Athena/Parser.html#method-c-new">::new &mdash; Athena::Parser</a></li>
+    
+      <li><a href="Athena/Formats/PGSQL.html#method-c-new">::new &mdash; Athena::Formats::PGSQL</a></li>
+    
+      <li><a href="Athena/Formats/PGSQL.html#method-c-new">::new &mdash; Athena::Formats::PGSQL</a></li>
     
       <li><a href="Athena/Formats/XML.html#method-c-new">::new &mdash; Athena::Formats::XML</a></li>
+    
+      <li><a href="Athena/Formats/XML/SubElementSpec.html#method-c-new">::new &mdash; Athena::Formats::XML::SubElementSpec</a></li>
+    
+      <li><a href="Athena/Formats/XML/ElementSpec.html#method-c-new">::new &mdash; Athena::Formats::XML::ElementSpec</a></li>
+    
+      <li><a href="Athena/Formats/MYSQL/SQLParser.html#method-c-parse">::parse &mdash; Athena::Formats::MYSQL::SQLParser</a></li>
     
       <li><a href="Athena/Record.html#method-c-records">::records &mdash; Athena::Record</a></li>
     
@@ -190,27 +210,29 @@ href="http://www.gnu.org/licenses/">www.gnu.org/licenses/</a>&gt;.</p>
     
       <li><a href="Athena/Record.html#method-i-close">#close &mdash; Athena::Record</a></li>
     
-      <li><a href="Athena/Formats/Base.html#method-i-convert">#convert &mdash; Athena::Formats::Base</a></li>
-    
-      <li><a href="Athena/Formats/DBM.html#method-i-convert">#convert &mdash; Athena::Formats::DBM</a></li>
-    
       <li><a href="Athena/Formats/XML.html#method-i-convert">#convert &mdash; Athena::Formats::XML</a></li>
     
       <li><a href="Athena/Formats/Lingo.html#method-i-convert">#convert &mdash; Athena::Formats::Lingo</a></li>
     
-      <li><a href="Athena/Formats/Lingo.html#method-i-deferred-3F">#deferred? &mdash; Athena::Formats::Lingo</a></li>
+      <li><a href="Athena/Formats/DBM.html#method-i-convert">#convert &mdash; Athena::Formats::DBM</a></li>
+    
+      <li><a href="Athena/Formats/Base.html#method-i-convert">#convert &mdash; Athena::Formats::Base</a></li>
     
       <li><a href="Athena/Formats/Base.html#method-i-deferred-3F">#deferred? &mdash; Athena::Formats::Base</a></li>
+    
+      <li><a href="Athena/Formats/Lingo.html#method-i-deferred-3F">#deferred? &mdash; Athena::Formats::Lingo</a></li>
     
       <li><a href="Athena.html#method-i-deferred_output-3F">#deferred_output? &mdash; Athena</a></li>
     
       <li><a href="Athena/Formats/XML.html#method-i-define_spec">#define_spec &mdash; Athena::Formats::XML</a></li>
     
-      <li><a href="Athena/Formats/XML/RecordSpec.html#method-i-done">#done &mdash; Athena::Formats::XML::RecordSpec</a></li>
-    
       <li><a href="Athena/Formats/XML/BaseSpec.html#method-i-done">#done &mdash; Athena::Formats::XML::BaseSpec</a></li>
     
+      <li><a href="Athena/Formats/XML/RecordSpec.html#method-i-done">#done &mdash; Athena::Formats::XML::RecordSpec</a></li>
+    
       <li><a href="Athena/Formats/XML/BaseSpec.html#method-i-empty">#empty &mdash; Athena::Formats::XML::BaseSpec</a></li>
+    
+      <li><a href="Athena/Formats/MYSQL/SQLParser.html#method-i-error">#error &mdash; Athena::Formats::MYSQL::SQLParser</a></li>
     
       <li><a href="Athena/Record.html#method-i-fill">#fill &mdash; Athena::Record</a></li>
     
@@ -228,31 +250,55 @@ href="http://www.gnu.org/licenses/">www.gnu.org/licenses/</a>&gt;.</p>
     
       <li><a href="Athena.html#method-i-output_formats">#output_formats &mdash; Athena</a></li>
     
-      <li><a href="Athena/Formats/Ferret.html#method-i-parse">#parse &mdash; Athena::Formats::Ferret</a></li>
+      <li><a href="Athena/Formats/Sisis.html#method-i-parse">#parse &mdash; Athena::Formats::Sisis</a></li>
     
       <li><a href="Athena/Formats/Base.html#method-i-parse">#parse &mdash; Athena::Formats::Base</a></li>
     
-      <li><a href="Athena/Formats/Sisis.html#method-i-parse">#parse &mdash; Athena::Formats::Sisis</a></li>
-    
-      <li><a href="Athena/Formats/XML.html#method-i-parse">#parse &mdash; Athena::Formats::XML</a></li>
+      <li><a href="Athena/Formats/PGSQL.html#method-i-parse">#parse &mdash; Athena::Formats::PGSQL</a></li>
     
       <li><a href="Athena/Parser.html#method-i-parse">#parse &mdash; Athena::Parser</a></li>
     
+      <li><a href="Athena/Formats/MYSQL.html#method-i-parse">#parse &mdash; Athena::Formats::MYSQL</a></li>
+    
+      <li><a href="Athena/Formats/MYSQL.html#method-i-parse">#parse &mdash; Athena::Formats::MYSQL</a></li>
+    
+      <li><a href="Athena/Formats/Ferret.html#method-i-parse">#parse &mdash; Athena::Formats::Ferret</a></li>
+    
+      <li><a href="Athena/Formats/PGSQL.html#method-i-parse">#parse &mdash; Athena::Formats::PGSQL</a></li>
+    
+      <li><a href="Athena/Formats/XML.html#method-i-parse">#parse &mdash; Athena::Formats::XML</a></li>
+    
+      <li><a href="Athena/Formats/MYSQL/SQLParser.html#method-i-parse">#parse &mdash; Athena::Formats::MYSQL::SQLParser</a></li>
+    
+      <li><a href="Athena/Formats/MYSQL/SQLParser.html#method-i-parse_keyword">#parse_keyword &mdash; Athena::Formats::MYSQL::SQLParser</a></li>
+    
+      <li><a href="Athena/Formats/MYSQL/SQLParser.html#method-i-parse_number">#parse_number &mdash; Athena::Formats::MYSQL::SQLParser</a></li>
+    
+      <li><a href="Athena/Formats/MYSQL/SQLParser.html#method-i-parse_row">#parse_row &mdash; Athena::Formats::MYSQL::SQLParser</a></li>
+    
+      <li><a href="Athena/Formats/MYSQL/SQLParser.html#method-i-parse_string">#parse_string &mdash; Athena::Formats::MYSQL::SQLParser</a></li>
+    
+      <li><a href="Athena/Formats/MYSQL/SQLParser.html#method-i-parse_string_content">#parse_string_content &mdash; Athena::Formats::MYSQL::SQLParser</a></li>
+    
+      <li><a href="Athena/Formats/MYSQL/SQLParser.html#method-i-parse_string_escape">#parse_string_escape &mdash; Athena::Formats::MYSQL::SQLParser</a></li>
+    
+      <li><a href="Athena/Formats/MYSQL/SQLParser.html#method-i-parse_value">#parse_value &mdash; Athena::Formats::MYSQL::SQLParser</a></li>
+    
       <li><a href="Athena.html#method-i-parser">#parser &mdash; Athena</a></li>
     
-      <li><a href="Athena/Formats/XML.html#method-i-raw-3F">#raw? &mdash; Athena::Formats::XML</a></li>
-    
       <li><a href="Athena/Formats/Base.html#method-i-raw-3F">#raw? &mdash; Athena::Formats::Base</a></li>
+    
+      <li><a href="Athena/Formats/XML.html#method-i-raw-3F">#raw? &mdash; Athena::Formats::XML</a></li>
     
       <li><a href="Athena.html#method-i-raw_output-3F">#raw_output? &mdash; Athena</a></li>
     
       <li><a href="Athena/Formats/XML.html#method-i-setup_specs">#setup_specs &mdash; Athena::Formats::XML</a></li>
     
-      <li><a href="Athena/Formats/XML/ElementSpec.html#method-i-start">#start &mdash; Athena::Formats::XML::ElementSpec</a></li>
-    
       <li><a href="Athena/Formats/XML/RecordSpec.html#method-i-start">#start &mdash; Athena::Formats::XML::RecordSpec</a></li>
     
       <li><a href="Athena/Formats/XML/BaseSpec.html#method-i-start">#start &mdash; Athena::Formats::XML::BaseSpec</a></li>
+    
+      <li><a href="Athena/Formats/XML/ElementSpec.html#method-i-start">#start &mdash; Athena::Formats::XML::ElementSpec</a></li>
     
       <li><a href="Athena/Formats/XML/BaseSpec.html#method-i-step">#step &mdash; Athena::Formats::XML::BaseSpec</a></li>
     
