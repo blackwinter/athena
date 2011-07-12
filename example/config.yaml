@@ -70,3 +70,12 @@
       - "0370"
       - "0100"
     :string: "ort2sb=%s (HSTZusatz=%s [Untertitstab=%s] / VerfAnsetz=%s)"
+:dump-my:
+  :object:    [ObjID, Bla, Blub]
+  :fooobject: [ObjID, attr1ID, attr3ID, Foo]
+  :barobject: [ObjID, attr4ID, Bar]
+  :attr1:     [ObjID, attr1ID, Val]
+  :attr2:     [ObjID, attr2ID, Val]
+  :attr3:     [attr3ID, Val]
+  :attr4:     [attr4ID, Val]
+:dump-pg:
