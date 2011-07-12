@@ -2,21 +2,21 @@
 
 Gem::Specification.new do |s|
   s.name = %q{athena}
-  s.version = "0.1.4"
+  s.version = "0.1.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Jens Wille"]
-  s.date = %q{2011-04-29}
+  s.authors = [%q{Jens Wille}]
+  s.date = %q{2011-07-12}
   s.description = %q{Convert database files to various formats.}
   s.email = %q{jens.wille@uni-koeln.de}
-  s.executables = ["athena"]
-  s.extra_rdoc_files = ["README", "COPYING", "ChangeLog"]
-  s.files = ["lib/athena/util.rb", "lib/athena/record.rb", "lib/athena/formats/xml.rb", "lib/athena/formats/lingo.rb", "lib/athena/formats/ferret.rb", "lib/athena/formats/dbm.rb", "lib/athena/formats/sisis.rb", "lib/athena/version.rb", "lib/athena/parser.rb", "lib/athena/formats.rb", "lib/athena.rb", "bin/athena", "README", "ChangeLog", "Rakefile", "COPYING", "example/config.yaml", "example/example.xml", "example/sisis-ex.txt"]
+  s.executables = [%q{athena}]
+  s.extra_rdoc_files = [%q{README}, %q{COPYING}, %q{ChangeLog}]
+  s.files = [%q{lib/athena/util.rb}, %q{lib/athena/record.rb}, %q{lib/athena/formats/xml.rb}, %q{lib/athena/formats/lingo.rb}, %q{lib/athena/formats/ferret.rb}, %q{lib/athena/formats/dbm.rb}, %q{lib/athena/formats/sql.rb}, %q{lib/athena/formats/sisis.rb}, %q{lib/athena/version.rb}, %q{lib/athena/parser.rb}, %q{lib/athena/formats.rb}, %q{lib/athena.rb}, %q{bin/athena}, %q{README}, %q{ChangeLog}, %q{Rakefile}, %q{COPYING}, %q{example/dump-my.sql}, %q{example/config.yaml}, %q{example/dump-pg.sql}, %q{example/example.xml}, %q{example/sisis-ex.txt}]
   s.homepage = %q{http://prometheus.rubyforge.org/athena}
-  s.rdoc_options = ["--line-numbers", "--main", "README", "--charset", "UTF-8", "--all", "--title", "athena Application documentation (v0.1.4)"]
-  s.require_paths = ["lib"]
+  s.rdoc_options = [%q{--charset}, %q{UTF-8}, %q{--title}, %q{athena Application documentation (v0.1.5)}, %q{--main}, %q{README}, %q{--line-numbers}, %q{--all}]
+  s.require_paths = [%q{lib}]
   s.rubyforge_project = %q{prometheus}
-  s.rubygems_version = %q{1.7.2}
+  s.rubygems_version = %q{1.8.5}
   s.summary = %q{Convert database files to various formats.}
 
   if s.respond_to? :specification_version then
