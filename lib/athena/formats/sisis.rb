@@ -35,12 +35,12 @@ module Athena
 
     register_format :in do
 
-      attr_reader :record_element, :config, :parser
+      attr_reader :record_element, :config
 
       def initialize(parser)
-        config = parser.config.dup
+        @config = parser.config.dup
 
-        case @record_element = config.delete(:__record_element)
+        case @record_element = @config.delete(:__record_element)
           when String
             # fine!
           when nil
@@ -48,9 +48,6 @@ module Athena
           else
             raise IllegalRecordElementError, "illegal record element #{@record_element.inspect}"
         end
-
-        @config = config
-        @parser = parser
       end
 
     end
