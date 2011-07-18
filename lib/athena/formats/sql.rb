@@ -158,7 +158,9 @@ module Athena
       end
 
       def parse_string_escape
-        if @input.scan(/\\['\\]|''/)
+        if @input.scan(/\\[abtnvfr]/)
+          AST.new(eval(%Q{"#{@input.matched}"}))
+        elsif @input.scan(/\\.|''/)
           AST.new(@input.matched[-1, 1])
         end
       end
@@ -179,7 +181,7 @@ module Athena
         if @input.eos?
           raise "Unexpected end of input (#{message})."
         else
-          raise "#{message} at #{@input.pos}: #{@input.peek(8).inspect}"
+          raise "#{message} at #{$.}:#{@input.pos}: #{@input.peek(16).inspect}"
         end
       end
 
