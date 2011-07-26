@@ -3,8 +3,8 @@ module Athena
   module Version
 
     MAJOR = 0
-    MINOR = 1
-    TINY  = 5
+    MINOR = 2
+    TINY  = 0
 
     class << self
 
