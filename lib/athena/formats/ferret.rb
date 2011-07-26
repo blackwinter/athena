@@ -26,6 +26,8 @@
 ###############################################################################
 #++
 
+require 'athena'
+
 if ferret_version = ENV['FERRET_VERSION']
   require 'rubygems'
   gem 'ferret', ferret_version
@@ -37,8 +39,7 @@ rescue LoadError => err
   warn "ferret#{" #{ferret_version}" if ferret_version} not available (#{err})"
 end
 
-module Athena
-  module Formats
+module Athena::Formats
 
   class Ferret < Base
 
@@ -88,7 +89,7 @@ module Athena
         unless index.deleted?(i)
           doc = index[i]
 
-          Record.new(doc[record_element], block) { |record|
+          Athena::Record.new(doc[record_element], block) { |record|
             config.each { |element, field_config|
               record.update(element, doc[element], field_config)
             }
@@ -101,5 +102,4 @@ module Athena
 
   end
 
-  end
 end

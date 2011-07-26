@@ -35,16 +35,13 @@
 # instance method _convert_ supplied. This way, a specific format can even function
 # as both input and output format.
 
-module Athena
-end
-
-require 'athena/util'
-require 'athena/parser'
-require 'athena/record'
-require 'athena/formats'
 require 'athena/version'
 
 module Athena
+
+  autoload :Parser,  'athena/parser'
+  autoload :Record,  'athena/record'
+  autoload :Formats, 'athena/formats'
 
   extend self
 

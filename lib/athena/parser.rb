@@ -26,65 +26,65 @@
 ###############################################################################
 #++
 
+require 'athena'
+
 module Athena
+
   class Parser
 
-  include Util
+    DEFAULT_SEPARATOR = ', '
+    DEFAULT_EMPTY     = '<<EMPTY>>'
 
-  DEFAULT_SEPARATOR = ', '
-  DEFAULT_EMPTY     = '<<EMPTY>>'
+    attr_reader :config, :spec
 
-  attr_reader :config, :spec
+    def initialize(config, spec)
+      @config = build_config(config)
+      @spec   = Formats[:in, spec].new(self)
+    end
 
-  def initialize(config, spec)
-    @config = build_config(config)
-    @spec   = Formats[:in, spec].new(self)
-  end
+    def parse(source, &block)
+      res = spec.parse(source, &block)
+      res.is_a?(Numeric) ? res : Record.records
+    end
 
-  def parse(source, &block)
-    res = spec.parse(source, &block)
-    res.is_a?(Numeric) ? res : Record.records
-  end
+    private
 
-  private
+    def build_config(config)
+      hash = {}
 
-  def build_config(config)
-    hash = {}
+      config.each { |field, value|
+        if field.to_s =~ /\A__/
+          hash[field] = value
+        else
+          case value
+            when String, Array
+              elements, value = [*value], {}
+            when Hash
+              elements = value[:elements] || value[:element].to_a
 
-    config.each { |field, value|
-      if field.to_s =~ /\A__/
-        hash[field] = value
-      else
-        case value
-          when String, Array
-            elements, value = [*value], {}
-          when Hash
-            elements = value[:elements] || value[:element].to_a
+              raise ArgumentError, "no elements specified for field #{field}" unless elements.is_a?(Array)
+            else
+              raise ArgumentError, "illegal value for field #{field}"
+          end
 
-            raise ArgumentError, "no elements specified for field #{field}" unless elements.is_a?(Array)
-          else
-            raise ArgumentError, "illegal value for field #{field}"
-        end
+          separator = value[:separator] || DEFAULT_SEPARATOR
 
-        separator = value[:separator] || DEFAULT_SEPARATOR
-
-        elements.each { |element|
-          verbose(:config) { spit "#{field.to_s.upcase} -> #{element}" }
-
-          (hash[element] ||= {})[field] = {
-            :string   => value[:string] || ['%s'] * elements.size * separator,
-            :empty    => value[:empty]  || DEFAULT_EMPTY,
-            :elements => elements
+          elements.each { |element|
+            (hash[element] ||= {})[field] = {
+              :string   => value[:string] || ['%s'] * elements.size * separator,
+              :empty    => value[:empty]  || DEFAULT_EMPTY,
+              :elements => elements
+            }
           }
-        }
-      end
-    }
+        end
+      }
 
-    hash
+      hash
+    end
+
+    class ConfigError < StandardError
+    end
+
   end
 
-  class ConfigError < StandardError
-  end
-
-  end
 end

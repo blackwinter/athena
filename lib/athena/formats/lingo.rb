@@ -28,9 +28,9 @@
 
 require 'iconv'
 require 'enumerator'
+require 'athena'
 
-module Athena
-  module Formats
+module Athena::Formats
 
   class Lingo < Base
 
@@ -127,5 +127,4 @@ module Athena
 
   end
 
-  end
 end

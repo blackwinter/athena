@@ -26,8 +26,9 @@
 ###############################################################################
 #++
 
-module Athena
-  module Formats
+require 'athena'
+
+module Athena::Formats
 
   class Sisis < Base
 
@@ -60,7 +61,7 @@ module Athena
 
         if element == record_element
           record.close if record
-          record = Record.new(value, block)
+          record = Athena::Record.new(value, block)
           num += 1
         else
           record.update(element, value, config[element])
@@ -74,5 +75,4 @@ module Athena
 
   end
 
-  end
 end

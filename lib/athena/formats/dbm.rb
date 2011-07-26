@@ -27,9 +27,9 @@
 #++
 
 require 'iconv'
+require 'athena'
 
-module Athena
-  module Formats
+module Athena::Formats
 
   class DBM < Base
 
@@ -70,5 +70,4 @@ module Athena
 
   end
 
-  end
 end

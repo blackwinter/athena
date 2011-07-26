@@ -27,80 +27,74 @@
 #++
 
 require 'nuggets/integer/map'
+require 'athena'
 
 module Athena
+
   class Record
 
-  include Util
+    @records = []
 
-  @records = []
+    class << self
 
-  class << self
+      def records
+        @records
+      end
 
-    def records
-      @records
+      def [](field = nil, config = nil)
+        record = records.last
+        raise NoRecordError unless record
+
+        record.fill(field, config) if field && config
+        record
+      end
+
     end
 
-    def [](field = nil, config = nil)
-      record = records.last
-      raise NoRecordError unless record
+    attr_reader :struct, :block, :id
 
-      record.fill(field, config) if field && config
-      record
-    end
+    def initialize(id = nil, block = nil, add = !block)
+      @id     = id || object_id.map_positive
+      @block  = block
+      @struct = {}
 
-  end
+      add_record if add
 
-  attr_reader :struct, :block, :id
-
-  def initialize(id = nil, block = nil, add = !block)
-    @id     = id || object_id.map_positive
-    @block  = block
-    @struct = {}
-
-    add_record if add
-
-    if block_given?
-      begin
-        yield self
-      ensure
-        close
+      if block_given?
+        begin
+          yield self
+        ensure
+          close
+        end
       end
     end
-  end
 
-  def fill(field, config)
-    struct[field] ||= config.merge(:values => Hash.new { |h, k| h[k] = [] })
-  end
+    def fill(field, config)
+      struct[field] ||= config.merge(:values => Hash.new { |h, k| h[k] = [] })
+    end
 
-  def update(element, data, field_config = nil)
-    field_config.each { |field, config| fill(field, config) } if field_config
+    def update(element, data, field_config = nil)
+      field_config.each { |field, config| fill(field, config) } if field_config
+      struct.each_key { |field| struct[field][:values][element] << data }
+    end
 
-    struct.each_key { |field|
-      verbose(:data) {
-        spit "#{field.to_s.upcase}[#{element}] << #{data.strip}" unless data.strip.empty?
-      }
+    def close
+      block ? block[self] : self
+    end
 
-      struct[field][:values][element] << data
-    }
-  end
+    def to(format)
+      Formats[:out, format].convert(self)
+    end
 
-  def close
-    block ? block[self] : self
-  end
+    private
 
-  def to(format)
-    Formats[:out, format].convert(self)
-  end
+    def add_record
+      self.class.records << self
+    end
 
-  private
-
-  def add_record
-    self.class.records << self
-  end
-
-  class NoRecordError < StandardError
-  end
+    class NoRecordError < StandardError
+    end
 
   end
+
 end

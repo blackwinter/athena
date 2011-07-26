@@ -26,114 +26,121 @@
 ###############################################################################
 #++
 
+require 'athena'
+require 'athena/util'
+
 module Athena
+
   module Formats
 
-  CRLF    = %Q{\015\012}
-  CRLF_RE = %r{(?:\r?\n)+}
+    CRLF    = %Q{\015\012}
+    CRLF_RE = %r{(?:\r?\n)+}
 
-  def self.[](direction, format)
-    if direction == :out
-      if format.class < Base
-        if format.class.direction != direction
-          raise DirectionMismatchError,
-            "expected #{direction}, got #{format.class.direction}"
+    def self.[](direction, format)
+      if direction == :out
+        if format.class < Base
+          if format.class.direction != direction
+            raise DirectionMismatchError,
+              "expected #{direction}, got #{format.class.direction}"
+          else
+            format
+          end
         else
-          format
+          Base.formats[direction][format].new
         end
       else
-        Base.formats[direction][format].new
+        Base.formats[direction][format]
       end
-    else
-      Base.formats[direction][format]
     end
-  end
 
-  class Base
+    class Base
 
-    @formats = { :in => {}, :out => {} }
+      @formats = { :in => {}, :out => {} }
 
-    class << self
+      class << self
 
-      def formats
-        Base.instance_variable_get(:@formats)
-      end
-
-      def valid_format?(direction, format)
-        if format.class < Base
-          direction == format.class.direction
-        else
-          formats[direction].has_key?(format)
+        def formats
+          Base.instance_variable_get(:@formats)
         end
-      end
 
-      private
-
-      def register_format(direction, *aliases, &block)
-        format = name.split('::').last.
-          gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2').
-          gsub(/([a-z\d])([A-Z])/, '\1_\2').
-          downcase
-
-        register_format!(direction, format, *aliases, &block)
-      end
-
-      def register_format!(direction, format, *aliases, &block)
-        raise "must be a sub-class of #{Base}" unless self < Base
-
-        klass = Class.new(self, &block)
-
-        klass.instance_eval %Q{
-          def direction; #{direction.inspect}; end
-          def name; '#{format}::#{direction}'; end
-          def to_s; '#{format}'; end
-        }
-
-        [format, *aliases].each { |name|
-          if existing = formats[direction][name]
-            raise DuplicateFormatDefinitionError,
-              "format already defined (#{direction}): #{name}"
+        def valid_format?(direction, format)
+          if format.class < Base
+            direction == format.class.direction
           else
-            formats[direction][name] = klass
+            formats[direction].has_key?(format)
           end
-        }
+        end
+
+        private
+
+        def register_format(direction, *aliases, &block)
+          format = name.split('::').last.
+            gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2').
+            gsub(/([a-z\d])([A-Z])/, '\1_\2').
+            downcase
+
+          register_format!(direction, format, *aliases, &block)
+        end
+
+        def register_format!(direction, format, *aliases, &block)
+          raise "must be a sub-class of #{Base}" unless self < Base
+
+          klass = Class.new(self, &block)
+
+          klass.instance_eval %Q{
+            def direction; #{direction.inspect}; end
+            def name; '#{format}::#{direction}'; end
+            def to_s; '#{format}'; end
+          }
+
+          [format, *aliases].each { |name|
+            if existing = formats[direction][name]
+              raise DuplicateFormatDefinitionError,
+                "format already defined (#{direction}): #{name}"
+            else
+              formats[direction][name] = klass
+            end
+          }
+        end
+
+      end
+
+      def parse(*args)
+        raise NotImplementedError, 'must be defined by sub-class'
+      end
+
+      def convert(record)
+        raise NotImplementedError, 'must be defined by sub-class'
+      end
+
+      def wrap
+        yield self
+      end
+
+      def deferred?
+        false
+      end
+
+      def raw?
+        false
       end
 
     end
 
-    def parse(*args)
-      raise NotImplementedError, 'must be defined by sub-class'
-    end
+    class FormatError < StandardError; end
 
-    def convert(record)
-      raise NotImplementedError, 'must be defined by sub-class'
-    end
+    class DuplicateFormatDefinitionError < FormatError; end
+    class DirectionMismatchError         < FormatError; end
 
-    def wrap
-      yield self
-    end
+    ConfigError = Parser::ConfigError
 
-    def deferred?
-      false
-    end
-
-    def raw?
-      false
-    end
+    class NoRecordElementError      < ConfigError; end
+    class IllegalRecordElementError < ConfigError; end
 
   end
 
-  class FormatError < StandardError; end
-
-  class DuplicateFormatDefinitionError < FormatError; end
-  class DirectionMismatchError         < FormatError; end
-
-  ConfigError = Parser::ConfigError
-
-  class NoRecordElementError      < ConfigError; end
-  class IllegalRecordElementError < ConfigError; end
-
-  end
 end
 
-Dir[__FILE__.sub(/\.rb\z/, '/**/*.rb')].sort.each { |rb| require rb }
+Dir[__FILE__.sub(/\.rb\z/, '/**/*.rb')].sort.each { |rb|
+  require "athena/formats/#{File.basename(rb, '.rb')}"
+}

@@ -27,9 +27,9 @@
 #++
 
 require 'strscan'
+require 'athena'
 
-module Athena
-  module Formats
+module Athena::Formats
 
   class MYSQL < Base
 
@@ -68,7 +68,7 @@ module Athena
             next if _columns.empty?
 
             sql_parser.parse($2) { |row|
-              Record.new(nil, block) { |record|
+              Athena::Record.new(nil, block) { |record|
                 row.each_with_index { |value, index|
                   column = _columns[index] or next
 
@@ -223,7 +223,7 @@ module Athena
             cols = columns[table]
             next if cols.empty?
 
-            Record.new(nil, block) { |record|
+            Athena::Record.new(nil, block) { |record|
               line.split(/\t/).each_with_index { |value, index|
                 column = cols[index] or next
 
@@ -247,5 +247,4 @@ module Athena
   MySQL = MYSQL
   PgSQL = PGSQL
 
-  end
 end

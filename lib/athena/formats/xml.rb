@@ -27,17 +27,14 @@
 #++
 
 require 'forwardable'
-
 require 'builder'
 require 'xmlstreamin'
 require 'nuggets/hash/insert'
+require 'athena'
 
-module Athena
-  module Formats
+module Athena::Formats
 
   class XML < Base
-
-    include Util
 
     # <http://www.w3.org/TR/2006/REC-xml-20060816/#NT-Name>
     ELEMENT_START_RE    = %r{\A[a-zA-Z_:]}
@@ -104,11 +101,7 @@ module Athena
 
     def wrap(out = nil)
       res = nil
-
-      builder(:target => out).database {
-        res = super()
-      }
-
+      builder(:target => out).database { res = super() }
       res
     end
 
@@ -184,87 +177,42 @@ module Athena
         spec.default!(prev_spec)
       }
 
-      verbose(:spec, BaseSpec) { spec.inspect_spec }
-
       XMLStreamin::XMLStreamListener.new(spec)
     end
 
     def define_spec(element, field, config, arg)
       spec = ElementSpec.new(element, field, config)
-
-      case arg
-        when Hash then spec.specs!(arg)
-        else spec.default!(SubElementSpec.new(spec))
-      end
-
+      arg.is_a?(Hash) ? spec.specs!(arg) : spec.default!(SubElementSpec.new(spec))
       spec
     end
 
     def merge_specs(container, key, spec)
-      container.insert!(key => spec) { |_, s1, s2|
-        if s1.respond_to?(:specs!)
-          s1.specs!(s2.respond_to?(:specs) ? s2.specs : s2)
-          s1
+      container.insert!(key => spec) { |_, spec1, spec2|
+        if spec1.respond_to?(:specs!)
+          spec1.specs!(spec2.respond_to?(:specs) ? spec2.specs : spec2)
+          spec1
         else
-          s1.merge(s2)
+          spec1.merge(spec2)
         end
       }
     end
 
     class BaseSpec < XMLStreamin::XMLSpec
 
-      include Util
-
-      @level = 0
-
       def start(context, name, attrs)
-        verbose(:xml) {
-          spit "#{indent(level)}<#{name}>"; step :down
-          attrs.each { |attr| spit "#{indent(level + 1)}[#{attr[0]} = #{attr[1]}]" }
-        }
-
         context
       end
 
       def text(context, data)
-        verbose(:xml) { spit "#{indent(level)}#{data.strip}" unless data.strip.empty?  }
         context
       end
 
       def done(context, name)
-        verbose(:xml) { step :up; spit "#{indent(level)}</#{name}>" }
         context
       end
 
       def empty(context)
-        verbose(:xml) { step :up }
         context
-      end
-
-      def inspect_spec(element = nil, level = 0)
-        if respond_to?(:field)
-          msg = "#{indent(level)}[#{element}] #{field.to_s.upcase} -> #{name}"
-          respond_to?(:spit) ? spit(msg) : warn(msg)
-
-          inspect_specs(level + 1)
-        else
-          specs.empty? ? specs.default.inspect_spec('?', level) : inspect_specs(level)
-        end
-      end
-
-      private
-
-      def inspect_specs(level = 0)
-        specs.each { |element, spec| spec.inspect_spec(element, level) }
-      end
-
-      def level
-        BaseSpec.instance_variable_get(:@level)
-      end
-
-      def step(direction)
-        steps = { :down => 1, :up => -1 }
-        BaseSpec.instance_variable_set(:@level, level + steps[direction])
       end
 
     end
@@ -276,13 +224,12 @@ module Athena
 
       def initialize(&block)
         super()
-
         @block = block
       end
 
       def start(context, name, attrs)
         context = super
-        self.record = Record.new(nil, block, true)
+        self.record = Athena::Record.new(nil, block, true)
         context
       end
 
@@ -301,15 +248,12 @@ module Athena
 
       def initialize(name, field, config)
         super()
-
-        @name   = name
-        @field  = field
-        @config = config
+        @name, @field, @config = name, field, config
       end
 
       def start(context, name, attrs)
         context = super
-        self.record = Record[field, config]
+        self.record = Athena::Record[field, config]
         context
       end
 
@@ -330,9 +274,7 @@ module Athena
 
       def initialize(parent)
         super()
-
         @parent = parent
-
         default!(self)
       end
 
@@ -340,5 +282,4 @@ module Athena
 
   end
 
-  end
 end
