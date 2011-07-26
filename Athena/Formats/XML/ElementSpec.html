@@ -112,6 +112,8 @@
         
           <li><a href="../../../Athena.html">Athena</a></li>
         
+          <li><a href="../../../Athena/CLI.html">Athena::CLI</a></li>
+        
           <li><a href="../../../Athena/Formats.html">Athena::Formats</a></li>
         
           <li><a href="../../../Athena/Formats/Base.html">Athena::Formats::Base</a></li>
@@ -161,8 +163,6 @@
           <li><a href="../../../Athena/Record.html">Athena::Record</a></li>
         
           <li><a href="../../../Athena/Record/NoRecordError.html">Athena::Record::NoRecordError</a></li>
-        
-          <li><a href="../../../Athena/Util.html">Athena::Util</a></li>
         
           <li><a href="../../../Athena/Version.html">Athena::Version</a></li>
         
@@ -285,13 +285,10 @@
             
             <div class="method-source-code" id="new-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 302</span>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 249</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">field</span>, <span class="ruby-identifier">config</span>)
   <span class="ruby-keyword">super</span>()
-
-  <span class="ruby-ivar">@name</span>   = <span class="ruby-identifier">name</span>
-  <span class="ruby-ivar">@field</span>  = <span class="ruby-identifier">field</span>
-  <span class="ruby-ivar">@config</span> = <span class="ruby-identifier">config</span>
+  <span class="ruby-ivar">@name</span>, <span class="ruby-ivar">@field</span>, <span class="ruby-ivar">@config</span> = <span class="ruby-identifier">name</span>, <span class="ruby-identifier">field</span>, <span class="ruby-identifier">config</span>
 <span class="ruby-keyword">end</span></pre>
             </div><!-- new-source -->
             
@@ -328,10 +325,10 @@
             
             <div class="method-source-code" id="start-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 310</span>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 254</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">start</span>(<span class="ruby-identifier">context</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">attrs</span>)
   <span class="ruby-identifier">context</span> = <span class="ruby-keyword">super</span>
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">record</span> = <span class="ruby-constant">Record</span>[<span class="ruby-identifier">field</span>, <span class="ruby-identifier">config</span>]
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">record</span> = <span class="ruby-constant">Athena</span><span class="ruby-operator">::</span><span class="ruby-constant">Record</span>[<span class="ruby-identifier">field</span>, <span class="ruby-identifier">config</span>]
   <span class="ruby-identifier">context</span>
 <span class="ruby-keyword">end</span></pre>
             </div><!-- start-source -->
@@ -363,7 +360,7 @@
             
             <div class="method-source-code" id="text-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 316</span>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 260</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">text</span>(<span class="ruby-identifier">context</span>, <span class="ruby-identifier">data</span>)
   <span class="ruby-identifier">context</span> = <span class="ruby-keyword">super</span>
   <span class="ruby-identifier">record</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">data</span>)

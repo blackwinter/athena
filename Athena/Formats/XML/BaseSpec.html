@@ -69,15 +69,7 @@
           
           <li><a href="#method-i-empty">#empty</a></li>
           
-          <li><a href="#method-i-inspect_spec">#inspect_spec</a></li>
-          
-          <li><a href="#method-i-inspect_specs">#inspect_specs</a></li>
-          
-          <li><a href="#method-i-level">#level</a></li>
-          
           <li><a href="#method-i-start">#start</a></li>
-          
-          <li><a href="#method-i-step">#step</a></li>
           
           <li><a href="#method-i-text">#text</a></li>
           
@@ -85,18 +77,6 @@
       </div>
       
 
-      
-      <!-- Included Modules -->
-      <div id="includes-section" class="section">
-        <h3 class="section-header">Included Modules</h3>
-        <ul class="link-list">
-        
-        
-          <li><a class="include" href="../../Util.html">Athena::Util</a></li>
-        
-        
-        </ul>
-      </div>
       
     </div>
 
@@ -133,6 +113,8 @@
         <ul class="link-list">
         
           <li><a href="../../../Athena.html">Athena</a></li>
+        
+          <li><a href="../../../Athena/CLI.html">Athena::CLI</a></li>
         
           <li><a href="../../../Athena/Formats.html">Athena::Formats</a></li>
         
@@ -183,8 +165,6 @@
           <li><a href="../../../Athena/Record.html">Athena::Record</a></li>
         
           <li><a href="../../../Athena/Record/NoRecordError.html">Athena::Record::NoRecordError</a></li>
-        
-          <li><a href="../../../Athena/Util.html">Athena::Util</a></li>
         
           <li><a href="../../../Athena/Version.html">Athena::Version</a></li>
         
@@ -238,9 +218,8 @@
             
             <div class="method-source-code" id="done-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 234</span>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 210</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">done</span>(<span class="ruby-identifier">context</span>, <span class="ruby-identifier">name</span>)
-  <span class="ruby-identifier">verbose</span>(<span class="ruby-value">:xml</span>) { <span class="ruby-identifier">step</span> <span class="ruby-value">:up</span>; <span class="ruby-identifier">spit</span> <span class="ruby-node">&quot;#{indent(level)}&lt;/#{name}&gt;&quot;</span> }
   <span class="ruby-identifier">context</span>
 <span class="ruby-keyword">end</span></pre>
             </div><!-- done-source -->
@@ -272,9 +251,8 @@
             
             <div class="method-source-code" id="empty-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 239</span>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 214</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">empty</span>(<span class="ruby-identifier">context</span>)
-  <span class="ruby-identifier">verbose</span>(<span class="ruby-value">:xml</span>) { <span class="ruby-identifier">step</span> <span class="ruby-value">:up</span> }
   <span class="ruby-identifier">context</span>
 <span class="ruby-keyword">end</span></pre>
             </div><!-- empty-source -->
@@ -285,46 +263,6 @@
 
           
         </div><!-- empty-method -->
-
-      
-        <div id="inspect_spec-method" class="method-detail ">
-          <a name="method-i-inspect_spec"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">inspect_spec</span><span
-              class="method-args">(element = nil, level = 0)</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="inspect_spec-source">
-<pre>
-<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 244</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect_spec</span>(<span class="ruby-identifier">element</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">level</span> = <span class="ruby-value">0</span>)
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:field</span>)
-    <span class="ruby-identifier">msg</span> = <span class="ruby-node">&quot;#{indent(level)}[#{element}] #{field.to_s.upcase} -&gt; #{name}&quot;</span>
-    <span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:spit</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">spit</span>(<span class="ruby-identifier">msg</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">warn</span>(<span class="ruby-identifier">msg</span>)
-
-    <span class="ruby-identifier">inspect_specs</span>(<span class="ruby-identifier">level</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>)
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">specs</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">specs</span>.<span class="ruby-identifier">default</span>.<span class="ruby-identifier">inspect_spec</span>(<span class="ruby-string">'?'</span>, <span class="ruby-identifier">level</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">inspect_specs</span>(<span class="ruby-identifier">level</span>)
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
-            </div><!-- inspect_spec-source -->
-            
-          </div>
-
-          
-
-          
-        </div><!-- inspect_spec-method -->
 
       
         <div id="start-method" class="method-detail ">
@@ -346,13 +284,8 @@
             
             <div class="method-source-code" id="start-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 220</span>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 202</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">start</span>(<span class="ruby-identifier">context</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">attrs</span>)
-  <span class="ruby-identifier">verbose</span>(<span class="ruby-value">:xml</span>) {
-    <span class="ruby-identifier">spit</span> <span class="ruby-node">&quot;#{indent(level)}&lt;#{name}&gt;&quot;</span>; <span class="ruby-identifier">step</span> <span class="ruby-value">:down</span>
-    <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">attr</span><span class="ruby-operator">|</span> <span class="ruby-identifier">spit</span> <span class="ruby-node">&quot;#{indent(level + 1)}[#{attr[0]} = #{attr[1]}]&quot;</span> }
-  }
-
   <span class="ruby-identifier">context</span>
 <span class="ruby-keyword">end</span></pre>
             </div><!-- start-source -->
@@ -384,9 +317,8 @@
             
             <div class="method-source-code" id="text-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 229</span>
+<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 206</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">text</span>(<span class="ruby-identifier">context</span>, <span class="ruby-identifier">data</span>)
-  <span class="ruby-identifier">verbose</span>(<span class="ruby-value">:xml</span>) { <span class="ruby-identifier">spit</span> <span class="ruby-node">&quot;#{indent(level)}#{data.strip}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">strip</span>.<span class="ruby-identifier">empty?</span>  }
   <span class="ruby-identifier">context</span>
 <span class="ruby-keyword">end</span></pre>
             </div><!-- text-source -->
@@ -400,112 +332,6 @@
 
       
       </div><!-- public-instance-method-details -->
-    
-      <div id="private-instance-method-details" class="method-section section">
-        <h3 class="section-header">Private Instance Methods</h3>
-
-      
-        <div id="inspect_specs-method" class="method-detail ">
-          <a name="method-i-inspect_specs"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">inspect_specs</span><span
-              class="method-args">(level = 0)</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="inspect_specs-source">
-<pre>
-<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 257</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect_specs</span>(<span class="ruby-identifier">level</span> = <span class="ruby-value">0</span>)
-  <span class="ruby-identifier">specs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">element</span>, <span class="ruby-identifier">spec</span><span class="ruby-operator">|</span> <span class="ruby-identifier">spec</span>.<span class="ruby-identifier">inspect_spec</span>(<span class="ruby-identifier">element</span>, <span class="ruby-identifier">level</span>) }
-<span class="ruby-keyword">end</span></pre>
-            </div><!-- inspect_specs-source -->
-            
-          </div>
-
-          
-
-          
-        </div><!-- inspect_specs-method -->
-
-      
-        <div id="level-method" class="method-detail ">
-          <a name="method-i-level"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">level</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="level-source">
-<pre>
-<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 261</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">level</span>
-  <span class="ruby-constant">BaseSpec</span>.<span class="ruby-identifier">instance_variable_get</span>(<span class="ruby-value">:@level</span>)
-<span class="ruby-keyword">end</span></pre>
-            </div><!-- level-source -->
-            
-          </div>
-
-          
-
-          
-        </div><!-- level-method -->
-
-      
-        <div id="step-method" class="method-detail ">
-          <a name="method-i-step"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">step</span><span
-              class="method-args">(direction)</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="step-source">
-<pre>
-<span class="ruby-comment"># File lib/athena/formats/xml.rb, line 265</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">step</span>(<span class="ruby-identifier">direction</span>)
-  <span class="ruby-identifier">steps</span> = { <span class="ruby-value">:down</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>, <span class="ruby-value">:up</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">-1</span> }
-  <span class="ruby-constant">BaseSpec</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@level</span>, <span class="ruby-identifier">level</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">steps</span>[<span class="ruby-identifier">direction</span>])
-<span class="ruby-keyword">end</span></pre>
-            </div><!-- step-source -->
-            
-          </div>
-
-          
-
-          
-        </div><!-- step-method -->
-
-      
-      </div><!-- private-instance-method-details -->
     
     </div><!-- 5Buntitled-5D -->
   

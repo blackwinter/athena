@@ -110,6 +110,8 @@
         
           <li><a href="../../Athena.html">Athena</a></li>
         
+          <li><a href="../../Athena/CLI.html">Athena::CLI</a></li>
+        
           <li><a href="../../Athena/Formats.html">Athena::Formats</a></li>
         
           <li><a href="../../Athena/Formats/Base.html">Athena::Formats::Base</a></li>
@@ -159,8 +161,6 @@
           <li><a href="../../Athena/Record.html">Athena::Record</a></li>
         
           <li><a href="../../Athena/Record/NoRecordError.html">Athena::Record::NoRecordError</a></li>
-        
-          <li><a href="../../Athena/Util.html">Athena::Util</a></li>
         
           <li><a href="../../Athena/Version.html">Athena::Version</a></li>
         
@@ -214,7 +214,7 @@
             
             <div class="method-source-code" id="new-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/ferret.rb, line 49</span>
+<span class="ruby-comment"># File lib/athena/formats/ferret.rb, line 50</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">parser</span>)
   <span class="ruby-ivar">@config</span> = <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">dup</span>
 
@@ -262,7 +262,7 @@
             
             <div class="method-source-code" id="parse-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/ferret.rb, line 64</span>
+<span class="ruby-comment"># File lib/athena/formats/ferret.rb, line 65</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">source</span>, &amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">path</span> = <span class="ruby-identifier">source</span>.<span class="ruby-identifier">path</span>
 
@@ -290,7 +290,7 @@
     <span class="ruby-keyword">unless</span> <span class="ruby-identifier">index</span>.<span class="ruby-identifier">deleted?</span>(<span class="ruby-identifier">i</span>)
       <span class="ruby-identifier">doc</span> = <span class="ruby-identifier">index</span>[<span class="ruby-identifier">i</span>]
 
-      <span class="ruby-constant">Record</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">doc</span>[<span class="ruby-identifier">record_element</span>], <span class="ruby-identifier">block</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
+      <span class="ruby-constant">Athena</span><span class="ruby-operator">::</span><span class="ruby-constant">Record</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">doc</span>[<span class="ruby-identifier">record_element</span>], <span class="ruby-identifier">block</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
         <span class="ruby-identifier">config</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">element</span>, <span class="ruby-identifier">field_config</span><span class="ruby-operator">|</span>
           <span class="ruby-identifier">record</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">element</span>, <span class="ruby-identifier">doc</span>[<span class="ruby-identifier">element</span>], <span class="ruby-identifier">field_config</span>)
         }

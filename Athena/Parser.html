@@ -86,18 +86,6 @@
       
 
       
-      <!-- Included Modules -->
-      <div id="includes-section" class="section">
-        <h3 class="section-header">Included Modules</h3>
-        <ul class="link-list">
-        
-        
-          <li><a class="include" href="Util.html">Athena::Util</a></li>
-        
-        
-        </ul>
-      </div>
-      
     </div>
 
     <div id="project-metadata">
@@ -133,6 +121,8 @@
         <ul class="link-list">
         
           <li><a href="../Athena.html">Athena</a></li>
+        
+          <li><a href="../Athena/CLI.html">Athena::CLI</a></li>
         
           <li><a href="../Athena/Formats.html">Athena::Formats</a></li>
         
@@ -183,8 +173,6 @@
           <li><a href="../Athena/Record.html">Athena::Record</a></li>
         
           <li><a href="../Athena/Record/NoRecordError.html">Athena::Record::NoRecordError</a></li>
-        
-          <li><a href="../Athena/Util.html">Athena::Util</a></li>
         
           <li><a href="../Athena/Version.html">Athena::Version</a></li>
         
@@ -293,7 +281,7 @@
             
             <div class="method-source-code" id="new-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/parser.rb, line 39</span>
+<span class="ruby-comment"># File lib/athena/parser.rb, line 40</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">config</span>, <span class="ruby-identifier">spec</span>)
   <span class="ruby-ivar">@config</span> = <span class="ruby-identifier">build_config</span>(<span class="ruby-identifier">config</span>)
   <span class="ruby-ivar">@spec</span>   = <span class="ruby-constant">Formats</span>[<span class="ruby-value">:in</span>, <span class="ruby-identifier">spec</span>].<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>)
@@ -333,7 +321,7 @@
             
             <div class="method-source-code" id="parse-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/parser.rb, line 44</span>
+<span class="ruby-comment"># File lib/athena/parser.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">source</span>, &amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">res</span> = <span class="ruby-identifier">spec</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">source</span>, &amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">res</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Numeric</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">res</span> <span class="ruby-operator">:</span> <span class="ruby-constant">Record</span>.<span class="ruby-identifier">records</span>
@@ -373,7 +361,7 @@
             
             <div class="method-source-code" id="build_config-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/parser.rb, line 51</span>
+<span class="ruby-comment"># File lib/athena/parser.rb, line 52</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">build_config</span>(<span class="ruby-identifier">config</span>)
   <span class="ruby-identifier">hash</span> = {}
 
@@ -395,8 +383,6 @@
       <span class="ruby-identifier">separator</span> = <span class="ruby-identifier">value</span>[<span class="ruby-value">:separator</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULT_SEPARATOR</span>
 
       <span class="ruby-identifier">elements</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">element</span><span class="ruby-operator">|</span>
-        <span class="ruby-identifier">verbose</span>(<span class="ruby-value">:config</span>) { <span class="ruby-identifier">spit</span> <span class="ruby-node">&quot;#{field.to_s.upcase} -&gt; #{element}&quot;</span> }
-
         (<span class="ruby-identifier">hash</span>[<span class="ruby-identifier">element</span>] <span class="ruby-operator">||=</span> {})[<span class="ruby-identifier">field</span>] = {
           <span class="ruby-value">:string</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">value</span>[<span class="ruby-value">:string</span>] <span class="ruby-operator">||</span> [<span class="ruby-string">'%s'</span>] * <span class="ruby-identifier">elements</span>.<span class="ruby-identifier">size</span> * <span class="ruby-identifier">separator</span>,
           <span class="ruby-value">:empty</span>    =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">value</span>[<span class="ruby-value">:empty</span>]  <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULT_EMPTY</span>,

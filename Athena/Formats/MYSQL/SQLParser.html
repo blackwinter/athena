@@ -126,6 +126,8 @@
         
           <li><a href="../../../Athena.html">Athena</a></li>
         
+          <li><a href="../../../Athena/CLI.html">Athena::CLI</a></li>
+        
           <li><a href="../../../Athena/Formats.html">Athena::Formats</a></li>
         
           <li><a href="../../../Athena/Formats/Base.html">Athena::Formats::Base</a></li>
@@ -175,8 +177,6 @@
           <li><a href="../../../Athena/Record.html">Athena::Record</a></li>
         
           <li><a href="../../../Athena/Record/NoRecordError.html">Athena::Record::NoRecordError</a></li>
-        
-          <li><a href="../../../Athena/Util.html">Athena::Util</a></li>
         
           <li><a href="../../../Athena/Version.html">Athena::Version</a></li>
         
@@ -335,12 +335,12 @@
             
             <div class="method-source-code" id="error-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 178</span>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 180</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">error</span>(<span class="ruby-identifier">message</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">eos?</span>
     <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unexpected end of input (#{message}).&quot;</span>
   <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;#{message} at #{@input.pos}: #{@input.peek(8).inspect}&quot;</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;#{message} at #{$.}:#{@input.pos}: #{@input.peek(16).inspect}&quot;</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
             </div><!-- error-source -->
@@ -372,7 +372,7 @@
             
             <div class="method-source-code" id="parse_keyword-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 172</span>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 174</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse_keyword</span>
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/null/</span>)
     <span class="ruby-constant">AST</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">nil</span>)
@@ -407,7 +407,7 @@
             
             <div class="method-source-code" id="parse_number-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 166</span>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 168</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse_number</span>
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/</span>)
     <span class="ruby-constant">AST</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">eval</span>(<span class="ruby-ivar">@input</span>.<span class="ruby-identifier">matched</span>))
@@ -566,7 +566,9 @@
 <pre>
 <span class="ruby-comment"># File lib/athena/formats/sql.rb, line 160</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse_string_escape</span>
-  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/\\['\\]|''/</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/\\[abtnvfr]/</span>)
+    <span class="ruby-constant">AST</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">eval</span>(<span class="ruby-node">%{&quot;#{@input.matched}&quot;}</span>))
+  <span class="ruby-keyword">elsif</span> <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/\\.|''/</span>)
     <span class="ruby-constant">AST</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@input</span>.<span class="ruby-identifier">matched</span>[<span class="ruby-value">-1</span>, <span class="ruby-value">1</span>])
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>

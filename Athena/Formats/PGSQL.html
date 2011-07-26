@@ -110,6 +110,8 @@
         
           <li><a href="../../Athena.html">Athena</a></li>
         
+          <li><a href="../../Athena/CLI.html">Athena::CLI</a></li>
+        
           <li><a href="../../Athena/Formats.html">Athena::Formats</a></li>
         
           <li><a href="../../Athena/Formats/Base.html">Athena::Formats::Base</a></li>
@@ -159,8 +161,6 @@
           <li><a href="../../Athena/Record.html">Athena::Record</a></li>
         
           <li><a href="../../Athena/Record/NoRecordError.html">Athena::Record::NoRecordError</a></li>
-        
-          <li><a href="../../Athena/Util.html">Athena::Util</a></li>
         
           <li><a href="../../Athena/Version.html">Athena::Version</a></li>
         
@@ -214,7 +214,7 @@
             
             <div class="method-source-code" id="new-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 196</span>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 198</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">parser</span>)
   <span class="ruby-ivar">@config</span> = <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">dup</span>
 
@@ -260,7 +260,7 @@
             
             <div class="method-source-code" id="parse-source">
 <pre>
-<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 209</span>
+<span class="ruby-comment"># File lib/athena/formats/sql.rb, line 211</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">source</span>, &amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">columns</span>, <span class="ruby-identifier">table</span>, <span class="ruby-identifier">num</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">h</span>, <span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-identifier">h</span>[<span class="ruby-identifier">k</span>] = [] }, <span class="ruby-keyword">nil</span>, <span class="ruby-value">0</span>
 
@@ -276,7 +276,7 @@
         <span class="ruby-identifier">cols</span> = <span class="ruby-identifier">columns</span>[<span class="ruby-identifier">table</span>]
         <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">empty?</span>
 
-        <span class="ruby-constant">Record</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">block</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
+        <span class="ruby-constant">Athena</span><span class="ruby-operator">::</span><span class="ruby-constant">Record</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">block</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
           <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">/\t/</span>).<span class="ruby-identifier">each_with_index</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">value</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
             <span class="ruby-identifier">column</span> = <span class="ruby-identifier">cols</span>[<span class="ruby-identifier">index</span>] <span class="ruby-keyword">or</span> <span class="ruby-keyword">next</span>
 

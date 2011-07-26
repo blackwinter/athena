@@ -34,29 +34,11 @@
         <div class="section-body">
           <ul>
           
-            <li><a href="./lib/athena/util_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/util.rb">lib/athena/util.rb</a></li>
-          
             <li><a href="./lib/athena/record_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
               class="thickbox" title="lib/athena/record.rb">lib/athena/record.rb</a></li>
           
-            <li><a href="./lib/athena/formats/xml_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/formats/xml.rb">lib/athena/formats/xml.rb</a></li>
-          
-            <li><a href="./lib/athena/formats/lingo_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/formats/lingo.rb">lib/athena/formats/lingo.rb</a></li>
-          
-            <li><a href="./lib/athena/formats/ferret_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/formats/ferret.rb">lib/athena/formats/ferret.rb</a></li>
-          
-            <li><a href="./lib/athena/formats/dbm_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/formats/dbm.rb">lib/athena/formats/dbm.rb</a></li>
-          
-            <li><a href="./lib/athena/formats/sql_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/formats/sql.rb">lib/athena/formats/sql.rb</a></li>
-          
-            <li><a href="./lib/athena/formats/sisis_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/formats/sisis.rb">lib/athena/formats/sisis.rb</a></li>
+            <li><a href="./lib/athena/cli_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+              class="thickbox" title="lib/athena/cli.rb">lib/athena/cli.rb</a></li>
           
             <li><a href="./lib/athena/version_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
               class="thickbox" title="lib/athena/version.rb">lib/athena/version.rb</a></li>
@@ -90,9 +72,9 @@
           
           <li><span class="type">MODULE</span> <a href="Athena/Formats.html">Athena::Formats</a></li>
           
-          <li><span class="type">MODULE</span> <a href="Athena/Util.html">Athena::Util</a></li>
-          
           <li><span class="type">MODULE</span> <a href="Athena/Version.html">Athena::Version</a></li>
+          
+          <li><span class="type">CLASS</span> <a href="Athena/CLI.html">Athena::CLI</a></li>
           
           <li><span class="type">CLASS</span> <a href="Athena/Parser.html">Athena::Parser</a></li>
           
@@ -165,6 +147,8 @@
         
           <li><a href="./Athena.html">Athena</a></li>
         
+          <li><a href="./Athena/CLI.html">Athena::CLI</a></li>
+        
           <li><a href="./Athena/Formats.html">Athena::Formats</a></li>
         
           <li><a href="./Athena/Formats/Base.html">Athena::Formats::Base</a></li>
@@ -215,8 +199,6 @@
         
           <li><a href="./Athena/Record/NoRecordError.html">Athena::Record::NoRecordError</a></li>
         
-          <li><a href="./Athena/Util.html">Athena::Util</a></li>
-        
           <li><a href="./Athena/Version.html">Athena::Version</a></li>
         
         </ul>
@@ -232,16 +214,6 @@
 
     <div id="description" class="description">
       
-<p><a href="Athena.html">Athena</a> is a library to convert (mainly)
-prometheus database files to various output formats. It’s accompanied by
-a corresponding script that gives access to all its converting features.</p>
-
-<p>In order to support additional input and/or output formats, <a
-href="Athena/Formats/Base.html">Athena::Formats::Base</a> needs to be
-sub-classed and, respectively, an instance method <em>parse</em> or an
-instance method <em>convert</em> supplied. This way, a specific format can
-even function as both input and output format.</p>
-
     </div><!-- description -->
 
     
@@ -292,7 +264,7 @@ even function as both input and output format.</p>
             
             <div class="method-source-code" id="deferred_output-3F-source">
 <pre>
-<span class="ruby-comment"># File lib/athena.rb, line 71</span>
+<span class="ruby-comment"># File lib/athena.rb, line 68</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">deferred_output?</span>(<span class="ruby-identifier">format</span>)
   <span class="ruby-constant">Formats</span>[<span class="ruby-value">:out</span>, <span class="ruby-identifier">format</span>].<span class="ruby-identifier">deferred?</span>
 <span class="ruby-keyword">end</span></pre>
@@ -325,7 +297,7 @@ even function as both input and output format.</p>
             
             <div class="method-source-code" id="input_formats-source">
 <pre>
-<span class="ruby-comment"># File lib/athena.rb, line 55</span>
+<span class="ruby-comment"># File lib/athena.rb, line 52</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">input_formats</span>
   <span class="ruby-constant">Formats</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">formats</span>[<span class="ruby-value">:in</span>].<span class="ruby-identifier">sort</span>
 <span class="ruby-keyword">end</span></pre>
@@ -358,7 +330,7 @@ even function as both input and output format.</p>
             
             <div class="method-source-code" id="output_formats-source">
 <pre>
-<span class="ruby-comment"># File lib/athena.rb, line 63</span>
+<span class="ruby-comment"># File lib/athena.rb, line 60</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">output_formats</span>
   <span class="ruby-constant">Formats</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">formats</span>[<span class="ruby-value">:out</span>].<span class="ruby-identifier">sort</span>
 <span class="ruby-keyword">end</span></pre>
@@ -391,7 +363,7 @@ even function as both input and output format.</p>
             
             <div class="method-source-code" id="parser-source">
 <pre>
-<span class="ruby-comment"># File lib/athena.rb, line 51</span>
+<span class="ruby-comment"># File lib/athena.rb, line 48</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parser</span>(<span class="ruby-identifier">config</span>, <span class="ruby-identifier">format</span>)
   <span class="ruby-constant">Parser</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">config</span>, <span class="ruby-identifier">format</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -424,7 +396,7 @@ even function as both input and output format.</p>
             
             <div class="method-source-code" id="raw_output-3F-source">
 <pre>
-<span class="ruby-comment"># File lib/athena.rb, line 75</span>
+<span class="ruby-comment"># File lib/athena.rb, line 72</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">raw_output?</span>(<span class="ruby-identifier">format</span>)
   <span class="ruby-constant">Formats</span>[<span class="ruby-value">:out</span>, <span class="ruby-identifier">format</span>].<span class="ruby-identifier">raw?</span>
 <span class="ruby-keyword">end</span></pre>
@@ -457,7 +429,7 @@ even function as both input and output format.</p>
             
             <div class="method-source-code" id="valid_input_format-3F-source">
 <pre>
-<span class="ruby-comment"># File lib/athena.rb, line 59</span>
+<span class="ruby-comment"># File lib/athena.rb, line 56</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">valid_input_format?</span>(<span class="ruby-identifier">format</span>)
   <span class="ruby-constant">Formats</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">valid_format?</span>(<span class="ruby-value">:in</span>, <span class="ruby-identifier">format</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -490,7 +462,7 @@ even function as both input and output format.</p>
             
             <div class="method-source-code" id="valid_output_format-3F-source">
 <pre>
-<span class="ruby-comment"># File lib/athena.rb, line 67</span>
+<span class="ruby-comment"># File lib/athena.rb, line 64</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">valid_output_format?</span>(<span class="ruby-identifier">format</span>)
   <span class="ruby-constant">Formats</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">valid_format?</span>(<span class="ruby-value">:out</span>, <span class="ruby-identifier">format</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -523,7 +495,7 @@ even function as both input and output format.</p>
             
             <div class="method-source-code" id="with_format-source">
 <pre>
-<span class="ruby-comment"># File lib/athena.rb, line 79</span>
+<span class="ruby-comment"># File lib/athena.rb, line 76</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">with_format</span>(<span class="ruby-identifier">format</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-constant">Formats</span>[<span class="ruby-value">:out</span>, <span class="ruby-identifier">format</span>].<span class="ruby-identifier">wrap</span>(*<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
 <span class="ruby-keyword">end</span></pre>
