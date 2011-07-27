@@ -27,7 +27,6 @@
 #++
 
 require 'athena'
-require 'athena/util'
 
 module Athena
 
