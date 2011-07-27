@@ -2,18 +2,18 @@
 
 Gem::Specification.new do |s|
   s.name = %q{athena}
-  s.version = "0.2.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Jens Wille}]
-  s.date = %q{2011-07-26}
+  s.date = %q{2011-07-27}
   s.description = %q{Convert database files to various formats.}
   s.email = %q{jens.wille@uni-koeln.de}
   s.executables = [%q{athena}]
   s.extra_rdoc_files = [%q{README}, %q{COPYING}, %q{ChangeLog}]
   s.files = [%q{lib/athena/record.rb}, %q{lib/athena/cli.rb}, %q{lib/athena/formats/xml.rb}, %q{lib/athena/formats/lingo.rb}, %q{lib/athena/formats/ferret.rb}, %q{lib/athena/formats/dbm.rb}, %q{lib/athena/formats/sql.rb}, %q{lib/athena/formats/sisis.rb}, %q{lib/athena/version.rb}, %q{lib/athena/parser.rb}, %q{lib/athena/formats.rb}, %q{lib/athena.rb}, %q{bin/athena}, %q{README}, %q{ChangeLog}, %q{Rakefile}, %q{COPYING}, %q{example/dump-my.sql}, %q{example/config.yaml}, %q{example/dump-pg.sql}, %q{example/example.xml}, %q{example/sisis-ex.txt}]
   s.homepage = %q{http://prometheus.rubyforge.org/athena}
-  s.rdoc_options = [%q{--all}, %q{--main}, %q{README}, %q{--charset}, %q{UTF-8}, %q{--title}, %q{athena Application documentation (v0.2.0)}, %q{--line-numbers}]
+  s.rdoc_options = [%q{--all}, %q{--main}, %q{README}, %q{--charset}, %q{UTF-8}, %q{--title}, %q{athena Application documentation (v0.2.1)}, %q{--line-numbers}]
   s.require_paths = [%q{lib}]
   s.rubyforge_project = %q{prometheus}
   s.rubygems_version = %q{1.8.6}
