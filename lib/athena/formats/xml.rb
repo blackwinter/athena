@@ -44,8 +44,9 @@ module Athena::Formats
 
     attr_reader :specs
 
-    def parse(source, &block)
-      REXML::Document.parse_stream(source, listener(&block))
+    def parse(input, &block)
+      REXML::Document.parse_stream(input, listener(&block))
+      Athena::Record.records.size
     end
 
     def convert(record)
@@ -89,12 +90,6 @@ module Athena::Formats
 
     end
 
-    def wrap(out = nil)
-      res = nil
-      builder(:target => out).database { res = super() }
-      res
-    end
-
     def raw?
       true
     end
@@ -124,6 +119,12 @@ module Athena::Formats
           merge_specs(@specs, key, s)
         }
       } }
+    end
+
+    def wrap
+      res = nil
+      builder(:target => output).database { res = super() }
+      res
     end
 
     def builder(options = {})

@@ -34,10 +34,10 @@ module Athena::Formats
 
     RECORD_RE = %r{(\d+).*?:\s*(.*)}
 
-    def parse(source, &block)
+    def parse(input, &block)
       record, num = nil, 0
 
-      source.each { |line|
+      input.each { |line|
         element, value = line.match(RECORD_RE)[1, 2]
 
         if element == record_element

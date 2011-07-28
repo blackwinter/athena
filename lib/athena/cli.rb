@@ -69,23 +69,7 @@ module Athena
 
       quit unless arguments.empty?
 
-      parser = Athena.parser(target_config, spec)
-      output = open_file_or_std(options[:output], true)
-
-      if Athena.deferred_output?(format)
-        res = []; parser.parse(input) { |record| res << record.to(format) }
-        res.flatten!; res.sort!; res.uniq!
-
-        output.puts(res)
-      elsif Athena.raw_output?(format)
-        Athena.with_format(format, output) { |_format|
-          parser.parse(input) { |record| record.to(_format) }
-        }
-      else
-        Athena.with_format(format) { |_format|
-          parser.parse(input) { |record| output.puts(record.to(_format)) }
-        }
-      end
+      Athena.run(target_config, spec, format, input, open_file_or_std(options[:output], true))
     end
 
     private

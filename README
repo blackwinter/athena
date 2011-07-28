@@ -9,7 +9,15 @@ This documentation refers to athena version 0.2.1
 
 Athena is a library to convert "database" files between various formats.
 It's accompanied by a corresponding executable that gives access to its
-converting features from the command-line.
+converting features from the command-line. See Athena::Formats for the
+supported database formats and how you can add your own.
+
+=== Plugins
+
+Athena has a plugin system that allows you to implement additional database
+formats and have them available easily. Just create a file +athena_plugin.rb+
+(Athena::PLUGIN_FILENAME) in your Gem's +lib+ directory or any directory that's
+placed in <tt>$LOAD_PATH</tt>. See Athena::Formats on how to define custom formats.
 
 
 == LINKS

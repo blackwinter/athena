@@ -43,8 +43,8 @@ module Athena::Formats
 
   class Ferret < Base
 
-    def parse(source, &block)
-      path = source.path
+    def parse(input, &block)
+      path = input.path
 
       # make sure the index can be opened
       begin

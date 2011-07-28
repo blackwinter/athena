@@ -35,10 +35,10 @@ module Athena::Formats
 
     attr_reader :sql_parser
 
-    def parse(source, &block)
+    def parse(input, &block)
       columns, table, num = Hash.new { |h, k| h[k] = [] }, nil, 0
 
-      source.each { |line|
+      input.each { |line|
         case line = line.chomp
           when /\ACREATE\s+TABLE\s+`(.+?)`/i
             table = $1
@@ -180,10 +180,10 @@ module Athena::Formats
 
   class PGSQL < Base
 
-    def parse(source, &block)
+    def parse(input, &block)
       columns, table, num = Hash.new { |h, k| h[k] = [] }, nil, 0
 
-      source.each { |line|
+      input.each { |line|
         case line = line.chomp
           when /\ACOPY\s+(\S+)\s+\((.+?)\)\s+FROM\s+stdin;\z/i
             columns[table = $1] = $2.split(/\s*,\s*/)

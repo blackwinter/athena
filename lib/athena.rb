@@ -32,11 +32,13 @@ require 'athena/version'
 
 module Athena
 
-  autoload :Parser,  'athena/parser'
   autoload :Record,  'athena/record'
   autoload :Formats, 'athena/formats'
 
   extend self
+
+  DEFAULT_SEPARATOR = ', '
+  DEFAULT_EMPTY     = '<<EMPTY>>'
 
   PLUGIN_FILENAME = 'athena_plugin.rb'
 
@@ -53,8 +55,11 @@ module Athena
     }.flatten)
   end
 
-  def parser(config, format)
-    Parser.new(config, format)
+  def run(config, spec, format, input, output)
+    Formats[:out, format, output].run(
+      Formats[:in, spec, build_config(config)],
+      input
+    )
   end
 
   def input_formats
@@ -77,18 +82,6 @@ module Athena
     valid_format?(:out, format)
   end
 
-  def deferred_output?(format)
-    Formats[:out, format].deferred?
-  end
-
-  def raw_output?(format)
-    Formats[:out, format].raw?
-  end
-
-  def with_format(format, *args, &block)
-    Formats[:out, format].wrap(*args, &block)
-  end
-
   private
 
   def load_plugin_files(plugins)
@@ -99,6 +92,39 @@ module Athena
         warn "Error loading Athena plugin: #{plugin}: #{err} (#{err.class})"
       end
     }
+  end
+
+  def build_config(config)
+    hash = {}
+
+    config.each { |field, value|
+      if field.to_s =~ /\A__/
+        hash[field] = value
+      else
+        case value
+          when String, Array
+            elements, value = [*value], {}
+          when Hash
+            elements = value[:elements] || value[:element].to_a
+
+            raise ArgumentError, "no elements specified for field #{field}" unless elements.is_a?(Array)
+          else
+            raise ArgumentError, "illegal value for field #{field}"
+        end
+
+        separator = value[:separator] || DEFAULT_SEPARATOR
+
+        elements.each { |element|
+          (hash[element] ||= {})[field] = {
+            :string   => value[:string] || ['%s'] * elements.size * separator,
+            :empty    => value[:empty]  || DEFAULT_EMPTY,
+            :elements => elements
+          }
+        }
+      end
+    }
+
+    hash
   end
 
 end

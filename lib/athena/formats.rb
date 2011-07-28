@@ -35,25 +35,76 @@ module Athena
   # method _parse_ or an instance method _convert_ supplied,
   # respectively. This way, a specific format can even function
   # as both input and output format.
+  #
+  # == Defining custom formats
+  #
+  # Define one or more classes that inherit from Athena::Formats::Base
+  # and either call Athena::Formats.register with your format class as
+  # parameter or call Athena::Formats.register_all with your surrounding
+  # namespace (which will then recursively add any format definitions below
+  # it). Alternatively, you can call Athena::Formats::Base.register_format
+  # <b>at the end</b> of your class definition to register just this class.
+  #
+  # The directions supported by your custom format are determined
+  # automatically; see below for further details.
+  #
+  # === Defining an _input_ format
+  #
+  # An input format must provide a *public* instance method _parse_ that
+  # accepts an input object (usually an IO object) and a block it passes
+  # each record (Athena::Record) to. See Athena::Formats::Base#parse.
+  #
+  # === Defining an _output_ format
+  #
+  # An output format must provide a *public* instance method _convert_ that
+  # accepts a record (Athena::Record) and either returns a suitable value for
+  # output or writes the output itself. See Athena::Formats::Base#convert.
+  #
+  # == Aliases
+  #
+  # In order to provide an alias name for a format, simply assign
+  # the format class to a new constant. Then you need to call
+  # <tt>Athena::Formats.register(your_new_const)</tt> to register
+  # your alias.
 
   module Formats
 
-    CRLF    = %Q{\015\012}
+    # CR+LF line ending.
+    CRLF = %Q{\015\012}
+
+    # Regular expression to match (multiple) CR+LF line endings.
     CRLF_RE = %r{(?:\r?\n)+}
 
+    # Mapping of format direction to method required for implementation.
     METHODS = { :in => 'parse', :out => 'convert' }
 
     @formats = { :in => {}, :out => {} }
 
     class << self
 
+      # Container for registered formats per direction. Use ::find or ::[]
+      # to access them.
       attr_reader :formats
 
+      # call-seq:
+      #   Athena::Formats[direction, format, *args] -> aFormat
+      #
+      # Retrieves the format for +direction+ by its name +format+ (see
+      # ::find) and initializes it with +args+ (see Base#init). Returns
+      # +format+ unaltered if it already is a format instance, while
+      # making sure that it supports +direction+.
       def [](direction, format, *args)
-        find(direction, format).init(direction, *args)
+        res = find(direction, format, true)
+        res.is_a?(Base) ? res : res.init(direction, *args)
       end
 
-      def find(direction, format)
+      # call-seq:
+      #   Athena::Formats.find(direction, format) -> aFormatClass
+      #
+      # Retrieves the format for +direction+ by its name +format+. Returns
+      # +format+'s class if it already is a format instance, while making
+      # sure that it supports +direction+.
+      def find(direction, format, instance = false)
         directions = formats.keys
 
         unless directions.include?(direction)
@@ -71,8 +122,11 @@ module Athena
             klass = format.class
 
             if klass < Base && !(directions = klass.directions).empty?
-              return format if klass.direction_supported?(direction)
-              raise DirectionMismatchError.new(direction, directions)
+              if klass.has_direction?(direction)
+                return instance ? format : klass
+              else
+                raise DirectionMismatchError.new(direction, directions)
+              end
             else
               raise ArgumentError, "invalid format of type #{klass}" <<
                 " (expected one of: Symbol, String, or sub-class of #{Base})"
@@ -80,14 +134,28 @@ module Athena
         end
       end
 
+      # call-seq:
+      #   Athena::Formats.valid_format?(direction, format) -> true | false
+      #
+      # Indicates whether the +direction+/+format+ combination is supported,
+      # i.e. a format by name +format+ has been registered and supports
+      # +direction+.
       def valid_format?(direction, format)
         if format.class < Base
-          format.class.direction_supported?(direction)
+          format.class.has_direction?(direction)
         else
           formats[direction].has_key?(format.to_s)
         end
       end
 
+      # call-seq:
+      #   Athena::Formats.register(klass, name = nil, relax = false) -> anArray | nil
+      #
+      # Registers +klass+ as format under +name+ (defaults to Base.format).
+      # Only warns instead of raising any errors when +relax+ is +true+.
+      # Returns an array of the actual name +klass+ has been registered
+      # under and the directions supported; returns +nil+ if nothing has
+      # been registered.
       def register(klass, name = nil, relax = false)
         unless klass < Base
           return if relax
@@ -96,6 +164,7 @@ module Athena
 
         name = name ? name.to_s : klass.format
         methods = klass.public_instance_methods(false).map { |m| m.to_s }
+        directions = klass.directions
 
         METHODS.each { |direction, method|
           next unless methods.include?(method)
@@ -107,13 +176,21 @@ module Athena
             warn err
             next
           else
-            klass.directions << direction.to_s
+            directions << direction unless klass.has_direction?(direction)
             formats[direction][name] = klass
           end
         }
+
+        [name, directions] unless directions.empty?
       end
 
-      def register_all(klass = self)
+      # call-seq:
+      #   Athena::Formats.register_all(klass = self) -> anArray
+      #
+      # Recursively registers all formats *below* +klass+ (see ::register).
+      # Returns an array of all registered format names with their supported
+      # directions.
+      def register_all(klass = self, registered = [])
         names  = klass.constants
         names -= klass.superclass.constants if klass.is_a?(Class)
 
@@ -121,11 +198,19 @@ module Athena
           const = klass.const_get(name)
           next unless const.is_a?(Module)
 
-          register(const, format_name("#{klass}::#{name}"), true)
-          register_all(const)
+          registered << register(const, format_name("#{klass}::#{name}"), true)
+          register_all(const, registered)
         }
+
+        registered.compact
       end
 
+      protected
+
+      # call-seq:
+      #   Athena::Formats.format_name(name) -> aString
+      #
+      # Formats +name+ as suitable format name.
       def format_name(fn)
         fn.sub(/\A#{self}::/, '').
           gsub(/([a-z\d])(?=[A-Z])/, '\1_').
@@ -134,36 +219,79 @@ module Athena
 
     end
 
+    # Base class for all format classes. See Athena::Formats
+    # for more information.
+
     class Base
 
       class << self
 
+        # call-seq:
+        #   Athena::Formats::Base.format -> aString
+        #
+        # Returns this class's format name.
         def format
           @format ||= Formats.format_name(name)
         end
 
+        # call-seq:
+        #   Athena::Formats::Base.directions -> anArray
+        #
+        # Returns an array of the directions supported by this class.
         def directions
           @directions ||= []
         end
 
-        def direction_supported?(direction)
-          directions.include?(direction.to_s)
+        # call-seq:
+        #   Athena::Formats::Base.has_direction?(direction) -> true | false
+        #
+        # Indicates whether this class supports +direction+.
+        def has_direction?(direction)
+          directions.include?(direction)
         end
 
+        # call-seq:
+        #   Athena::Formats::Base.init(direction, *args) -> aFormat
+        #
+        # Returns a new instance of this class for +direction+ initialized
+        # with +args+ (see #init).
         def init(direction, *args)
           new.init(direction, *args)
         end
 
+        protected
+
+        # call-seq:
+        #   Athena::Formats::Base.register_format(name = nil, relax = false) -> anArray | nil
+        #
+        # Shortcut for <tt>Athena::Formats.register(self, name, relax)</tt>.
+        # Must be called at the end of or after the class definition (in order
+        # to determine the supported direction(s), the relevant instance
+        # methods must be available).
         def register_format(name = nil, relax = false)
           Formats.register(self, name, relax)
         end
 
       end
 
-      attr_reader :config, :record_element
+      # The _input_ format's configuration hash.
+      attr_reader :config
 
+      # The _input_ format's "record element" (interpreted
+      # differently by each format).
+      attr_reader :record_element
+
+      # The _output_ format's output target.
+      attr_reader :output
+
+      # call-seq:
+      #   format.init(direction, *args) -> format
+      #
+      # Initializes _format_ for +direction+ with +args+ (see #init_in and
+      # #init_out), while making sure that +direction+ is actually supported
+      # by _format_. Returns _format_.
       def init(direction, *args)
-        if self.class.direction_supported?(direction)
+        if self.class.has_direction?(direction)
           send("init_#{direction}", *args)
         else
           raise DirectionMismatchError.new(direction, self.class.directions)
@@ -172,30 +300,83 @@ module Athena
         self
       end
 
-      def parse(*args)
+      # call-seq:
+      #   format.parse(input) { |record| ... } -> anInteger
+      #
+      # Parses +input+ according to the format represented by this class
+      # and passes each record to the block. _Should_ return the number of
+      # records parsed.
+      #
+      # NOTE: Must be implemented by the sub-class in order to function as
+      # _input_ format.
+      def parse(input)
         raise NotImplementedError, 'must be defined by sub-class'
       end
 
+      # call-seq:
+      #   format.convert(record) -> aString | anArray | void
+      #
+      # Converts +record+ (Athena::Record) according to the format represented
+      # by this class. The return value may be different for each class; it is
+      # irrelevant when #raw? has been defined as +true+.
+      #
+      # NOTE: Must be implemented by the sub-class in order to function as
+      # _output_ format.
       def convert(record)
         raise NotImplementedError, 'must be defined by sub-class'
       end
 
-      def wrap
-        yield self
-      end
-
-      def deferred?
-        false
-      end
-
+      # call-seq:
+      #   format.raw? -> true | false
+      #
+      # Indicates whether output is written directly in #convert.
       def raw?
         false
       end
 
+      # call-seq:
+      #   format.deferred? -> true | false
+      #
+      # Indicates whether output is to be deferred and only be written after
+      # all records have been converted (see #run).
+      def deferred?
+        false
+      end
+
+      # call-seq:
+      #   format.run(spec, input) -> anInteger
+      #
+      # Runs the _output_ generation for _input_ format +spec+ (Athena::Formats::Base)
+      # on +input+. Outputs a sorted and unique list of records when #deferred?
+      # is +true+. Returns the return value of #parse.
+      def run(spec, input)
+        parsed, block = nil, if raw?
+          lambda { |record| record.to(self) }
+        elsif deferred?
+          deferred = []
+          lambda { |record| deferred << record.to(self) }
+        else
+          lambda { |record| output.puts(record.to(self)) }
+        end
+
+        wrap { parsed = spec.parse(input, &block) }
+
+        if deferred?
+          deferred.flatten!; deferred.sort!; deferred.uniq!
+          output.puts(deferred)
+        end
+
+        parsed
+      end
+
       private
 
-      def init_in(parser)
-        @config = parser.config.dup
+      # call-seq:
+      #   format.init_in(config)
+      #
+      # Initialize _input_ format (with +config+).
+      def init_in(config)
+        @config = config
 
         case @record_element = @config.delete(:__record_element)
           when *@__record_element_ok__ || String
@@ -207,7 +388,20 @@ module Athena
         end
       end
 
-      def init_out
+      # call-seq:
+      #   format.init_out(output = nil)
+      #
+      # Initialize _output_ format (with optional +output+).
+      def init_out(output = nil)
+        @output = output
+      end
+
+      # call-seq:
+      #   format.wrap { ... }
+      #
+      # Hook for wrapping the output generation in #run.
+      def wrap
+        yield
       end
 
     end
@@ -245,7 +439,7 @@ module Athena
       end
     end
 
-    ConfigError = Parser::ConfigError
+    class ConfigError < StandardError; end
 
     class NoRecordElementError      < ConfigError; end
     class IllegalRecordElementError < ConfigError; end

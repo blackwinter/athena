@@ -54,9 +54,7 @@ module Athena
     attr_reader :struct, :block, :id
 
     def initialize(id = nil, block = nil, add = !block)
-      @id     = id || object_id.map_positive
-      @block  = block
-      @struct = {}
+      @id, @block, @struct = id || object_id.map_positive, block, {}
 
       add_record if add
 
