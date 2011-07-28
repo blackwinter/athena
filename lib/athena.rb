@@ -26,16 +26,9 @@
 ###############################################################################
 #++
 
-# Athena is a library to convert (mainly) prometheus database files to various
-# output formats. It's accompanied by a corresponding script that gives access
-# to all its converting features.
-#
-# In order to support additional input and/or output formats, Athena::Formats::Base
-# needs to be sub-classed and, respectively, an instance method _parse_ or an
-# instance method _convert_ supplied. This way, a specific format can even function
-# as both input and output format.
-
 require 'athena/version'
+
+# See README.
 
 module Athena
 
@@ -45,24 +38,43 @@ module Athena
 
   extend self
 
+  PLUGIN_FILENAME = 'athena_plugin.rb'
+
+  def load_env_plugins
+    load_plugin_files($LOAD_PATH.map { |path|
+      file = File.expand_path(PLUGIN_FILENAME, path)
+      file if File.file?(file)
+    }.compact)
+  end
+
+  def load_gem_plugins
+    load_plugin_files(Gem::Specification.map { |spec|
+      spec.matches_for_glob(PLUGIN_FILENAME)
+    }.flatten)
+  end
+
   def parser(config, format)
     Parser.new(config, format)
   end
 
   def input_formats
-    Formats::Base.formats[:in].sort
-  end
-
-  def valid_input_format?(format)
-    Formats::Base.valid_format?(:in, format)
+    Formats.formats[:in].sort
   end
 
   def output_formats
-    Formats::Base.formats[:out].sort
+    Formats.formats[:out].sort
+  end
+
+  def valid_format?(direction, format)
+    Formats.valid_format?(direction, format)
+  end
+
+  def valid_input_format?(format)
+    valid_format?(:in, format)
   end
 
   def valid_output_format?(format)
-    Formats::Base.valid_format?(:out, format)
+    valid_format?(:out, format)
   end
 
   def deferred_output?(format)
@@ -77,4 +89,19 @@ module Athena
     Formats[:out, format].wrap(*args, &block)
   end
 
+  private
+
+  def load_plugin_files(plugins)
+    plugins.each { |plugin|
+      begin
+        load plugin
+      rescue Exception => err
+        warn "Error loading Athena plugin: #{plugin}: #{err} (#{err.class})"
+      end
+    }
+  end
+
 end
+
+Athena.load_env_plugins
+Athena.load_gem_plugins if defined?(Gem)

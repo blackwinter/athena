@@ -34,9 +34,67 @@ module Athena::Formats
 
   class Lingo < Base
 
-    KV_SEPARATOR = '*'
-    WC_SEPARATOR = ','
-    MV_SEPARATOR = ';'
+    # "Nasenbär"
+    class SingleWord < Lingo
+
+      def convert(record)
+        super.flatten
+      end
+
+    end
+
+    # "John Vorhauer*Vorhauer, John"
+    class KeyValue < Lingo
+
+      SEPARATOR = '*'
+
+      def convert(record)
+        super.map { |terms|
+          terms.join(SEPARATOR) if check_args(2, terms.size)
+        }.compact
+      end
+
+    end
+
+    # "Essen,essen #v Essen #s Esse #s"
+    class WordClass < Lingo
+
+      SEPARATOR = ','
+
+      def convert(record)
+        super.map { |terms|
+          [ terms.shift,
+            terms.to_enum(:each_slice, 2).map { |w, c| "#{w} ##{c}" }.join(' ')
+          ].join(SEPARATOR) if check_args('odd, > 1', terms.size) { |actual|
+            actual > 1 && actual % 2 == 1
+          }
+        }.compact
+      end
+
+    end
+
+    # "Fax;Faxkopie;Telefax"
+    class MultiValue < Lingo
+
+      SEPARATOR = ';'
+
+      def convert(record)
+        super.map { |terms|
+          terms.join(SEPARATOR) if check_args('> 1', terms.size) { |actual|
+            actual > 1
+          }
+        }.compact
+      end
+
+    end
+
+    MultiKey = MultiValue
+
+    def deferred?
+      true
+    end
+
+    private
 
     def convert(record)
       terms = []
@@ -62,12 +120,6 @@ module Athena::Formats
       terms
     end
 
-    def deferred?
-      true
-    end
-
-    private
-
     def check_args(expected, actual, &block)
       if block ? block[actual] : expected == actual
         true
@@ -75,54 +127,6 @@ module Athena::Formats
         warn "wrong number of arguments for #{self} (#{actual} for #{expected})"
         false
       end
-    end
-
-    # "Nasenbär\n"
-    register_format! :out, 'lingo/single_word' do
-
-      def convert(record)
-        super.flatten
-      end
-
-    end
-
-    # "John Vorhauer*Vorhauer, John\n"
-    register_format! :out, 'lingo/key_value' do
-
-      def convert(record)
-        super.map { |terms|
-          terms.join(KV_SEPARATOR) if check_args(2, terms.size)
-        }.compact
-      end
-
-    end
-
-    # "Essen,essen #v Essen #s Esse #s\n"
-    register_format! :out, 'lingo/word_class' do
-
-      def convert(record)
-        super.map { |terms|
-          [ terms.shift,
-            terms.to_enum(:each_slice, 2).map { |w, c| "#{w} ##{c}" }.join(' ')
-          ].join(WC_SEPARATOR) if check_args('odd, > 1', terms.size) { |actual|
-            actual > 1 && actual % 2 == 1
-          }
-        }.compact
-      end
-
-    end
-
-    # "Fax;Faxkopie;Telefax\n"
-    register_format! :out, 'lingo/multi_value', 'lingo/multi_key' do
-
-      def convert(record)
-        super.map { |terms|
-          terms.join(MV_SEPARATOR) if check_args('> 1', terms.size) { |actual|
-            actual > 1
-          }
-        }.compact
-      end
-
     end
 
   end

@@ -30,78 +30,146 @@ require 'athena'
 
 module Athena
 
+  # In order to support additional input and/or output formats,
+  # Athena::Formats::Base needs to be sub-classed and an instance
+  # method _parse_ or an instance method _convert_ supplied,
+  # respectively. This way, a specific format can even function
+  # as both input and output format.
+
   module Formats
 
     CRLF    = %Q{\015\012}
     CRLF_RE = %r{(?:\r?\n)+}
 
-    def self.[](direction, format)
-      if direction == :out
-        if format.class < Base
-          if format.class.direction != direction
-            raise DirectionMismatchError,
-              "expected #{direction}, got #{format.class.direction}"
-          else
-            format
-          end
-        else
-          Base.formats[direction][format].new
-        end
-      else
-        Base.formats[direction][format]
+    METHODS = { :in => 'parse', :out => 'convert' }
+
+    @formats = { :in => {}, :out => {} }
+
+    class << self
+
+      attr_reader :formats
+
+      def [](direction, format, *args)
+        find(direction, format).init(direction, *args)
       end
+
+      def find(direction, format)
+        directions = formats.keys
+
+        unless directions.include?(direction)
+          raise ArgumentError, "invalid direction: #{direction.inspect}" <<
+            " (must be one of: #{directions.map { |d| d.inspect }.join(', ')})"
+        end
+
+        case format
+          when Symbol
+            find(direction, format.to_s)
+          when String
+            formats[direction][format] or
+              raise FormatNotFoundError.new(direction, format)
+          else
+            klass = format.class
+
+            if klass < Base && !(directions = klass.directions).empty?
+              return format if klass.direction_supported?(direction)
+              raise DirectionMismatchError.new(direction, directions)
+            else
+              raise ArgumentError, "invalid format of type #{klass}" <<
+                " (expected one of: Symbol, String, or sub-class of #{Base})"
+            end
+        end
+      end
+
+      def valid_format?(direction, format)
+        if format.class < Base
+          format.class.direction_supported?(direction)
+        else
+          formats[direction].has_key?(format.to_s)
+        end
+      end
+
+      def register(klass, name = nil, relax = false)
+        unless klass < Base
+          return if relax
+          raise ArgumentError, "must be a sub-class of #{Base}"
+        end
+
+        name = name ? name.to_s : klass.format
+        methods = klass.public_instance_methods(false).map { |m| m.to_s }
+
+        METHODS.each { |direction, method|
+          next unless methods.include?(method)
+
+          if formats[direction].has_key?(name)
+            err = DuplicateFormatDefinitionError.new(direction, name)
+            raise err unless relax
+
+            warn err
+            next
+          else
+            klass.directions << direction.to_s
+            formats[direction][name] = klass
+          end
+        }
+      end
+
+      def register_all(klass = self)
+        names  = klass.constants
+        names -= klass.superclass.constants if klass.is_a?(Class)
+
+        names.each { |name|
+          const = klass.const_get(name)
+          next unless const.is_a?(Module)
+
+          register(const, format_name("#{klass}::#{name}"), true)
+          register_all(const)
+        }
+      end
+
+      def format_name(fn)
+        fn.sub(/\A#{self}::/, '').
+          gsub(/([a-z\d])(?=[A-Z])/, '\1_').
+          gsub(/::/, '/').downcase
+      end
+
     end
 
     class Base
 
-      @formats = { :in => {}, :out => {} }
-
       class << self
 
-        def formats
-          Base.instance_variable_get(:@formats)
+        def format
+          @format ||= Formats.format_name(name)
         end
 
-        def valid_format?(direction, format)
-          if format.class < Base
-            direction == format.class.direction
-          else
-            formats[direction].has_key?(format)
-          end
+        def directions
+          @directions ||= []
         end
 
-        private
-
-        def register_format(direction, *aliases, &block)
-          format = name.split('::').last.
-            gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2').
-            gsub(/([a-z\d])([A-Z])/, '\1_\2').
-            downcase
-
-          register_format!(direction, format, *aliases, &block)
+        def direction_supported?(direction)
+          directions.include?(direction.to_s)
         end
 
-        def register_format!(direction, format, *aliases, &block)
-          raise "must be a sub-class of #{Base}" unless self < Base
-
-          klass = Class.new(self, &block)
-
-          klass.instance_eval %Q{
-            def direction; #{direction.inspect}; end
-            def name; '#{format}::#{direction}'; end
-            def to_s; '#{format}'; end
-          }
-
-          [format, *aliases].each { |name|
-            if existing = formats[direction][name]
-              raise DuplicateFormatDefinitionError,
-                "format already defined (#{direction}): #{name}"
-            else
-              formats[direction][name] = klass
-            end
-          }
+        def init(direction, *args)
+          new.init(direction, *args)
         end
 
+        def register_format(name = nil, relax = false)
+          Formats.register(self, name, relax)
+        end
+
+      end
+
+      attr_reader :config, :record_element
+
+      def init(direction, *args)
+        if self.class.direction_supported?(direction)
+          send("init_#{direction}", *args)
+        else
+          raise DirectionMismatchError.new(direction, self.class.directions)
+        end
+
+        self
       end
 
       def parse(*args)
@@ -124,12 +192,58 @@ module Athena
         false
       end
 
+      private
+
+      def init_in(parser)
+        @config = parser.config.dup
+
+        case @record_element = @config.delete(:__record_element)
+          when *@__record_element_ok__ || String
+            # fine!
+          when nil
+            raise NoRecordElementError, 'no record element specified'
+          else
+            raise IllegalRecordElementError, "illegal record element #{@record_element.inspect}"
+        end
+      end
+
+      def init_out
+      end
+
     end
 
     class FormatError < StandardError; end
 
-    class DuplicateFormatDefinitionError < FormatError; end
-    class DirectionMismatchError         < FormatError; end
+    class DuplicateFormatDefinitionError < FormatError
+      def initialize(direction, format)
+        @direction, @format = direction, format
+      end
+
+      def to_s
+        "format already defined (#{@direction.inspect}): #{@format.inspect}"
+      end
+    end
+
+    class FormatNotFoundError < FormatError
+      def initialize(direction, format)
+        @direction, @format = direction, format
+      end
+
+      def to_s
+        "format not found (#{@direction.inspect}): #{@format.inspect}"
+      end
+    end
+
+    class DirectionMismatchError < FormatError
+      def initialize(direction, directions)
+        @direction, @directions = direction, directions
+      end
+
+      def to_s
+        "got #{@direction.inspect}, expected one of " <<
+          @directions.map { |d| d.inspect }.join(', ')
+      end
+    end
 
     ConfigError = Parser::ConfigError
 
@@ -143,3 +257,5 @@ end
 Dir[__FILE__.sub(/\.rb\z/, '/**/*.rb')].sort.each { |rb|
   require "athena/formats/#{File.basename(rb, '.rb')}"
 }
+
+Athena::Formats.register_all

@@ -34,25 +34,6 @@ module Athena::Formats
 
     RECORD_RE = %r{(\d+).*?:\s*(.*)}
 
-    register_format :in do
-
-      attr_reader :record_element, :config
-
-      def initialize(parser)
-        @config = parser.config.dup
-
-        case @record_element = @config.delete(:__record_element)
-          when String
-            # fine!
-          when nil
-            raise NoRecordElementError, 'no record element specified'
-          else
-            raise IllegalRecordElementError, "illegal record element #{@record_element.inspect}"
-        end
-      end
-
-    end
-
     def parse(source, &block)
       record, num = nil, 0
 

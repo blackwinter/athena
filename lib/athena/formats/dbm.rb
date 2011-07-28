@@ -38,8 +38,6 @@ module Athena::Formats
 
     ICONV_TO_LATIN1 = Iconv.new('latin1//TRANSLIT//IGNORE', 'utf-8')
 
-    register_format :out, 'midos'
-
     def convert(record)
       dbm = ["ID:#{record.id}"]
 
@@ -69,5 +67,7 @@ module Athena::Formats
     end
 
   end
+
+  Midos = DBM
 
 end

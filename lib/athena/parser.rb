@@ -39,7 +39,7 @@ module Athena
 
     def initialize(config, spec)
       @config = build_config(config)
-      @spec   = Formats[:in, spec].new(self)
+      @spec   = Formats[:in, spec, self]
     end
 
     def parse(source, &block)

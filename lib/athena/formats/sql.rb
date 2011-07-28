@@ -33,24 +33,7 @@ module Athena::Formats
 
   class MYSQL < Base
 
-    register_format :in do
-
-      attr_reader :record_element, :config, :sql_parser
-
-      def initialize(parser)
-        @config = parser.config.dup
-
-        case @record_element = @config.delete(:__record_element)
-          when String, nil
-            # fine!
-          else
-            raise IllegalRecordElementError, "illegal record element #{@record_element.inspect}"
-        end
-
-        @sql_parser = SQLParser.new
-      end
-
-    end
+    attr_reader :sql_parser
 
     def parse(source, &block)
       columns, table, num = Hash.new { |h, k| h[k] = [] }, nil, 0
@@ -88,6 +71,14 @@ module Athena::Formats
       num
     end
 
+    private
+
+    def init_in(*)
+      @__record_element_ok__ = [String, nil]
+      super
+      @sql_parser = SQLParser.new
+    end
+
     class SQLParser
 
       AST = Struct.new(:value)
@@ -113,8 +104,6 @@ module Athena::Formats
 
         rows unless block_given
       end
-
-      private
 
       def parse_row
         return unless @input.scan(/\(/)
@@ -191,23 +180,6 @@ module Athena::Formats
 
   class PGSQL < Base
 
-    register_format :in do
-
-      attr_reader :record_element, :config
-
-      def initialize(parser)
-        @config = parser.config.dup
-
-        case @record_element = @config.delete(:__record_element)
-          when String, nil
-            # fine!
-          else
-            raise IllegalRecordElementError, "illegal record element #{@record_element.inspect}"
-        end
-      end
-
-    end
-
     def parse(source, &block)
       columns, table, num = Hash.new { |h, k| h[k] = [] }, nil, 0
 
@@ -242,9 +214,16 @@ module Athena::Formats
       num
     end
 
+    private
+
+    def init_in(*)
+      @__record_element_ok__ = [String, nil]
+      super
+    end
+
   end
 
-  MySQL = MYSQL
-  PgSQL = PGSQL
+  class MySQL < MYSQL; private :parse; end
+  class PgSQL < PGSQL; private :parse; end
 
 end

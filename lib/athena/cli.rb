@@ -63,42 +63,34 @@ module Athena
         }.reverse.find { |t| config[target = t.to_sym] }
       end or abort "Config not found for target: #{target}."
 
-      parser = Athena.parser(target_config, spec)
-
       input = options[:input]
       input = arguments.shift unless input != defaults[:input] || arguments.empty?
-      options[:input] = File.directory?(input) ? Dir.open(input) : open_file_or_std(input)
+      input = File.directory?(input) ? Dir.open(input) : open_file_or_std(input)
 
       quit unless arguments.empty?
 
-      options[:output] = open_file_or_std(options[:output], true)
+      parser = Athena.parser(target_config, spec)
+      output = open_file_or_std(options[:output], true)
 
       if Athena.deferred_output?(format)
-        res = parser.parse(options[:input])
+        res = []; parser.parse(input) { |record| res << record.to(format) }
+        res.flatten!; res.sort!; res.uniq!
 
-        res.map { |record|
-          record.to(format)
-        }.flatten.sort.uniq.each { |line|
-          options[:output].puts line
-        }
+        output.puts(res)
       elsif Athena.raw_output?(format)
-        res = Athena.with_format(format, options[:output]) { |_format|
-          parser.parse(options[:input]) { |record|
-            record.to(_format)
-          }
+        Athena.with_format(format, output) { |_format|
+          parser.parse(input) { |record| record.to(_format) }
         }
       else
-        res = Athena.with_format(format) { |_format|
-          parser.parse(options[:input]) { |record|
-            options[:output].puts record.to(_format)
-          }
+        Athena.with_format(format) { |_format|
+          parser.parse(input) { |record| output.puts(record.to(_format)) }
         }
       end
     end
 
     private
 
-    def merge_config(args = [default])
+    def merge_config(args = [defaults])
       super
     end
 
@@ -124,13 +116,7 @@ module Athena
       }
 
       opts.on('-L', '--list-specs', "List available input formats (specs) and exit") {
-        puts 'Available input formats (specs):'
-
-        Athena.input_formats.each { |format, name|
-          puts "  - #{format}#{" (= #{name})" if format != name.to_s}"
-        }
-
-        exit
+        print_formats(:in)
       }
 
       opts.separator ''
@@ -145,13 +131,7 @@ module Athena
       }
 
       opts.on('-l', '--list-formats', "List available output formats and exit") {
-        puts 'Available output formats:'
-
-        Athena.output_formats.each { |format, name|
-          puts "  - #{format}#{" (= #{name})" if format != name.to_s}"
-        }
-
-        exit
+        print_formats(:out)
       }
 
       opts.separator ''
@@ -159,6 +139,19 @@ module Athena
       opts.on('-t', '--target ID', "Target whose config to use [Default: <input-file> minus file extension,", "plus '.<spec>', plus ':<format>' (reversely in turn)]") { |target|
         options[:target] = target
       }
+    end
+
+    def print_formats(direction)
+      puts "Available #{direction}put formats:"
+
+      Athena.send("#{direction}put_formats").each { |name, klass|
+        line, format = "  - #{name}", klass.format
+        line << " (= #{format})" if name != format && Athena.valid_format?(direction, format)
+
+        puts line
+      }
+
+      exit
     end
 
   end

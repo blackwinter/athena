@@ -7,7 +7,9 @@ This documentation refers to athena version 0.2.1
 
 == DESCRIPTION
 
-TODO: well, the description... ;-)
+Athena is a library to convert "database" files between various formats.
+It's accompanied by a corresponding executable that gives access to its
+converting features from the command-line.
 
 
 == LINKS

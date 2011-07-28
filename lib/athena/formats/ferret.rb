@@ -43,25 +43,6 @@ module Athena::Formats
 
   class Ferret < Base
 
-    register_format :in do
-
-      attr_reader :record_element, :config, :match_all_query
-
-      def initialize(parser)
-        @config = parser.config.dup
-
-        case @record_element = @config.delete(:__record_element)
-          when String
-            # fine!
-          when nil
-            raise NoRecordElementError, 'no record element specified'
-          else
-            raise IllegalRecordElementError, "illegal record element #{@record_element.inspect}"
-        end
-      end
-
-    end if Object.const_defined?(:Ferret)
-
     def parse(source, &block)
       path = source.path
 
@@ -99,6 +80,8 @@ module Athena::Formats
 
       index.num_docs
     end
+
+    private :parse unless Object.const_defined?(:Ferret)
 
   end
 

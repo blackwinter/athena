@@ -42,21 +42,11 @@ module Athena::Formats
 
     VALUE_SEPARATOR = '|'
 
-    register_format :in do
-
-      attr_reader :specs, :record_element
-
-      def initialize(parser)
-        @specs = setup_specs(parser.config.dup)
-      end
-
-    end
+    attr_reader :specs
 
     def parse(source, &block)
       REXML::Document.parse_stream(source, listener(&block))
     end
-
-    register_format :out
 
     def convert(record)
       builder.row {
@@ -79,7 +69,7 @@ module Athena::Formats
       }
     end
 
-    register_format! :out, 'xml/flat' do
+    class Flat < XML
 
       def convert(record)
         super { |field, struct|
@@ -111,6 +101,31 @@ module Athena::Formats
 
     private
 
+    def init_in(*)
+      @__record_element_ok__ = [String, Array]
+      super
+
+      case @skip_hierarchy = @config.delete(:__skip_hierarchy)
+        when Integer
+          # fine!
+        when nil
+          @skip_hierarchy = 0
+        else
+          raise ConfigError, "illegal value #{@skip_hierarchy.inspect} for skip hierarchy"
+      end
+
+      @specs = {}
+
+      @config.each { |element, element_spec| element_spec.each { |field, c|
+        element.split('/').reverse.inject({}) { |hash, part|
+          s = define_spec(element, field, c, hash.empty? ? :default : hash)
+          merge_specs(hash, part, s)
+        }.each { |key, s|
+          merge_specs(@specs, key, s)
+        }
+      } }
+    end
+
     def builder(options = {})
       @builder ||= begin
         builder = Builder::XmlMarkup.new({ :indent => 2 }.merge(options))
@@ -127,39 +142,6 @@ module Athena::Formats
 
         builder
       end
-    end
-
-    def setup_specs(config)
-      case @record_element = config.delete(:__record_element)
-        when String, Array
-          # fine!
-        when nil
-          raise NoRecordElementError, 'no record element specified'
-        else
-          raise IllegalRecordElementError, "illegal record element #{@record_element.inspect}"
-      end
-
-      case @skip_hierarchy = config.delete(:__skip_hierarchy)
-        when Integer
-          # fine!
-        when nil
-          @skip_hierarchy = 0
-        else
-          raise ConfigError, "illegal value #{@skip_hierarchy.inspect} for skip hierarchy"
-      end
-
-      config.inject({}) { |specs, (element, element_spec)|
-        element_spec.each { |field, c|
-          element.split('/').reverse.inject({}) { |hash, part|
-            s = define_spec(element, field, c, hash.empty? ? :default : hash)
-            merge_specs(hash, part, s)
-          }.each { |key, s|
-            merge_specs(specs, key, s)
-          }
-        }
-
-        specs
-      }
     end
 
     def listener(&block)
