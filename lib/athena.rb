@@ -40,21 +40,6 @@ module Athena
   DEFAULT_SEPARATOR = ', '
   DEFAULT_EMPTY     = '<<EMPTY>>'
 
-  PLUGIN_FILENAME = 'athena_plugin.rb'
-
-  def load_env_plugins
-    load_plugin_files($LOAD_PATH.map { |path|
-      file = File.expand_path(PLUGIN_FILENAME, path)
-      file if File.file?(file)
-    }.compact)
-  end
-
-  def load_gem_plugins
-    load_plugin_files(Gem::Specification.map { |spec|
-      spec.matches_for_glob(PLUGIN_FILENAME)
-    }.flatten)
-  end
-
   def run(config, spec, format, input, output)
     Formats[:out, format, output].run(
       Formats[:in, spec, build_config(config)],
@@ -83,16 +68,6 @@ module Athena
   end
 
   private
-
-  def load_plugin_files(plugins)
-    plugins.each { |plugin|
-      begin
-        load plugin
-      rescue Exception => err
-        warn "Error loading Athena plugin: #{plugin}: #{err} (#{err.class})"
-      end
-    }
-  end
 
   def build_config(config)
     hash = {}
@@ -129,5 +104,5 @@ module Athena
 
 end
 
-Athena.load_env_plugins
-Athena.load_gem_plugins if defined?(Gem)
+require 'nuggets/util/pluggable'
+Util::Pluggable.load_plugins_for(Athena)

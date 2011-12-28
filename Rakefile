@@ -14,7 +14,7 @@ begin
       :summary      => %q{Convert database files to various formats.},
       :author       => %q{Jens Wille},
       :email        => %q{jens.wille@uni-koeln.de},
-      :dependencies => %w[builder xmlstreamin] << ['ruby-nuggets', '>= 0.7.4']
+      :dependencies => %w[builder xmlstreamin] << ['ruby-nuggets', '>= 0.8.1']
     }
   }}
 rescue LoadError => err
