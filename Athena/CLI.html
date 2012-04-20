@@ -1,268 +1,228 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+
+<html>
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-  <title>Class: Athena::CLI</title>
+<title>class Athena::CLI - athena Application documentation (v0.2.2)</title>
 
-  <link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
 
-  <script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../js/darkfish.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
 
-</head>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
 <body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
 
-  <div id="metadata">
-    <div id="home-metadata">
-      <div id="home-section" class="section">
-        <h3 class="section-header">
-          <a href="../index.html">Home</a>
-          <a href="../index.html#classes">Classes</a>
-          <a href="../index.html#methods">Methods</a>
-        </h3>
-      </div>
-    </div>
 
-    <div id="file-metadata">
-      <div id="file-list-section" class="section">
-        <h3 class="section-header">In Files</h3>
-        <div class="section-body">
-          <ul>
-          
-            <li><a href="../lib/athena/cli_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/cli.rb">lib/athena/cli.rb</a></li>
-          
-          </ul>
-        </div>
-      </div>
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
 
-      
-    </div>
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
 
-    <div id="class-metadata">
-      
-      <!-- Parent Class -->
-      <div id="parent-class-section" class="section">
-        <h3 class="section-header">Parent</h3>
-        
-        <p class="link">Util::CLI</p>
-        
-      </div>
-      
 
-      
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/athena/cli.rb
+  </ul>
+</nav>
 
-      
-
-      
-      <!-- Method Quickref -->
-      <div id="method-list-section" class="section">
-        <h3 class="section-header">Methods</h3>
-        <ul class="link-list">
-          
-          <li><a href="#method-c-defaults">::defaults</a></li>
-          
-          <li><a href="#method-i-merge_config">#merge_config</a></li>
-          
-          <li><a href="#method-i-opts">#opts</a></li>
-          
-          <li><a href="#method-i-run">#run</a></li>
-          
-        </ul>
-      </div>
-      
-
-      
-    </div>
-
-    <div id="project-metadata">
-      
-      
-      <div id="fileindex-section" class="section project-section">
-        <h3 class="section-header">Files</h3>
-        <ul>
-        
-          <li class="file"><a href="../COPYING.html">COPYING</a></li>
-        
-          <li class="file"><a href="../ChangeLog.html">ChangeLog</a></li>
-        
-          <li class="file"><a href="../README.html">README</a></li>
-        
-        </ul>
-      </div>
-      
-
-      <div id="classindex-section" class="section project-section">
-        <h3 class="section-header">Class/Module Index
-          <span class="search-toggle"><img src="../images/find.png"
-            height="16" width="16" alt="[+]"
-            title="show/hide quicksearch" /></span></h3>
-        <form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
-        <fieldset>
-          <legend>Quicksearch</legend>
-          <input type="text" name="quicksearch" value=""
-            class="quicksearch-field" />
-        </fieldset>
-        </form>
-
-        <ul class="link-list">
-        
-          <li><a href="../Athena.html">Athena</a></li>
-        
-          <li><a href="../Athena/CLI.html">Athena::CLI</a></li>
-        
-          <li><a href="../Athena/Formats.html">Athena::Formats</a></li>
-        
-          <li><a href="../Athena/Formats/Base.html">Athena::Formats::Base</a></li>
-        
-          <li><a href="../Athena/Formats/DBM.html">Athena::Formats::DBM</a></li>
-        
-          <li><a href="../Athena/Formats/DirectionMismatchError.html">Athena::Formats::DirectionMismatchError</a></li>
-        
-          <li><a href="../Athena/Formats/DuplicateFormatDefinitionError.html">Athena::Formats::DuplicateFormatDefinitionError</a></li>
-        
-          <li><a href="../Athena/Formats/Ferret.html">Athena::Formats::Ferret</a></li>
-        
-          <li><a href="../Athena/Formats/FormatError.html">Athena::Formats::FormatError</a></li>
-        
-          <li><a href="../Athena/Formats/IllegalRecordElementError.html">Athena::Formats::IllegalRecordElementError</a></li>
-        
-          <li><a href="../Athena/Formats/Lingo.html">Athena::Formats::Lingo</a></li>
-        
-          <li><a href="../Athena/Formats/MYSQL.html">Athena::Formats::MYSQL</a></li>
-        
-          <li><a href="../Athena/Formats/MYSQL/SQLParser.html">Athena::Formats::MYSQL::SQLParser</a></li>
-        
-          <li><a href="../Athena/Formats/MYSQL.html">Athena::Formats::MySQL</a></li>
-        
-          <li><a href="../Athena/Formats/NoRecordElementError.html">Athena::Formats::NoRecordElementError</a></li>
-        
-          <li><a href="../Athena/Formats/PGSQL.html">Athena::Formats::PGSQL</a></li>
-        
-          <li><a href="../Athena/Formats/PGSQL.html">Athena::Formats::PgSQL</a></li>
-        
-          <li><a href="../Athena/Formats/Sisis.html">Athena::Formats::Sisis</a></li>
-        
-          <li><a href="../Athena/Formats/XML.html">Athena::Formats::XML</a></li>
-        
-          <li><a href="../Athena/Formats/XML/BaseSpec.html">Athena::Formats::XML::BaseSpec</a></li>
-        
-          <li><a href="../Athena/Formats/XML/ElementSpec.html">Athena::Formats::XML::ElementSpec</a></li>
-        
-          <li><a href="../Athena/Formats/XML/RecordSpec.html">Athena::Formats::XML::RecordSpec</a></li>
-        
-          <li><a href="../Athena/Formats/XML/SubElementSpec.html">Athena::Formats::XML::SubElementSpec</a></li>
-        
-          <li><a href="../Athena/Parser.html">Athena::Parser</a></li>
-        
-          <li><a href="../Athena/Parser/ConfigError.html">Athena::Parser::ConfigError</a></li>
-        
-          <li><a href="../Athena/Record.html">Athena::Record</a></li>
-        
-          <li><a href="../Athena/Record/NoRecordError.html">Athena::Record::NoRecordError</a></li>
-        
-          <li><a href="../Athena/Version.html">Athena::Version</a></li>
-        
-        </ul>
-        <div id="no-class-search-results" style="display: none;">No matching classes.</div>
-      </div>
-
-      
-    </div>
+    
   </div>
 
-  <div id="documentation">
-    <h1 class="class">Athena::CLI</h1>
-
-    <div id="description" class="description">
-      
-    </div><!-- description -->
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">Util::CLI
+  
+</nav>
 
     
-    <div id="5Buntitled-5D" class="documentation-section">
-      
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
 
-      
-
-      
-
-      
-
-      <!-- Methods -->
-      
-      <div id="public-class-method-details" class="method-section section">
-        <h3 class="section-header">Public Class Methods</h3>
-
-      
-        <div id="defaults-method" class="method-detail ">
-          <a name="method-c-defaults"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">defaults</span><span
-              class="method-args">()</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="defaults-source">
-<pre>
-<span class="ruby-comment"># File lib/athena/cli.rb, line 38</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">defaults</span>
-  <span class="ruby-keyword">super</span>.<span class="ruby-identifier">merge</span>(
-    <span class="ruby-value">:config</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'config.yaml'</span>,
-    <span class="ruby-value">:input</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-'</span>,
-    <span class="ruby-value">:output</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-'</span>,
-    <span class="ruby-value">:target</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">nil</span>
-  )
-<span class="ruby-keyword">end</span></pre>
-            </div><!-- defaults-source -->
-            
-          </div>
-
-          
-
-          
-        </div><!-- defaults-method -->
-
-      
-      </div><!-- public-class-method-details -->
+  <ul class="link-list">
     
-      <div id="public-instance-method-details" class="method-section section">
-        <h3 class="section-header">Public Instance Methods</h3>
+    <li><a href="#method-c-defaults">::defaults</a>
+    
+    <li><a href="#method-i-merge_config">#merge_config</a>
+    
+    <li><a href="#method-i-opts">#opts</a>
+    
+    <li><a href="#method-i-print_formats">#print_formats</a>
+    
+    <li><a href="#method-i-run">#run</a>
+    
+  </ul>
+</nav>
 
-      
-        <div id="run-method" class="method-detail ">
-          <a name="method-i-run"></a>
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../COPYING.html">COPYING</a>
+  
+    <li class="file"><a href="../ChangeLog.html">ChangeLog</a>
+  
+    <li class="file"><a href="../README.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Athena.html">Athena</a>
+  
+    <li><a href="../Athena/CLI.html">Athena::CLI</a>
+  
+    <li><a href="../Athena/Formats.html">Athena::Formats</a>
+  
+    <li><a href="../Athena/Formats/Base.html">Athena::Formats::Base</a>
+  
+    <li><a href="../Athena/Formats/ConfigError.html">Athena::Formats::ConfigError</a>
+  
+    <li><a href="../Athena/Formats/DBM.html">Athena::Formats::DBM</a>
+  
+    <li><a href="../Athena/Formats/DirectionMismatchError.html">Athena::Formats::DirectionMismatchError</a>
+  
+    <li><a href="../Athena/Formats/DuplicateFormatDefinitionError.html">Athena::Formats::DuplicateFormatDefinitionError</a>
+  
+    <li><a href="../Athena/Formats/Ferret.html">Athena::Formats::Ferret</a>
+  
+    <li><a href="../Athena/Formats/FormatError.html">Athena::Formats::FormatError</a>
+  
+    <li><a href="../Athena/Formats/FormatNotFoundError.html">Athena::Formats::FormatNotFoundError</a>
+  
+    <li><a href="../Athena/Formats/IllegalRecordElementError.html">Athena::Formats::IllegalRecordElementError</a>
+  
+    <li><a href="../Athena/Formats/Lingo.html">Athena::Formats::Lingo</a>
+  
+    <li><a href="../Athena/Formats/Lingo/KeyValue.html">Athena::Formats::Lingo::KeyValue</a>
+  
+    <li><a href="../Athena/Formats/Lingo/MultiValue.html">Athena::Formats::Lingo::MultiKey</a>
+  
+    <li><a href="../Athena/Formats/Lingo/MultiValue.html">Athena::Formats::Lingo::MultiValue</a>
+  
+    <li><a href="../Athena/Formats/Lingo/SingleWord.html">Athena::Formats::Lingo::SingleWord</a>
+  
+    <li><a href="../Athena/Formats/Lingo/WordClass.html">Athena::Formats::Lingo::WordClass</a>
+  
+    <li><a href="../Athena/Formats/MYSQL.html">Athena::Formats::MYSQL</a>
+  
+    <li><a href="../Athena/Formats/MYSQL/SQLParser.html">Athena::Formats::MYSQL::SQLParser</a>
+  
+    <li><a href="../Athena/Formats/DBM.html">Athena::Formats::Midos</a>
+  
+    <li><a href="../Athena/Formats/MySQL.html">Athena::Formats::MySQL</a>
+  
+    <li><a href="../Athena/Formats/NoRecordElementError.html">Athena::Formats::NoRecordElementError</a>
+  
+    <li><a href="../Athena/Formats/PGSQL.html">Athena::Formats::PGSQL</a>
+  
+    <li><a href="../Athena/Formats/PgSQL.html">Athena::Formats::PgSQL</a>
+  
+    <li><a href="../Athena/Formats/Sisis.html">Athena::Formats::Sisis</a>
+  
+    <li><a href="../Athena/Formats/XML.html">Athena::Formats::XML</a>
+  
+    <li><a href="../Athena/Formats/XML/BaseSpec.html">Athena::Formats::XML::BaseSpec</a>
+  
+    <li><a href="../Athena/Formats/XML/ElementSpec.html">Athena::Formats::XML::ElementSpec</a>
+  
+    <li><a href="../Athena/Formats/XML/Flat.html">Athena::Formats::XML::Flat</a>
+  
+    <li><a href="../Athena/Formats/XML/RecordSpec.html">Athena::Formats::XML::RecordSpec</a>
+  
+    <li><a href="../Athena/Formats/XML/SubElementSpec.html">Athena::Formats::XML::SubElementSpec</a>
+  
+    <li><a href="../Athena/Record.html">Athena::Record</a>
+  
+    <li><a href="../Athena/Record/NoRecordError.html">Athena::Record::NoRecordError</a>
+  
+    <li><a href="../Athena/Version.html">Athena::Version</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Athena::CLI</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-run" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">run</span><span
+            class="method-args">(arguments)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
 
           
-          <div class="method-heading">
-            <span class="method-name">run</span><span
-              class="method-args">(arguments)</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="run-source">
-<pre>
-<span class="ruby-comment"># File lib/athena/cli.rb, line 49</span>
+          <div class="method-source-code" id="run-source">
+            <pre><span class="ruby-comment"># File lib/athena/cli.rb, line 49</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">run</span>(<span class="ruby-identifier">arguments</span>)
   <span class="ruby-identifier">spec</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:spec</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:spec_fallback</span>]
   <span class="ruby-identifier">abort</span> <span class="ruby-string">&quot;No input format (spec) specified and none could be inferred.&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">spec</span>
@@ -280,107 +240,77 @@
     }.<span class="ruby-identifier">reverse</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span> <span class="ruby-identifier">config</span>[<span class="ruby-identifier">target</span> = <span class="ruby-identifier">t</span>.<span class="ruby-identifier">to_sym</span>] }
   <span class="ruby-keyword">end</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">abort</span> <span class="ruby-node">&quot;Config not found for target: #{target}.&quot;</span>
 
-  <span class="ruby-identifier">parser</span> = <span class="ruby-constant">Athena</span>.<span class="ruby-identifier">parser</span>(<span class="ruby-identifier">target_config</span>, <span class="ruby-identifier">spec</span>)
-
   <span class="ruby-identifier">input</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:input</span>]
   <span class="ruby-identifier">input</span> = <span class="ruby-identifier">arguments</span>.<span class="ruby-identifier">shift</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">input</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">defaults</span>[<span class="ruby-value">:input</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">arguments</span>.<span class="ruby-identifier">empty?</span>
-  <span class="ruby-identifier">options</span>[<span class="ruby-value">:input</span>] = <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">input</span>) <span class="ruby-operator">?</span> <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">input</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">open_file_or_std</span>(<span class="ruby-identifier">input</span>)
+  <span class="ruby-identifier">input</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">input</span>) <span class="ruby-operator">?</span> <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">input</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">open_file_or_std</span>(<span class="ruby-identifier">input</span>)
 
   <span class="ruby-identifier">quit</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">arguments</span>.<span class="ruby-identifier">empty?</span>
 
-  <span class="ruby-identifier">options</span>[<span class="ruby-value">:output</span>] = <span class="ruby-identifier">open_file_or_std</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:output</span>], <span class="ruby-keyword">true</span>)
-
-  <span class="ruby-keyword">if</span> <span class="ruby-constant">Athena</span>.<span class="ruby-identifier">deferred_output?</span>(<span class="ruby-identifier">format</span>)
-    <span class="ruby-identifier">res</span> = <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:input</span>])
-
-    <span class="ruby-identifier">res</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">record</span>.<span class="ruby-identifier">to</span>(<span class="ruby-identifier">format</span>)
-    }.<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">line</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">options</span>[<span class="ruby-value">:output</span>].<span class="ruby-identifier">puts</span> <span class="ruby-identifier">line</span>
-    }
-  <span class="ruby-keyword">elsif</span> <span class="ruby-constant">Athena</span>.<span class="ruby-identifier">raw_output?</span>(<span class="ruby-identifier">format</span>)
-    <span class="ruby-identifier">res</span> = <span class="ruby-constant">Athena</span>.<span class="ruby-identifier">with_format</span>(<span class="ruby-identifier">format</span>, <span class="ruby-identifier">options</span>[<span class="ruby-value">:output</span>]) { <span class="ruby-operator">|</span><span class="ruby-identifier">_format</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:input</span>]) { <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
-        <span class="ruby-identifier">record</span>.<span class="ruby-identifier">to</span>(<span class="ruby-identifier">_format</span>)
-      }
-    }
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">res</span> = <span class="ruby-constant">Athena</span>.<span class="ruby-identifier">with_format</span>(<span class="ruby-identifier">format</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">_format</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:input</span>]) { <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
-        <span class="ruby-identifier">options</span>[<span class="ruby-value">:output</span>].<span class="ruby-identifier">puts</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">to</span>(<span class="ruby-identifier">_format</span>)
-      }
-    }
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-constant">Athena</span>.<span class="ruby-identifier">run</span>(<span class="ruby-identifier">target_config</span>, <span class="ruby-identifier">spec</span>, <span class="ruby-identifier">format</span>, <span class="ruby-identifier">input</span>, <span class="ruby-identifier">open_file_or_std</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:output</span>], <span class="ruby-keyword">true</span>))
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- run-source -->
-            
-          </div>
-
+          </div><!-- run-source -->
           
+        </div>
 
-          
-        </div><!-- run-method -->
+        
 
-      
-      </div><!-- public-instance-method-details -->
+        
+      </div><!-- run-method -->
+
     
-      <div id="private-instance-method-details" class="method-section section">
-        <h3 class="section-header">Private Instance Methods</h3>
+    </section><!-- public-instance-method-details -->
+  
+     <section id="private-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Private Instance Methods</h3>
 
-      
-        <div id="merge_config-method" class="method-detail ">
-          <a name="method-i-merge_config"></a>
+    
+      <div id="method-i-merge_config" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">merge_config</span><span
+            class="method-args">(args = [defaults])</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
 
           
-          <div class="method-heading">
-            <span class="method-name">merge_config</span><span
-              class="method-args">(args = [default])</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="merge_config-source">
-<pre>
-<span class="ruby-comment"># File lib/athena/cli.rb, line 101</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">merge_config</span>(<span class="ruby-identifier">args</span> = [<span class="ruby-identifier">default</span>])
+          <div class="method-source-code" id="merge_config-source">
+            <pre><span class="ruby-comment"># File lib/athena/cli.rb, line 77</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">merge_config</span>(<span class="ruby-identifier">args</span> = [<span class="ruby-identifier">defaults</span>])
   <span class="ruby-keyword">super</span>
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- merge_config-source -->
-            
-          </div>
+          </div><!-- merge_config-source -->
+          
+        </div>
 
+        
+
+        
+      </div><!-- merge_config-method -->
+
+    
+      <div id="method-i-opts" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">opts</span><span
+            class="method-args">(opts)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
           
 
           
-        </div><!-- merge_config-method -->
-
-      
-        <div id="opts-method" class="method-detail ">
-          <a name="method-i-opts"></a>
-
-          
-          <div class="method-heading">
-            <span class="method-name">opts</span><span
-              class="method-args">(opts)</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
-
-          <div class="method-description">
-            
-            
-            
-
-            
-            <div class="method-source-code" id="opts-source">
-<pre>
-<span class="ruby-comment"># File lib/athena/cli.rb, line 105</span>
+          <div class="method-source-code" id="opts-source">
+            <pre><span class="ruby-comment"># File lib/athena/cli.rb, line 81</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">opts</span>(<span class="ruby-identifier">opts</span>)
   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on</span>(<span class="ruby-string">'-c'</span>, <span class="ruby-string">'--config YAML'</span>, <span class="ruby-node">&quot;Config file [Default: #{defaults[:config]}#{' (currently not present)' unless File.readable?(defaults[:config])}]&quot;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">config</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">quit</span> <span class="ruby-node">&quot;Can't find config file: #{config}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">readable?</span>(<span class="ruby-identifier">config</span>)
@@ -403,13 +333,7 @@
   }
 
   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on</span>(<span class="ruby-string">'-L'</span>, <span class="ruby-string">'--list-specs'</span>, <span class="ruby-string">&quot;List available input formats (specs) and exit&quot;</span>) {
-    <span class="ruby-identifier">puts</span> <span class="ruby-string">'Available input formats (specs):'</span>
-
-    <span class="ruby-constant">Athena</span>.<span class="ruby-identifier">input_formats</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">format</span>, <span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;  - #{format}#{&quot; (= #{name})&quot; if format != name.to_s}&quot;</span>
-    }
-
-    <span class="ruby-identifier">exit</span>
+    <span class="ruby-identifier">print_formats</span>(<span class="ruby-value">:in</span>)
   }
 
   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">separator</span> <span class="ruby-string">''</span>
@@ -424,13 +348,7 @@
   }
 
   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">on</span>(<span class="ruby-string">'-l'</span>, <span class="ruby-string">'--list-formats'</span>, <span class="ruby-string">&quot;List available output formats and exit&quot;</span>) {
-    <span class="ruby-identifier">puts</span> <span class="ruby-string">'Available output formats:'</span>
-
-    <span class="ruby-constant">Athena</span>.<span class="ruby-identifier">output_formats</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">format</span>, <span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;  - #{format}#{&quot; (= #{name})&quot; if format != name.to_s}&quot;</span>
-    }
-
-    <span class="ruby-identifier">exit</span>
+    <span class="ruby-identifier">print_formats</span>(<span class="ruby-value">:out</span>)
   }
 
   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">separator</span> <span class="ruby-string">''</span>
@@ -439,29 +357,106 @@
     <span class="ruby-identifier">options</span>[<span class="ruby-value">:target</span>] = <span class="ruby-identifier">target</span>
   }
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- opts-source -->
-            
-          </div>
-
+          </div><!-- opts-source -->
           
+        </div>
 
-          
-        </div><!-- opts-method -->
+        
 
-      
-      </div><!-- private-instance-method-details -->
+        
+      </div><!-- opts-method -->
+
     
-    </div><!-- 5Buntitled-5D -->
+      <div id="method-i-print_formats" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">print_formats</span><span
+            class="method-args">(direction)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="print_formats-source">
+            <pre><span class="ruby-comment"># File lib/athena/cli.rb, line 128</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">print_formats</span>(<span class="ruby-identifier">direction</span>)
+  <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Available #{direction}put formats:&quot;</span>
+
+  <span class="ruby-constant">Athena</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{direction}put_formats&quot;</span>).<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">klass</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">line</span>, <span class="ruby-identifier">format</span> = <span class="ruby-node">&quot;  - #{name}&quot;</span>, <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">format</span>
+    <span class="ruby-identifier">line</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot; (= #{format})&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">name</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">format</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">Athena</span>.<span class="ruby-identifier">valid_format?</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">format</span>)
+
+    <span class="ruby-identifier">puts</span> <span class="ruby-identifier">line</span>
+  }
+
+  <span class="ruby-identifier">exit</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- print_formats-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- print_formats-method -->
+
+    
+    </section><!-- private-instance-method-details -->
   
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
 
-  </div><!-- documentation -->
+    
+      <div id="method-c-defaults" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">defaults</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
 
-  <div id="validator-badges">
-    <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
-    <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
-      Rdoc Generator</a> 2</small>.</p>
-  </div>
+        <div class="method-description">
+          
+          
+          
 
-</body>
-</html>
+          
+          <div class="method-source-code" id="defaults-source">
+            <pre><span class="ruby-comment"># File lib/athena/cli.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">defaults</span>
+  <span class="ruby-keyword">super</span>.<span class="ruby-identifier">merge</span>(
+    <span class="ruby-value">:config</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'config.yaml'</span>,
+    <span class="ruby-value">:input</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-'</span>,
+    <span class="ruby-value">:output</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-'</span>,
+    <span class="ruby-value">:target</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">nil</span>
+  )
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- defaults-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- defaults-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
 

@@ -1,338 +1,620 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+
+<html>
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-  <title>Module: Athena::Formats</title>
+<title>module Athena::Formats - athena Application documentation (v0.2.2)</title>
 
-  <link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
 
-  <script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../js/thickbox-compressed.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../js/quicksearch.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../js/darkfish.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
 
-</head>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
 <body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
 
-  <div id="metadata">
-    <div id="home-metadata">
-      <div id="home-section" class="section">
-        <h3 class="section-header">
-          <a href="../index.html">Home</a>
-          <a href="../index.html#classes">Classes</a>
-          <a href="../index.html#methods">Methods</a>
-        </h3>
-      </div>
-    </div>
 
-    <div id="file-metadata">
-      <div id="file-list-section" class="section">
-        <h3 class="section-header">In Files</h3>
-        <div class="section-body">
-          <ul>
-          
-            <li><a href="../lib/athena/formats/xml_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/formats/xml.rb">lib/athena/formats/xml.rb</a></li>
-          
-            <li><a href="../lib/athena/formats/lingo_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/formats/lingo.rb">lib/athena/formats/lingo.rb</a></li>
-          
-            <li><a href="../lib/athena/formats/ferret_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/formats/ferret.rb">lib/athena/formats/ferret.rb</a></li>
-          
-            <li><a href="../lib/athena/formats/dbm_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/formats/dbm.rb">lib/athena/formats/dbm.rb</a></li>
-          
-            <li><a href="../lib/athena/formats/sql_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/formats/sql.rb">lib/athena/formats/sql.rb</a></li>
-          
-            <li><a href="../lib/athena/formats/sisis_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/formats/sisis.rb">lib/athena/formats/sisis.rb</a></li>
-          
-            <li><a href="../lib/athena/formats_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-              class="thickbox" title="lib/athena/formats.rb">lib/athena/formats.rb</a></li>
-          
-          </ul>
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/athena/formats.rb
+    <li>lib/athena/formats/dbm.rb
+    <li>lib/athena/formats/sql.rb
+    <li>lib/athena/formats/xml.rb
+    <li>lib/athena/formats/lingo.rb
+    <li>lib/athena/formats/sisis.rb
+    <li>lib/athena/formats/ferret.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-5B-5D">::[]</a>
+    
+    <li><a href="#method-c-find">::find</a>
+    
+    <li><a href="#method-c-format_name">::format_name</a>
+    
+    <li><a href="#method-c-register">::register</a>
+    
+    <li><a href="#method-c-register_all">::register_all</a>
+    
+    <li><a href="#method-c-valid_format-3F">::valid_format?</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../COPYING.html">COPYING</a>
+  
+    <li class="file"><a href="../ChangeLog.html">ChangeLog</a>
+  
+    <li class="file"><a href="../README.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Athena.html">Athena</a>
+  
+    <li><a href="../Athena/CLI.html">Athena::CLI</a>
+  
+    <li><a href="../Athena/Formats.html">Athena::Formats</a>
+  
+    <li><a href="../Athena/Formats/Base.html">Athena::Formats::Base</a>
+  
+    <li><a href="../Athena/Formats/ConfigError.html">Athena::Formats::ConfigError</a>
+  
+    <li><a href="../Athena/Formats/DBM.html">Athena::Formats::DBM</a>
+  
+    <li><a href="../Athena/Formats/DirectionMismatchError.html">Athena::Formats::DirectionMismatchError</a>
+  
+    <li><a href="../Athena/Formats/DuplicateFormatDefinitionError.html">Athena::Formats::DuplicateFormatDefinitionError</a>
+  
+    <li><a href="../Athena/Formats/Ferret.html">Athena::Formats::Ferret</a>
+  
+    <li><a href="../Athena/Formats/FormatError.html">Athena::Formats::FormatError</a>
+  
+    <li><a href="../Athena/Formats/FormatNotFoundError.html">Athena::Formats::FormatNotFoundError</a>
+  
+    <li><a href="../Athena/Formats/IllegalRecordElementError.html">Athena::Formats::IllegalRecordElementError</a>
+  
+    <li><a href="../Athena/Formats/Lingo.html">Athena::Formats::Lingo</a>
+  
+    <li><a href="../Athena/Formats/Lingo/KeyValue.html">Athena::Formats::Lingo::KeyValue</a>
+  
+    <li><a href="../Athena/Formats/Lingo/MultiValue.html">Athena::Formats::Lingo::MultiKey</a>
+  
+    <li><a href="../Athena/Formats/Lingo/MultiValue.html">Athena::Formats::Lingo::MultiValue</a>
+  
+    <li><a href="../Athena/Formats/Lingo/SingleWord.html">Athena::Formats::Lingo::SingleWord</a>
+  
+    <li><a href="../Athena/Formats/Lingo/WordClass.html">Athena::Formats::Lingo::WordClass</a>
+  
+    <li><a href="../Athena/Formats/MYSQL.html">Athena::Formats::MYSQL</a>
+  
+    <li><a href="../Athena/Formats/MYSQL/SQLParser.html">Athena::Formats::MYSQL::SQLParser</a>
+  
+    <li><a href="../Athena/Formats/DBM.html">Athena::Formats::Midos</a>
+  
+    <li><a href="../Athena/Formats/MySQL.html">Athena::Formats::MySQL</a>
+  
+    <li><a href="../Athena/Formats/NoRecordElementError.html">Athena::Formats::NoRecordElementError</a>
+  
+    <li><a href="../Athena/Formats/PGSQL.html">Athena::Formats::PGSQL</a>
+  
+    <li><a href="../Athena/Formats/PgSQL.html">Athena::Formats::PgSQL</a>
+  
+    <li><a href="../Athena/Formats/Sisis.html">Athena::Formats::Sisis</a>
+  
+    <li><a href="../Athena/Formats/XML.html">Athena::Formats::XML</a>
+  
+    <li><a href="../Athena/Formats/XML/BaseSpec.html">Athena::Formats::XML::BaseSpec</a>
+  
+    <li><a href="../Athena/Formats/XML/ElementSpec.html">Athena::Formats::XML::ElementSpec</a>
+  
+    <li><a href="../Athena/Formats/XML/Flat.html">Athena::Formats::XML::Flat</a>
+  
+    <li><a href="../Athena/Formats/XML/RecordSpec.html">Athena::Formats::XML::RecordSpec</a>
+  
+    <li><a href="../Athena/Formats/XML/SubElementSpec.html">Athena::Formats::XML::SubElementSpec</a>
+  
+    <li><a href="../Athena/Record.html">Athena::Record</a>
+  
+    <li><a href="../Athena/Record/NoRecordError.html">Athena::Record::NoRecordError</a>
+  
+    <li><a href="../Athena/Version.html">Athena::Version</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Athena::Formats</h1>
+
+  <div id="description" class="description">
+    
+<p>In order to support additional input and/or output formats, <a
+href="Formats/Base.html">Athena::Formats::Base</a> needs to be sub-classed
+and an instance method <em>parse</em> or an instance method
+<em>convert</em> supplied, respectively. This way, a specific format can
+even function as both input and output format.</p>
+
+<h2 id="label-Defining+custom+formats">Defining custom formats</h2>
+
+<p>Define one or more classes that inherit from <a
+href="Formats/Base.html">Athena::Formats::Base</a> and either call <a
+href="Formats.html#method-c-register">::register</a> with your format class
+as parameter or call <a
+href="Formats.html#method-c-register_all">::register_all</a> with your
+surrounding namespace (which will then recursively add any format
+definitions below it). Alternatively, you can call <a
+href="Formats/Base.html#method-c-register_format">Athena::Formats::Base.register_format</a>
+<strong>at the end</strong> of your class definition to register just this
+class.</p>
+
+<p>The directions supported by your custom format are determined
+automatically; see below for further details.</p>
+
+<h3 id="label-Defining+an+input+format">Defining an <em>input</em> format</h3>
+
+<p>An input format must provide a <strong>public</strong> instance method
+<em>parse</em> that accepts an input object (usually an IO object) and a
+block it passes each record (<a href="Record.html">Athena::Record</a>) to.
+See <a
+href="Formats/Base.html#method-i-parse">Athena::Formats::Base#parse</a>.</p>
+
+<h3 id="label-Defining+an+output+format">Defining an <em>output</em> format</h3>
+
+<p>An output format must provide a <strong>public</strong> instance method
+<em>convert</em> that accepts a record (<a
+href="Record.html">Athena::Record</a>) and either returns a suitable value
+for output or writes the output itself. See <a
+href="Formats/Base.html#method-i-convert">Athena::Formats::Base#convert</a>.</p>
+
+<h2 id="label-Aliases">Aliases</h2>
+
+<p>In order to provide an alias name for a format, simply assign the format
+class to a new constant. Then you need to call
+<code>Athena::Formats.register(your_new_const)</code> to register your
+alias.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="CRLF">CRLF
+        
+        <dd class="description"><p>CR+LF line ending.</p>
+        
+      
+        <dt id="CRLF_RE">CRLF_RE
+        
+        <dd class="description"><p>Regular expression to match (multiple) CR+LF line endings.</p>
+        
+      
+        <dt id="METHODS">METHODS
+        
+        <dd class="description"><p>Mapping of format direction to method required for implementation.</p>
+        
+      
+        <dt id="Midos">Midos
+        
+        <dd class="description">
+        
+      
+      </dl>
+    </section>
+    
+
+    
+    <!-- Attributes -->
+    <section id="attribute-method-details" class="method-section section">
+      <h3 class="section-header">Attributes</h3>
+
+      
+      <div id="attribute-c-formats" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">formats</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <p>Container for registered formats per direction. Use <a
+href="Formats.html#method-c-find">::find</a> or ::[] to access them.</p>
+        
         </div>
       </div>
+      
+    </section><!-- attribute-method-details -->
+    
 
-      
-    </div>
-
-    <div id="class-metadata">
-      
-
-      
-
-      
-      <!-- Namespace Contents -->
-      <div id="namespace-list-section" class="section">
-        <h3 class="section-header">Namespace</h3>
-        <ul class="link-list">
-          
-          <li><span class="type">CLASS</span> <a href="Formats/Base.html">Athena::Formats::Base</a></li>
-          
-          <li><span class="type">CLASS</span> <a href="Formats/DBM.html">Athena::Formats::DBM</a></li>
-          
-          <li><span class="type">CLASS</span> <a href="Formats/DirectionMismatchError.html">Athena::Formats::DirectionMismatchError</a></li>
-          
-          <li><span class="type">CLASS</span> <a href="Formats/DuplicateFormatDefinitionError.html">Athena::Formats::DuplicateFormatDefinitionError</a></li>
-          
-          <li><span class="type">CLASS</span> <a href="Formats/Ferret.html">Athena::Formats::Ferret</a></li>
-          
-          <li><span class="type">CLASS</span> <a href="Formats/FormatError.html">Athena::Formats::FormatError</a></li>
-          
-          <li><span class="type">CLASS</span> <a href="Formats/IllegalRecordElementError.html">Athena::Formats::IllegalRecordElementError</a></li>
-          
-          <li><span class="type">CLASS</span> <a href="Formats/Lingo.html">Athena::Formats::Lingo</a></li>
-          
-          <li><span class="type">CLASS</span> <a href="Formats/MYSQL.html">Athena::Formats::MYSQL</a></li>
-          
-          <li><span class="type">CLASS</span> <a href="Formats/MYSQL.html">Athena::Formats::MySQL</a></li>
-          
-          <li><span class="type">CLASS</span> <a href="Formats/NoRecordElementError.html">Athena::Formats::NoRecordElementError</a></li>
-          
-          <li><span class="type">CLASS</span> <a href="Formats/PGSQL.html">Athena::Formats::PGSQL</a></li>
-          
-          <li><span class="type">CLASS</span> <a href="Formats/PGSQL.html">Athena::Formats::PgSQL</a></li>
-          
-          <li><span class="type">CLASS</span> <a href="Formats/Sisis.html">Athena::Formats::Sisis</a></li>
-          
-          <li><span class="type">CLASS</span> <a href="Formats/XML.html">Athena::Formats::XML</a></li>
-          
-        </ul>
-      </div>
-      
-
-      
-      <!-- Method Quickref -->
-      <div id="method-list-section" class="section">
-        <h3 class="section-header">Methods</h3>
-        <ul class="link-list">
-          
-          <li><a href="#method-c-5B-5D">::[]</a></li>
-          
-        </ul>
-      </div>
-      
-
-      
-    </div>
-
-    <div id="project-metadata">
-      
-      
-      <div id="fileindex-section" class="section project-section">
-        <h3 class="section-header">Files</h3>
-        <ul>
-        
-          <li class="file"><a href="../COPYING.html">COPYING</a></li>
-        
-          <li class="file"><a href="../ChangeLog.html">ChangeLog</a></li>
-        
-          <li class="file"><a href="../README.html">README</a></li>
-        
-        </ul>
-      </div>
-      
-
-      <div id="classindex-section" class="section project-section">
-        <h3 class="section-header">Class/Module Index
-          <span class="search-toggle"><img src="../images/find.png"
-            height="16" width="16" alt="[+]"
-            title="show/hide quicksearch" /></span></h3>
-        <form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
-        <fieldset>
-          <legend>Quicksearch</legend>
-          <input type="text" name="quicksearch" value=""
-            class="quicksearch-field" />
-        </fieldset>
-        </form>
-
-        <ul class="link-list">
-        
-          <li><a href="../Athena.html">Athena</a></li>
-        
-          <li><a href="../Athena/CLI.html">Athena::CLI</a></li>
-        
-          <li><a href="../Athena/Formats.html">Athena::Formats</a></li>
-        
-          <li><a href="../Athena/Formats/Base.html">Athena::Formats::Base</a></li>
-        
-          <li><a href="../Athena/Formats/DBM.html">Athena::Formats::DBM</a></li>
-        
-          <li><a href="../Athena/Formats/DirectionMismatchError.html">Athena::Formats::DirectionMismatchError</a></li>
-        
-          <li><a href="../Athena/Formats/DuplicateFormatDefinitionError.html">Athena::Formats::DuplicateFormatDefinitionError</a></li>
-        
-          <li><a href="../Athena/Formats/Ferret.html">Athena::Formats::Ferret</a></li>
-        
-          <li><a href="../Athena/Formats/FormatError.html">Athena::Formats::FormatError</a></li>
-        
-          <li><a href="../Athena/Formats/IllegalRecordElementError.html">Athena::Formats::IllegalRecordElementError</a></li>
-        
-          <li><a href="../Athena/Formats/Lingo.html">Athena::Formats::Lingo</a></li>
-        
-          <li><a href="../Athena/Formats/MYSQL.html">Athena::Formats::MYSQL</a></li>
-        
-          <li><a href="../Athena/Formats/MYSQL/SQLParser.html">Athena::Formats::MYSQL::SQLParser</a></li>
-        
-          <li><a href="../Athena/Formats/MYSQL.html">Athena::Formats::MySQL</a></li>
-        
-          <li><a href="../Athena/Formats/NoRecordElementError.html">Athena::Formats::NoRecordElementError</a></li>
-        
-          <li><a href="../Athena/Formats/PGSQL.html">Athena::Formats::PGSQL</a></li>
-        
-          <li><a href="../Athena/Formats/PGSQL.html">Athena::Formats::PgSQL</a></li>
-        
-          <li><a href="../Athena/Formats/Sisis.html">Athena::Formats::Sisis</a></li>
-        
-          <li><a href="../Athena/Formats/XML.html">Athena::Formats::XML</a></li>
-        
-          <li><a href="../Athena/Formats/XML/BaseSpec.html">Athena::Formats::XML::BaseSpec</a></li>
-        
-          <li><a href="../Athena/Formats/XML/ElementSpec.html">Athena::Formats::XML::ElementSpec</a></li>
-        
-          <li><a href="../Athena/Formats/XML/RecordSpec.html">Athena::Formats::XML::RecordSpec</a></li>
-        
-          <li><a href="../Athena/Formats/XML/SubElementSpec.html">Athena::Formats::XML::SubElementSpec</a></li>
-        
-          <li><a href="../Athena/Parser.html">Athena::Parser</a></li>
-        
-          <li><a href="../Athena/Parser/ConfigError.html">Athena::Parser::ConfigError</a></li>
-        
-          <li><a href="../Athena/Record.html">Athena::Record</a></li>
-        
-          <li><a href="../Athena/Record/NoRecordError.html">Athena::Record::NoRecordError</a></li>
-        
-          <li><a href="../Athena/Version.html">Athena::Version</a></li>
-        
-        </ul>
-        <div id="no-class-search-results" style="display: none;">No matching classes.</div>
-      </div>
-
-      
-    </div>
-  </div>
-
-  <div id="documentation">
-    <h1 class="module">Athena::Formats</h1>
-
-    <div id="description" class="description">
-      
-    </div><!-- description -->
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
 
     
-    <div id="5Buntitled-5D" class="documentation-section">
-      
-
-      
-
-      
-      <!-- Constants -->
-      <div id="constants-list" class="section">
-        <h3 class="section-header">Constants</h3>
-        <dl>
+      <div id="method-c-5B-5D" class="method-detail ">
         
-          <dt><a name="CRLF">CRLF</a></dt>
-          
-          <dd class="description"></dd>
-          
         
-          <dt><a name="CRLF_RE">CRLF_RE</a></dt>
+        <div class="method-heading">
+          <span class="method-callseq">
+            Athena::Formats[direction, format, *args] &rarr; aFormat
+          </span>
           
-          <dd class="description"></dd>
+          <span class="method-click-advice">click to toggle source</span>
           
+        </div>
         
-          <dt><a name="ConfigError">ConfigError</a></dt>
-          
-          <dd class="description"></dd>
-          
         
-          <dt><a name="MySQL">MySQL</a></dt>
+
+        <div class="method-description">
           
-          <dd class="description"></dd>
+          <p>Retrieves the format for <code>direction</code> by its name
+<code>format</code> (see <a href="Formats.html#method-c-find">::find</a>)
+and initializes it with <code>args</code> (see <a
+href="Formats/Base.html#method-i-init">Athena::Formats::Base#init</a>).
+Returns <code>format</code> unaltered if it already is a format instance,
+while making sure that it supports <code>direction</code>.</p>
           
+
+          
+          <div class="method-source-code" id="5B-5D-source">
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 96</span>
+<span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">format</span>, *<span class="ruby-identifier">args</span>)
+  <span class="ruby-identifier">res</span> = <span class="ruby-identifier">find</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">format</span>, <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">res</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Base</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">res</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">res</span>.<span class="ruby-identifier">init</span>(<span class="ruby-identifier">direction</span>, *<span class="ruby-identifier">args</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- 5B-5D-source -->
+          
+        </div>
+
         
-          <dt><a name="PgSQL">PgSQL</a></dt>
-          
-          <dd class="description"></dd>
-          
+
         
-        </dl>
-      </div>
-      
+      </div><!-- 5B-5D-method -->
 
-      
+    
+      <div id="method-c-find" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            Athena::Formats.find(direction, format) &rarr; aFormatClass
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
 
-      <!-- Methods -->
-      
-      <div id="public-class-method-details" class="method-section section">
-        <h3 class="section-header">Public Class Methods</h3>
-
-      
-        <div id="5B-5D-method" class="method-detail ">
-          <a name="method-c-5B-5D"></a>
+        <div class="method-description">
+          
+          <p>Retrieves the format for <code>direction</code> by its name
+<code>format</code>. Returns <code>format</code>‘s class if it already is
+a format instance, while making sure that it supports
+<code>direction</code>.</p>
+          
 
           
-          <div class="method-heading">
-            <span class="method-name">[]</span><span
-              class="method-args">(direction, format)</span>
-            <span class="method-click-advice">click to toggle source</span>
-          </div>
-          
+          <div class="method-source-code" id="find-source">
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 107</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">find</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">format</span>, <span class="ruby-identifier">instance</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">directions</span> = <span class="ruby-identifier">formats</span>.<span class="ruby-identifier">keys</span>
 
-          <div class="method-description">
-            
-            
-            
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">directions</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">direction</span>)
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;invalid direction: #{direction.inspect}&quot;</span> <span class="ruby-operator">&lt;&lt;</span>
+      <span class="ruby-node">&quot; (must be one of: #{directions.map { |d| d.inspect }.join(', ')})&quot;</span>
+  <span class="ruby-keyword">end</span>
 
-            
-            <div class="method-source-code" id="5B-5D-source">
-<pre>
-<span class="ruby-comment"># File lib/athena/formats.rb, line 38</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-operator">[]</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">format</span>)
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">direction</span> <span class="ruby-operator">==</span> <span class="ruby-value">:out</span>
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">format</span>.<span class="ruby-identifier">class</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Base</span>
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">format</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">direction</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">direction</span>
-        <span class="ruby-identifier">raise</span> <span class="ruby-constant">DirectionMismatchError</span>,
-          <span class="ruby-node">&quot;expected #{direction}, got #{format.class.direction}&quot;</span>
-      <span class="ruby-keyword">else</span>
-        <span class="ruby-identifier">format</span>
-      <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">format</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Symbol</span>
+      <span class="ruby-identifier">find</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">format</span>.<span class="ruby-identifier">to_s</span>)
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>
+      <span class="ruby-identifier">formats</span>[<span class="ruby-identifier">direction</span>][<span class="ruby-identifier">format</span>] <span class="ruby-keyword">or</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">FormatNotFoundError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">format</span>)
     <span class="ruby-keyword">else</span>
-      <span class="ruby-constant">Base</span>.<span class="ruby-identifier">formats</span>[<span class="ruby-identifier">direction</span>][<span class="ruby-identifier">format</span>].<span class="ruby-identifier">new</span>
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-constant">Base</span>.<span class="ruby-identifier">formats</span>[<span class="ruby-identifier">direction</span>][<span class="ruby-identifier">format</span>]
+      <span class="ruby-identifier">klass</span> = <span class="ruby-identifier">format</span>.<span class="ruby-identifier">class</span>
+
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">klass</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Base</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span>(<span class="ruby-identifier">directions</span> = <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">directions</span>).<span class="ruby-identifier">empty?</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">has_direction?</span>(<span class="ruby-identifier">direction</span>)
+          <span class="ruby-keyword">return</span> <span class="ruby-identifier">instance</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">format</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">klass</span>
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-identifier">raise</span> <span class="ruby-constant">DirectionMismatchError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">directions</span>)
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;invalid format of type #{klass}&quot;</span> <span class="ruby-operator">&lt;&lt;</span>
+          <span class="ruby-node">&quot; (expected one of: Symbol, String, or sub-class of #{Base})&quot;</span>
+      <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
-            </div><!-- 5B-5D-source -->
-            
-          </div>
-
+          </div><!-- find-source -->
           
+        </div>
 
-          
-        </div><!-- 5B-5D-method -->
+        
 
-      
-      </div><!-- public-class-method-details -->
+        
+      </div><!-- find-method -->
+
     
-    </div><!-- 5Buntitled-5D -->
+      <div id="method-c-register" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            Athena::Formats.register(klass, name = nil, relax = false) &rarr; anArray | nil
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Registers <code>klass</code> as format under <code>name</code> (defaults to
+<a
+href="Formats/Base.html#method-c-format">Athena::Formats::Base.format</a>).
+Only warns instead of raising any errors when <code>relax</code> is
+<code>true</code>. Returns an array of the actual name <code>klass</code>
+has been registered under and the directions supported; returns
+<code>nil</code> if nothing has been registered.</p>
+          
+
+          
+          <div class="method-source-code" id="register-source">
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 159</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">register</span>(<span class="ruby-identifier">klass</span>, <span class="ruby-identifier">name</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">relax</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">klass</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Base</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">relax</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;must be a sub-class of #{Base}&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">name</span> = <span class="ruby-identifier">name</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">format</span>
+  <span class="ruby-identifier">methods</span> = <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">public_instance_methods</span>(<span class="ruby-keyword">false</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> <span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_s</span> }
+  <span class="ruby-identifier">directions</span> = <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">directions</span>
+
+  <span class="ruby-constant">METHODS</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">direction</span>, <span class="ruby-identifier">method</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">methods</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">method</span>)
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">formats</span>[<span class="ruby-identifier">direction</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">name</span>)
+      <span class="ruby-identifier">err</span> = <span class="ruby-constant">DuplicateFormatDefinitionError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">name</span>)
+      <span class="ruby-identifier">raise</span> <span class="ruby-identifier">err</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">relax</span>
+
+      <span class="ruby-identifier">warn</span> <span class="ruby-identifier">err</span>
+      <span class="ruby-keyword">next</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">directions</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">direction</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">has_direction?</span>(<span class="ruby-identifier">direction</span>)
+      <span class="ruby-identifier">formats</span>[<span class="ruby-identifier">direction</span>][<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">klass</span>
+    <span class="ruby-keyword">end</span>
+  }
+
+  [<span class="ruby-identifier">name</span>, <span class="ruby-identifier">directions</span>] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">directions</span>.<span class="ruby-identifier">empty?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- register-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- register-method -->
+
+    
+      <div id="method-c-register_all" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            Athena::Formats.register_all(klass = self) &rarr; anArray
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Recursively registers all formats <strong>below</strong> <code>klass</code>
+(see <a href="Formats.html#method-c-register">::register</a>). Returns an
+array of all registered format names with their supported directions.</p>
+          
+
+          
+          <div class="method-source-code" id="register_all-source">
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 193</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">register_all</span>(<span class="ruby-identifier">klass</span> = <span class="ruby-keyword">self</span>, <span class="ruby-identifier">registered</span> = [])
+  <span class="ruby-identifier">names</span>  = <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">constants</span>
+  <span class="ruby-identifier">names</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">superclass</span>.<span class="ruby-identifier">constants</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Class</span>)
+
+  <span class="ruby-identifier">names</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">const</span> = <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-identifier">name</span>)
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">const</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Module</span>)
+
+    <span class="ruby-identifier">registered</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">register</span>(<span class="ruby-identifier">const</span>, <span class="ruby-identifier">format_name</span>(<span class="ruby-node">&quot;#{klass}::#{name}&quot;</span>), <span class="ruby-keyword">true</span>)
+    <span class="ruby-identifier">register_all</span>(<span class="ruby-identifier">const</span>, <span class="ruby-identifier">registered</span>)
+  }
+
+  <span class="ruby-identifier">registered</span>.<span class="ruby-identifier">compact</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- register_all-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- register_all-method -->
+
+    
+      <div id="method-c-valid_format-3F" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            Athena::Formats.valid_format?(direction, format) &rarr; true | false
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Indicates whether the <code>direction</code>/<code>format</code>
+combination is supported, i.e. a format by name <code>format</code> has
+been registered and supports <code>direction</code>.</p>
+          
+
+          
+          <div class="method-source-code" id="valid_format-3F-source">
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 143</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">valid_format?</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-identifier">format</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">format</span>.<span class="ruby-identifier">class</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Base</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">has_direction?</span>(<span class="ruby-identifier">direction</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">formats</span>[<span class="ruby-identifier">direction</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">format</span>.<span class="ruby-identifier">to_s</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- valid_format-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- valid_format-3F-method -->
+
+    
+    </section><!-- public-class-method-details -->
   
+     <section id="protected-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Protected Class Methods</h3>
 
-  </div><!-- documentation -->
+    
+      <div id="method-c-format_name" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            Athena::Formats.format_name(name) &rarr; aString
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
 
-  <div id="validator-badges">
-    <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
-    <p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
-      Rdoc Generator</a> 2</small>.</p>
-  </div>
+        <div class="method-description">
+          
+          <p><a href="Formats.html">Formats</a> <code>name</code> as suitable format
+name.</p>
+          
 
-</body>
-</html>
+          
+          <div class="method-source-code" id="format_name-source">
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 214</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">format_name</span>(<span class="ruby-identifier">fn</span>)
+  <span class="ruby-identifier">fn</span>.<span class="ruby-identifier">sub</span>(<span class="ruby-node">%r\A#{self}::/</span>, <span class="ruby-string">''</span>).
+    <span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">%r([a-z\d])(?=[A-Z])/</span>, <span class="ruby-string">'\1_'</span>).
+    <span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">%r::/</span>, <span class="ruby-string">'/'</span>).<span class="ruby-identifier">downcase</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- format_name-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- format_name-method -->
+
+    
+    </section><!-- protected-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
 
