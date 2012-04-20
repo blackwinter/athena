@@ -95,7 +95,7 @@ module Athena::Formats
         while result = parse_row
           row = result.value
           block_given ? yield(row) : rows << row
-          break unless @input.scan(/,/)
+          break unless @input.scan(/,\s*/)
         end
 
         @input.scan(/;/)  # optional
@@ -112,7 +112,7 @@ module Athena::Formats
 
         while result = parse_value
           row << result.value
-          break unless @input.scan(/,/)
+          break unless @input.scan(/,\s*/)
         end
 
         error('Unclosed row') unless @input.scan(/\)/)
