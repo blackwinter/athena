@@ -2,21 +2,21 @@
 
 Gem::Specification.new do |s|
   s.name = "athena"
-  s.version = "0.2.2"
+  s.version = "0.2.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jens Wille"]
-  s.date = "2012-04-20"
+  s.date = "2012-09-06"
   s.description = "Convert database files to various formats."
   s.email = "jens.wille@uni-koeln.de"
   s.executables = ["athena"]
   s.extra_rdoc_files = ["README", "COPYING", "ChangeLog"]
-  s.files = ["lib/athena/version.rb", "lib/athena/formats.rb", "lib/athena/formats/lingo.rb", "lib/athena/formats/dbm.rb", "lib/athena/formats/sql.rb", "lib/athena/formats/xml.rb", "lib/athena/formats/sisis.rb", "lib/athena/formats/ferret.rb", "lib/athena/cli.rb", "lib/athena/record.rb", "lib/athena.rb", "bin/athena", "ChangeLog", "COPYING", "README", "Rakefile", "example/dump-my.sql", "example/sisis-ex.txt", "example/dump-pg.sql", "example/config.yaml", "example/example.xml", "example/athena_plugin.rb"]
+  s.files = ["lib/athena/formats/sql.rb", "lib/athena/formats/xml.rb", "lib/athena/formats/ferret.rb", "lib/athena/formats/lingo.rb", "lib/athena/formats/dbm.rb", "lib/athena/formats/sisis.rb", "lib/athena/version.rb", "lib/athena/cli.rb", "lib/athena/record.rb", "lib/athena/formats.rb", "lib/athena.rb", "bin/athena", "COPYING", "ChangeLog", "Rakefile", "README", "example/config.yaml", "example/dump-pg.sql", "example/example.xml", "example/athena_plugin.rb", "example/dump-my.sql", "example/sisis-ex.txt"]
   s.homepage = "http://prometheus.rubyforge.org/athena"
-  s.rdoc_options = ["--charset", "UTF-8", "--title", "athena Application documentation (v0.2.2)", "--main", "README", "--line-numbers", "--all"]
+  s.rdoc_options = ["--charset", "UTF-8", "--line-numbers", "--all", "--title", "athena Application documentation (v0.2.3)", "--main", "README"]
   s.require_paths = ["lib"]
   s.rubyforge_project = "prometheus"
-  s.rubygems_version = "1.8.23"
+  s.rubygems_version = "1.8.24"
   s.summary = "Convert database files to various formats."
 
   if s.respond_to? :specification_version then
