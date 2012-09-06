@@ -37,6 +37,7 @@ module Athena::Formats
     RECORD_SEPARATOR = '&&&'
 
     ICONV_TO_LATIN1 = Iconv.new('latin1//TRANSLIT//IGNORE', 'utf-8')
+    def ICONV_TO_LATIN1.iconv(s); s; end if ENV['ATHENA_DBM_NOCONV']
 
     def convert(record)
       dbm = ["ID:#{record.id}"]
