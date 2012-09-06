@@ -4,7 +4,7 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-<title>class Athena::Record - athena Application documentation (v0.2.2)</title>
+<title>class Athena::Record - athena Application documentation (v0.2.3)</title>
 
 <link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
 
@@ -122,6 +122,8 @@
     <li><a href="../Athena/Formats/ConfigError.html">Athena::Formats::ConfigError</a>
   
     <li><a href="../Athena/Formats/DBM.html">Athena::Formats::DBM</a>
+  
+    <li><a href="../Athena/Formats/DBM/ICONV_TO_LATIN1.html">Athena::Formats::DBM::ICONV_TO_LATIN1</a>
   
     <li><a href="../Athena/Formats/DirectionMismatchError.html">Athena::Formats::DirectionMismatchError</a>
   
@@ -254,6 +256,116 @@
 
     <!-- Methods -->
     
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-5B-5D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">[]</span><span
+            class="method-args">(field = nil, config = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="5B-5D-source">
+            <pre><span class="ruby-comment"># File lib/athena/record.rb, line 44</span>
+<span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">field</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">config</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">record</span> = <span class="ruby-identifier">records</span>.<span class="ruby-identifier">last</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">NoRecordError</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">record</span>
+
+  <span class="ruby-identifier">record</span>.<span class="ruby-identifier">fill</span>(<span class="ruby-identifier">field</span>, <span class="ruby-identifier">config</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">field</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">config</span>
+  <span class="ruby-identifier">record</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- 5B-5D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- 5B-5D-method -->
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(id = nil, block = nil, add = !block) { |self| ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/athena/record.rb, line 56</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">id</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">block</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">add</span> = <span class="ruby-operator">!</span><span class="ruby-identifier">block</span>)
+  <span class="ruby-ivar">@id</span>, <span class="ruby-ivar">@block</span>, <span class="ruby-ivar">@struct</span> = <span class="ruby-identifier">id</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">object_id</span>.<span class="ruby-identifier">map_positive</span>, <span class="ruby-identifier">block</span>, {}
+
+  <span class="ruby-identifier">add_record</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">add</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-keyword">yield</span> <span class="ruby-keyword">self</span>
+    <span class="ruby-keyword">ensure</span>
+      <span class="ruby-identifier">close</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+      <div id="method-c-records" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">records</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="records-source">
+            <pre><span class="ruby-comment"># File lib/athena/record.rb, line 40</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">records</span>
+  <span class="ruby-ivar">@records</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- records-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- records-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
      <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
       <h3 class="section-header">Public Instance Methods</h3>
 
@@ -416,116 +528,6 @@
 
     
     </section><!-- private-instance-method-details -->
-  
-     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
-      <h3 class="section-header">Public Class Methods</h3>
-
-    
-      <div id="method-c-5B-5D" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">[]</span><span
-            class="method-args">(field = nil, config = nil)</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-
-          
-          <div class="method-source-code" id="5B-5D-source">
-            <pre><span class="ruby-comment"># File lib/athena/record.rb, line 44</span>
-<span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">field</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">config</span> = <span class="ruby-keyword">nil</span>)
-  <span class="ruby-identifier">record</span> = <span class="ruby-identifier">records</span>.<span class="ruby-identifier">last</span>
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">NoRecordError</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">record</span>
-
-  <span class="ruby-identifier">record</span>.<span class="ruby-identifier">fill</span>(<span class="ruby-identifier">field</span>, <span class="ruby-identifier">config</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">field</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">config</span>
-  <span class="ruby-identifier">record</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- 5B-5D-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- 5B-5D-method -->
-
-    
-      <div id="method-c-new" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">new</span><span
-            class="method-args">(id = nil, block = nil, add = !block) { |self| ... }</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-
-          
-          <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/athena/record.rb, line 56</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">id</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">block</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">add</span> = <span class="ruby-operator">!</span><span class="ruby-identifier">block</span>)
-  <span class="ruby-ivar">@id</span>, <span class="ruby-ivar">@block</span>, <span class="ruby-ivar">@struct</span> = <span class="ruby-identifier">id</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">object_id</span>.<span class="ruby-identifier">map_positive</span>, <span class="ruby-identifier">block</span>, {}
-
-  <span class="ruby-identifier">add_record</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">add</span>
-
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
-    <span class="ruby-keyword">begin</span>
-      <span class="ruby-keyword">yield</span> <span class="ruby-keyword">self</span>
-    <span class="ruby-keyword">ensure</span>
-      <span class="ruby-identifier">close</span>
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- new-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- new-method -->
-
-    
-      <div id="method-c-records" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">records</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-
-          
-          <div class="method-source-code" id="records-source">
-            <pre><span class="ruby-comment"># File lib/athena/record.rb, line 40</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">records</span>
-  <span class="ruby-ivar">@records</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- records-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- records-method -->
-
-    
-    </section><!-- public-class-method-details -->
   
   </section><!-- 5Buntitled-5D -->
 

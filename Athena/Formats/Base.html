@@ -4,7 +4,7 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-<title>class Athena::Formats::Base - athena Application documentation (v0.2.2)</title>
+<title>class Athena::Formats::Base - athena Application documentation (v0.2.3)</title>
 
 <link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
 
@@ -135,6 +135,8 @@
   
     <li><a href="../../Athena/Formats/DBM.html">Athena::Formats::DBM</a>
   
+    <li><a href="../../Athena/Formats/DBM/ICONV_TO_LATIN1.html">Athena::Formats::DBM::ICONV_TO_LATIN1</a>
+  
     <li><a href="../../Athena/Formats/DirectionMismatchError.html">Athena::Formats::DirectionMismatchError</a>
   
     <li><a href="../../Athena/Formats/DuplicateFormatDefinitionError.html">Athena::Formats::DuplicateFormatDefinitionError</a>
@@ -259,8 +261,8 @@ href="../Formats.html">Athena::Formats</a> for more information.</p>
 
         <div class="method-description">
         
-        <p>The <em>input</em> format’s “record element” (interpreted differently
-by each format).</p>
+        <p>The <em>input</em> format’s “record element” (interpreted differently by
+each format).</p>
         
         </div>
       </div>
@@ -270,6 +272,197 @@ by each format).</p>
 
     <!-- Methods -->
     
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-directions" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            Athena::Formats::Base.directions &rarr; anArray
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Returns an array of the directions supported by this class.</p>
+          
+
+          
+          <div class="method-source-code" id="directions-source">
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 241</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">directions</span>
+  <span class="ruby-ivar">@directions</span> <span class="ruby-operator">||=</span> []
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- directions-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- directions-method -->
+
+    
+      <div id="method-c-format" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            Athena::Formats::Base.format &rarr; aString
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Returns this class’s format name.</p>
+          
+
+          
+          <div class="method-source-code" id="format-source">
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 233</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">format</span>
+  <span class="ruby-ivar">@format</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Formats</span>.<span class="ruby-identifier">format_name</span>(<span class="ruby-identifier">name</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- format-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- format-method -->
+
+    
+      <div id="method-c-has_direction-3F" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            Athena::Formats::Base.has_direction?(direction) &rarr; true | false
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Indicates whether this class supports <code>direction</code>.</p>
+          
+
+          
+          <div class="method-source-code" id="has_direction-3F-source">
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 249</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">has_direction?</span>(<span class="ruby-identifier">direction</span>)
+  <span class="ruby-identifier">directions</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">direction</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- has_direction-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- has_direction-3F-method -->
+
+    
+      <div id="method-c-init" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            Athena::Formats::Base.init(direction, *args) &rarr; aFormat
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Returns a new instance of this class for <code>direction</code> initialized
+with <code>args</code> (see <a href="Base.html#method-i-init">init</a>).</p>
+          
+
+          
+          <div class="method-source-code" id="init-source">
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 258</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">init</span>(<span class="ruby-identifier">direction</span>, *<span class="ruby-identifier">args</span>)
+  <span class="ruby-identifier">new</span>.<span class="ruby-identifier">init</span>(<span class="ruby-identifier">direction</span>, *<span class="ruby-identifier">args</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- init-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- init-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="protected-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Protected Class Methods</h3>
+
+    
+      <div id="method-c-register_format" class="method-detail ">
+        
+        
+        <div class="method-heading">
+          <span class="method-callseq">
+            Athena::Formats::Base.register_format(name = nil, relax = false) &rarr; anArray | nil
+          </span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+        
+
+        <div class="method-description">
+          
+          <p>Shortcut for <code>Athena::Formats.register(self, name, relax)</code>. Must
+be called at the end of or after the class definition (in order to
+determine the supported direction(s), the relevant instance methods must be
+available).</p>
+          
+
+          
+          <div class="method-source-code" id="register_format-source">
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 271</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">register_format</span>(<span class="ruby-identifier">name</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">relax</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-constant">Formats</span>.<span class="ruby-identifier">register</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">relax</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- register_format-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- register_format-method -->
+
+    
+    </section><!-- protected-class-method-details -->
+  
      <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
       <h3 class="section-header">Public Instance Methods</h3>
 
@@ -650,197 +843,6 @@ href="Base.html#method-i-run">run</a>.</p>
 
     
     </section><!-- private-instance-method-details -->
-  
-     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
-      <h3 class="section-header">Public Class Methods</h3>
-
-    
-      <div id="method-c-directions" class="method-detail ">
-        
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            Athena::Formats::Base.directions &rarr; anArray
-          </span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-        
-
-        <div class="method-description">
-          
-          <p>Returns an array of the directions supported by this class.</p>
-          
-
-          
-          <div class="method-source-code" id="directions-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 241</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">directions</span>
-  <span class="ruby-ivar">@directions</span> <span class="ruby-operator">||=</span> []
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- directions-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- directions-method -->
-
-    
-      <div id="method-c-format" class="method-detail ">
-        
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            Athena::Formats::Base.format &rarr; aString
-          </span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-        
-
-        <div class="method-description">
-          
-          <p>Returns this class’s format name.</p>
-          
-
-          
-          <div class="method-source-code" id="format-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 233</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">format</span>
-  <span class="ruby-ivar">@format</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Formats</span>.<span class="ruby-identifier">format_name</span>(<span class="ruby-identifier">name</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- format-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- format-method -->
-
-    
-      <div id="method-c-has_direction-3F" class="method-detail ">
-        
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            Athena::Formats::Base.has_direction?(direction) &rarr; true | false
-          </span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-        
-
-        <div class="method-description">
-          
-          <p>Indicates whether this class supports <code>direction</code>.</p>
-          
-
-          
-          <div class="method-source-code" id="has_direction-3F-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 249</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">has_direction?</span>(<span class="ruby-identifier">direction</span>)
-  <span class="ruby-identifier">directions</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">direction</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- has_direction-3F-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- has_direction-3F-method -->
-
-    
-      <div id="method-c-init" class="method-detail ">
-        
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            Athena::Formats::Base.init(direction, *args) &rarr; aFormat
-          </span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-        
-
-        <div class="method-description">
-          
-          <p>Returns a new instance of this class for <code>direction</code> initialized
-with <code>args</code> (see <a href="Base.html#method-i-init">init</a>).</p>
-          
-
-          
-          <div class="method-source-code" id="init-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 258</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">init</span>(<span class="ruby-identifier">direction</span>, *<span class="ruby-identifier">args</span>)
-  <span class="ruby-identifier">new</span>.<span class="ruby-identifier">init</span>(<span class="ruby-identifier">direction</span>, *<span class="ruby-identifier">args</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- init-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- init-method -->
-
-    
-    </section><!-- public-class-method-details -->
-  
-     <section id="protected-class-5Buntitled-5D-method-details" class="method-section section">
-      <h3 class="section-header">Protected Class Methods</h3>
-
-    
-      <div id="method-c-register_format" class="method-detail ">
-        
-        
-        <div class="method-heading">
-          <span class="method-callseq">
-            Athena::Formats::Base.register_format(name = nil, relax = false) &rarr; anArray | nil
-          </span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-        
-
-        <div class="method-description">
-          
-          <p>Shortcut for <code>Athena::Formats.register(self, name, relax)</code>. Must
-be called at the end of or after the class definition (in order to
-determine the supported direction(s), the relevant instance methods must be
-available).</p>
-          
-
-          
-          <div class="method-source-code" id="register_format-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 271</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">register_format</span>(<span class="ruby-identifier">name</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">relax</span> = <span class="ruby-keyword">false</span>)
-  <span class="ruby-constant">Formats</span>.<span class="ruby-identifier">register</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">relax</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- register_format-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- register_format-method -->
-
-    
-    </section><!-- protected-class-method-details -->
   
   </section><!-- 5Buntitled-5D -->
 

@@ -4,7 +4,7 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-<title>class Athena::Formats::FormatNotFoundError - athena Application documentation (v0.2.2)</title>
+<title>class Athena::Formats::FormatNotFoundError - athena Application documentation (v0.2.3)</title>
 
 <link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
 
@@ -111,6 +111,8 @@
   
     <li><a href="../../Athena/Formats/DBM.html">Athena::Formats::DBM</a>
   
+    <li><a href="../../Athena/Formats/DBM/ICONV_TO_LATIN1.html">Athena::Formats::DBM::ICONV_TO_LATIN1</a>
+  
     <li><a href="../../Athena/Formats/DirectionMismatchError.html">Athena::Formats::DirectionMismatchError</a>
   
     <li><a href="../../Athena/Formats/DuplicateFormatDefinitionError.html">Athena::Formats::DuplicateFormatDefinitionError</a>
@@ -196,42 +198,6 @@
 
     <!-- Methods -->
     
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
-      <h3 class="section-header">Public Instance Methods</h3>
-
-    
-      <div id="method-i-to_s" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">to_s</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-
-          
-          <div class="method-source-code" id="to_s-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 426</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
-  <span class="ruby-node">&quot;format not found (#{@direction.inspect}): #{@format.inspect}&quot;</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- to_s-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- to_s-method -->
-
-    
-    </section><!-- public-instance-method-details -->
-  
      <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
       <h3 class="section-header">Public Class Methods</h3>
 
@@ -267,6 +233,42 @@
 
     
     </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-to_s" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_s</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_s-source">
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 426</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
+  <span class="ruby-node">&quot;format not found (#{@direction.inspect}): #{@format.inspect}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_s-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_s-method -->
+
+    
+    </section><!-- public-instance-method-details -->
   
   </section><!-- 5Buntitled-5D -->
 

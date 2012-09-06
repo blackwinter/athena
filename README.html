@@ -4,7 +4,7 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-<title>README - athena Application documentation (v0.2.2)</title>
+<title>README - athena Application documentation (v0.2.3)</title>
 
 <link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
 
@@ -74,6 +74,8 @@
     <li><a href="./Athena/Formats/ConfigError.html">Athena::Formats::ConfigError</a>
   
     <li><a href="./Athena/Formats/DBM.html">Athena::Formats::DBM</a>
+  
+    <li><a href="./Athena/Formats/DBM/ICONV_TO_LATIN1.html">Athena::Formats::DBM::ICONV_TO_LATIN1</a>
   
     <li><a href="./Athena/Formats/DirectionMismatchError.html">Athena::Formats::DirectionMismatchError</a>
   
@@ -145,22 +147,22 @@
 
 <h2 id="label-VERSION">VERSION</h2>
 
-<p>This documentation refers to athena version 0.2.2</p>
+<p>This documentation refers to athena version 0.2.3</p>
 
 <h2 id="label-DESCRIPTION">DESCRIPTION</h2>
 
-<p><a href="Athena.html">Athena</a> is a library to convert “database”
-files between various formats. It’s accompanied by a corresponding
-executable that gives access to its converting features from the
-command-line. See <a href="Athena/Formats.html">Athena::Formats</a> for the
-supported database formats and how you can add your own.</p>
+<p><a href="Athena.html">Athena</a> is a library to convert "database" files
+between various formats. It's accompanied by a corresponding executable
+that gives access to its converting features from the command-line. See <a
+href="Athena/Formats.html">Athena::Formats</a> for the supported database
+formats and how you can add your own.</p>
 
 <h3 id="label-Plugins">Plugins</h3>
 
 <p><a href="Athena.html">Athena</a> has a plugin system that allows you to
 implement additional database formats and have them available easily. Just
 create a file <code>athena_plugin.rb</code> (Athena::PLUGIN_FILENAME) in
-your Gem’s <code>lib</code> directory or any directory that’s placed in
+your Gem's <code>lib</code> directory or any directory that's placed in
 <code>$LOAD_PATH</code>. See <a
 href="Athena/Formats.html">Athena::Formats</a> on how to define custom
 formats.</p>
