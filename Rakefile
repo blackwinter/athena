@@ -13,7 +13,7 @@ begin
       :version      => Athena::VERSION,
       :summary      => %q{Convert database files to various formats.},
       :author       => %q{Jens Wille},
-      :email        => %q{jens.wille@uni-koeln.de},
+      :email        => %q{jens.wille@gmail.com},
       :dependencies => %w[builder xmlstreamin] << ['ruby-nuggets', '>= 0.8.1']
     }
   }}

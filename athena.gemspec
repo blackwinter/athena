@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors = ["Jens Wille"]
   s.date = "2012-09-06"
   s.description = "Convert database files to various formats."
-  s.email = "jens.wille@uni-koeln.de"
+  s.email = "jens.wille@gmail.com"
   s.executables = ["athena"]
   s.extra_rdoc_files = ["README", "COPYING", "ChangeLog"]
   s.files = ["lib/athena/formats/sql.rb", "lib/athena/formats/xml.rb", "lib/athena/formats/ferret.rb", "lib/athena/formats/lingo.rb", "lib/athena/formats/dbm.rb", "lib/athena/formats/sisis.rb", "lib/athena/version.rb", "lib/athena/cli.rb", "lib/athena/record.rb", "lib/athena/formats.rb", "lib/athena.rb", "bin/athena", "COPYING", "ChangeLog", "Rakefile", "README", "example/config.yaml", "example/dump-pg.sql", "example/example.xml", "example/athena_plugin.rb", "example/dump-my.sql", "example/sisis-ex.txt"]
