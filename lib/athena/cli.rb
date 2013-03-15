@@ -57,12 +57,12 @@ module Athena
       abort "No output format specified and none could be inferred." unless format
       abort "Invalid output format: #{format}. Use `-l' to get a list of available formats." unless Athena.valid_output_format?(format)
 
-      target_config = if t = options[:target]
-        config[target = t.to_sym]
+      if t = options[:target]
+        target_config = config[target = t.to_sym]
       else
         [options[:target_fallback] || 'generic', ".#{spec}", ":#{format}"].inject([]) { |s, t|
           s << (s.last ? s.last + t : t)
-        }.reverse.find { |t| config[target = t.to_sym] }
+        }.reverse.find { |t| target_config = config[target = t.to_sym] }
       end or abort "Config not found for target: #{target}."
 
       input = options[:input]

@@ -207,8 +207,6 @@ module Athena
         registered.compact
       end
 
-      protected
-
       # call-seq:
       #   Athena::Formats.format_name(name) -> aString
       #
