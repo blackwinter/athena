@@ -28,21 +28,58 @@
 ###############################################################################
 #++
 
-require 'iconv'
 require 'athena'
+require 'nuggets/util/midos'
 
 module Athena::Formats
 
   class DBM < Base
 
-    VALUE_SEPARATOR  = '|'
-    RECORD_SEPARATOR = '&&&'
+    RECORD_SEPARATOR = Util::Midos::Parser::DEFAULT_RS
+    FIELD_SEPARATOR  = Util::Midos::Parser::DEFAULT_FS
+    VALUE_SEPARATOR  = Util::Midos::Parser::DEFAULT_VS
 
-    ICONV_TO_LATIN1 = Iconv.new('latin1//TRANSLIT//IGNORE', 'utf-8')
-    def ICONV_TO_LATIN1.iconv(s); s; end if ENV['ATHENA_DBM_NOCONV']
+    TO_LATIN1 = begin
+      require 'iconv'
+    rescue LoadError
+      Object.new.tap { |x|
+        if ENV['ATHENA_DBM_NOCONV']
+          def x.iconv(s); s; end
+        else
+          def x.iconv(s); s.encode('iso-8859-1', 'utf-8'); end
+        end
+      }
+    else
+      iconv = Iconv.new('latin1//TRANSLIT//IGNORE', 'utf-8')
+      def iconv.iconv(s); s; end if ENV['ATHENA_DBM_NOCONV']
+      iconv
+    end
+
+    attr_reader :dbm_parser
+
+    def parse(input, &block)
+      num = 0
+
+      dbm_parser.parse(input) { |id, doc|
+        Athena::Record.new(id, block) { |record|
+          config.each { |element, field_config|
+            Array(doc[element]).each { |value|
+              record.update(element, value, field_config)
+            }
+          }
+        }
+
+        num += 1
+      }
+
+      num
+    end
 
     def convert(record)
-      dbm = ["ID:#{record.id}"]
+      rs, fs, vs, crlf_re, iconv =
+        RECORD_SEPARATOR, FIELD_SEPARATOR, VALUE_SEPARATOR, CRLF_RE, TO_LATIN1
+
+      dbm = ["ID#{fs}#{record.id}"]
 
       record.struct.each { |field, struct|
         struct_values = struct[:values]
@@ -53,20 +90,28 @@ module Athena::Formats
 
           struct_values[element].each { |value|
             if value
-              value = value.strip.gsub(CRLF_RE, ' ')
+              value = value.strip.gsub(crlf_re, ' ')
               values << value unless value.empty?
             end
           }
 
-          values.empty? ? struct[:empty] : values.join(VALUE_SEPARATOR)
+          values.empty? ? struct[:empty] : values.join(vs)
         }
 
-        dbm << "#{field.to_s.upcase}:#{ICONV_TO_LATIN1.iconv(struct[:string] % strings)}"
+        dbm << "#{field.to_s.upcase}#{fs}#{iconv.iconv(struct[:string] % strings)}"
       }
 
-      dbm << RECORD_SEPARATOR << CRLF
+      dbm << rs << CRLF
 
       dbm.join(CRLF)
+    end
+
+    private
+
+    def init_in(*)
+      @__record_element_ok__ = [String, nil]
+      super
+      @dbm_parser = Util::Midos::Parser.new(:key => record_element)
     end
 
   end

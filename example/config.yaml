@@ -79,3 +79,19 @@
   :attr3:     [attr3ID, Val]
   :attr4:     [attr4ID, Val]
 :dump-pg:
+:midos-ex:
+  :__record_element: "000"
+  :language:
+    :elements: ["015"]
+    :separator: " / "
+  :title:
+    :elements:
+      - "331"
+      - "335"
+    :string: "%s: %s"
+    :empty: ">>n/a<<"
+  :date:
+    :elements:
+      - "424"
+      - "425"
+    :separator: ", "
