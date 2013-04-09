@@ -106,5 +106,5 @@ module Athena
 
 end
 
-require 'nuggets/util/pluggable'
-Util::Pluggable.load_plugins_for(Athena)
+require 'nuggets/pluggable'
+Nuggets::Pluggable.load_plugins_for(Athena)

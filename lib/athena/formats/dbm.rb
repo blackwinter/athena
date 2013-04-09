@@ -29,15 +29,15 @@
 #++
 
 require 'athena'
-require 'nuggets/util/midos'
+require 'nuggets/midos'
 
 module Athena::Formats
 
   class DBM < Base
 
-    RECORD_SEPARATOR = Util::Midos::Parser::DEFAULT_RS
-    FIELD_SEPARATOR  = Util::Midos::Parser::DEFAULT_FS
-    VALUE_SEPARATOR  = Util::Midos::Parser::DEFAULT_VS
+    RECORD_SEPARATOR = Nuggets::Midos::Parser::DEFAULT_RS
+    FIELD_SEPARATOR  = Nuggets::Midos::Parser::DEFAULT_FS
+    VALUE_SEPARATOR  = Nuggets::Midos::Parser::DEFAULT_VS
 
     TO_LATIN1 = begin
       require 'iconv'
@@ -111,7 +111,7 @@ module Athena::Formats
     def init_in(*)
       @__record_element_ok__ = [String, nil]
       super
-      @dbm_parser = Util::Midos::Parser.new(:key => record_element)
+      @dbm_parser = Nuggets::Midos::Parser.new(:key => record_element)
     end
 
   end

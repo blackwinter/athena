@@ -67,7 +67,7 @@ module Athena::Formats
     def init_in(*)
       @__record_element_ok__ = [String, nil]
       super
-      @sql_parser = Util::MySQL::Parser.new
+      @sql_parser = Nuggets::MySQL::Parser.new
     end
 
   end

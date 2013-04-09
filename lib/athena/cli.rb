@@ -28,12 +28,12 @@
 ###############################################################################
 #++
 
-require 'nuggets/util/cli'
+require 'nuggets/cli'
 require 'athena'
 
 module Athena
 
-  class CLI < ::Util::CLI
+  class CLI < ::Nuggets::CLI
 
     class << self
 
