@@ -194,7 +194,7 @@
   
     <li><a href="../../Athena/Version.html">Athena::Version</a>
   
-    <li><a href="../../Util.html">Util</a>
+    <li><a href="../../Nuggets.html">Nuggets</a>
   
   </ul>
 </nav>
@@ -299,7 +299,7 @@ by each format).</p>
 
           
           <div class="method-source-code" id="directions-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 243</span>
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 241</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">directions</span>
   <span class="ruby-ivar">@directions</span> <span class="ruby-operator">||=</span> []
 <span class="ruby-keyword">end</span></pre>
@@ -335,7 +335,7 @@ by each format).</p>
 
           
           <div class="method-source-code" id="format-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 235</span>
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 233</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">format</span>
   <span class="ruby-ivar">@format</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Formats</span>.<span class="ruby-identifier">format_name</span>(<span class="ruby-identifier">name</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -371,7 +371,7 @@ by each format).</p>
 
           
           <div class="method-source-code" id="has_direction-3F-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 251</span>
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 249</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">has_direction?</span>(<span class="ruby-identifier">direction</span>)
   <span class="ruby-identifier">directions</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">direction</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -408,7 +408,7 @@ with <code>args</code> (see <a href="Base.html#method-i-init">init</a>).</p>
 
           
           <div class="method-source-code" id="init-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 260</span>
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 258</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">init</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
   <span class="ruby-identifier">new</span>.<span class="ruby-identifier">init</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -453,7 +453,7 @@ available).</p>
 
           
           <div class="method-source-code" id="register_format-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 273</span>
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 271</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">register_format</span>(<span class="ruby-identifier">name</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">relax</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-constant">Formats</span>.<span class="ruby-identifier">register</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">relax</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -501,7 +501,7 @@ has been defined as <code>true</code>.</p>
 
           
           <div class="method-source-code" id="convert-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 327</span>
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 325</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">convert</span>(<span class="ruby-identifier">record</span>)
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotImplementedError</span>, <span class="ruby-string">&#39;must be defined by sub-class&#39;</span>
 <span class="ruby-keyword">end</span></pre>
@@ -538,7 +538,7 @@ records have been converted (see <a href="Base.html#method-i-run">run</a>).</p>
 
           
           <div class="method-source-code" id="deferred-3F-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 344</span>
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 342</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">deferred?</span>
   <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
@@ -578,7 +578,7 @@ records have been converted (see <a href="Base.html#method-i-run">run</a>).</p>
 
           
           <div class="method-source-code" id="init-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 295</span>
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 293</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">init</span>(<span class="ruby-identifier">direction</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">has_direction?</span>(<span class="ruby-identifier">direction</span>)
     <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;init_#{direction}&quot;</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
@@ -621,7 +621,7 @@ href="Base.html#method-i-convert">convert</a>.</p>
 
           
           <div class="method-source-code" id="raw-3F-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 335</span>
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 333</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">raw?</span>
   <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
@@ -661,7 +661,7 @@ Returns the return value of <a href="Base.html#method-i-parse">parse</a>.</p>
 
           
           <div class="method-source-code" id="run-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 354</span>
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 352</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">run</span>(<span class="ruby-identifier">spec</span>, <span class="ruby-identifier">input</span>)
   <span class="ruby-identifier">parsed</span>, <span class="ruby-identifier">block</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-keyword">if</span> <span class="ruby-identifier">raw?</span>
     <span class="ruby-identifier">lambda</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">to</span>(<span class="ruby-keyword">self</span>) }
@@ -719,7 +719,7 @@ Returns the return value of <a href="Base.html#method-i-parse">parse</a>.</p>
 
           
           <div class="method-source-code" id="init_in-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 380</span>
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 378</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">init_in</span>(<span class="ruby-identifier">config</span>)
   <span class="ruby-ivar">@config</span> = <span class="ruby-identifier">config</span>
 
@@ -764,7 +764,7 @@ Returns the return value of <a href="Base.html#method-i-parse">parse</a>.</p>
 
           
           <div class="method-source-code" id="init_out-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 397</span>
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 395</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">init_out</span>(<span class="ruby-identifier">output</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-ivar">@output</span> = <span class="ruby-identifier">output</span>
 <span class="ruby-keyword">end</span></pre>
@@ -805,7 +805,7 @@ records parsed.</p>
 
           
           <div class="method-source-code" id="parse-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 314</span>
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 312</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">input</span>)
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotImplementedError</span>, <span class="ruby-string">&#39;must be defined by sub-class&#39;</span>
 <span class="ruby-keyword">end</span></pre>
@@ -842,7 +842,7 @@ href="Base.html#method-i-run">run</a>.</p>
 
           
           <div class="method-source-code" id="wrap-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 405</span>
+            <pre><span class="ruby-comment"># File lib/athena/formats.rb, line 403</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">wrap</span>
   <span class="ruby-keyword">yield</span>
 <span class="ruby-keyword">end</span></pre>
@@ -865,7 +865,7 @@ href="Base.html#method-i-run">run</a>.</p>
 
 <footer id="validator-badges">
   <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.1.
   <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
 </footer>
 

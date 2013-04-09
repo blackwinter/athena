@@ -75,6 +75,10 @@
     
     <li ><a href="#method-i-convert">#convert</a>
     
+    <li class="calls-super" ><a href="#method-i-init_in">#init_in</a>
+    
+    <li ><a href="#method-i-parse">#parse</a>
+    
   </ul>
 </nav>
 
@@ -168,7 +172,7 @@
   
     <li><a href="../../Athena/Version.html">Athena::Version</a>
   
-    <li><a href="../../Util.html">Util</a>
+    <li><a href="../../Nuggets.html">Nuggets</a>
   
   </ul>
 </nav>
@@ -197,12 +201,17 @@
       <h3 class="section-header">Constants</h3>
       <dl>
       
-        <dt id="ICONV_TO_LATIN1">ICONV_TO_LATIN1
+        <dt id="FIELD_SEPARATOR">FIELD_SEPARATOR
         
         <dd class="description">
         
       
         <dt id="RECORD_SEPARATOR">RECORD_SEPARATOR
+        
+        <dd class="description">
+        
+      
+        <dt id="TO_LATIN1">TO_LATIN1
         
         <dd class="description">
         
@@ -216,6 +225,26 @@
     </section>
     
 
+    
+    <!-- Attributes -->
+    <section id="attribute-method-details" class="method-section section">
+      <h3 class="section-header">Attributes</h3>
+
+      
+      <div id="attribute-i-dbm_parser" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">dbm_parser</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section><!-- attribute-method-details -->
     
 
     <!-- Methods -->
@@ -243,9 +272,12 @@
 
           
           <div class="method-source-code" id="convert-source">
-            <pre><span class="ruby-comment"># File lib/athena/formats/dbm.rb, line 44</span>
+            <pre><span class="ruby-comment"># File lib/athena/formats/dbm.rb, line 78</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">convert</span>(<span class="ruby-identifier">record</span>)
-  <span class="ruby-identifier">dbm</span> = [<span class="ruby-node">&quot;ID:#{record.id}&quot;</span>]
+  <span class="ruby-identifier">rs</span>, <span class="ruby-identifier">fs</span>, <span class="ruby-identifier">vs</span>, <span class="ruby-identifier">crlf_re</span>, <span class="ruby-identifier">iconv</span> =
+    <span class="ruby-constant">RECORD_SEPARATOR</span>, <span class="ruby-constant">FIELD_SEPARATOR</span>, <span class="ruby-constant">VALUE_SEPARATOR</span>, <span class="ruby-constant">CRLF_RE</span>, <span class="ruby-constant">TO_LATIN1</span>
+
+  <span class="ruby-identifier">dbm</span> = [<span class="ruby-node">&quot;ID#{fs}#{record.id}&quot;</span>]
 
   <span class="ruby-identifier">record</span>.<span class="ruby-identifier">struct</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">field</span>, <span class="ruby-identifier">struct</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">struct_values</span> = <span class="ruby-identifier">struct</span>[<span class="ruby-value">:values</span>]
@@ -256,18 +288,18 @@
 
       <span class="ruby-identifier">struct_values</span>[<span class="ruby-identifier">element</span>].<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
         <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>
-          <span class="ruby-identifier">value</span> = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">strip</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-constant">CRLF_RE</span>, <span class="ruby-string">&#39; &#39;</span>)
+          <span class="ruby-identifier">value</span> = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">strip</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-identifier">crlf_re</span>, <span class="ruby-string">&#39; &#39;</span>)
           <span class="ruby-identifier">values</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">value</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">empty?</span>
         <span class="ruby-keyword">end</span>
       }
 
-      <span class="ruby-identifier">values</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">struct</span>[<span class="ruby-value">:empty</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">values</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">VALUE_SEPARATOR</span>)
+      <span class="ruby-identifier">values</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">struct</span>[<span class="ruby-value">:empty</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">values</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">vs</span>)
     }
 
-    <span class="ruby-identifier">dbm</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{field.to_s.upcase}:#{ICONV_TO_LATIN1.iconv(struct[:string] % strings)}&quot;</span>
+    <span class="ruby-identifier">dbm</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{field.to_s.upcase}#{fs}#{iconv.iconv(struct[:string] % strings)}&quot;</span>
   }
 
-  <span class="ruby-identifier">dbm</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">RECORD_SEPARATOR</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">CRLF</span>
+  <span class="ruby-identifier">dbm</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">rs</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">CRLF</span>
 
   <span class="ruby-identifier">dbm</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">CRLF</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -281,7 +313,100 @@
       </div><!-- convert-method -->
 
     
+      <div id="method-i-parse" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">parse</span><span
+            class="method-args">(input, &block)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="parse-source">
+            <pre><span class="ruby-comment"># File lib/athena/formats/dbm.rb, line 60</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">input</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+  <span class="ruby-identifier">num</span> = <span class="ruby-value">0</span>
+
+  <span class="ruby-identifier">dbm_parser</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">input</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">id</span>, <span class="ruby-identifier">doc</span><span class="ruby-operator">|</span>
+    <span class="ruby-constant">Athena</span><span class="ruby-operator">::</span><span class="ruby-constant">Record</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">id</span>, <span class="ruby-identifier">block</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">config</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">element</span>, <span class="ruby-identifier">field_config</span><span class="ruby-operator">|</span>
+        <span class="ruby-constant">Array</span>(<span class="ruby-identifier">doc</span>[<span class="ruby-identifier">element</span>]).<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">record</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">element</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">field_config</span>)
+        }
+      }
+    }
+
+    <span class="ruby-identifier">num</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+  }
+
+  <span class="ruby-identifier">num</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- parse-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- parse-method -->
+
+    
     </section><!-- public-instance-method-details -->
+  
+     <section id="private-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Private Instance Methods</h3>
+
+    
+      <div id="method-i-init_in" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">init_in</span><span
+            class="method-args">(*)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+            <div class="method-calls-super">
+              Calls superclass method
+              <a href="Base.html#method-i-init_in">Athena::Formats::Base#init_in</a>
+            </div>
+          
+
+          
+          <div class="method-source-code" id="init_in-source">
+            <pre><span class="ruby-comment"># File lib/athena/formats/dbm.rb, line 111</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">init_in</span>(<span class="ruby-operator">*</span>)
+  <span class="ruby-ivar">@__record_element_ok__</span> = [<span class="ruby-constant">String</span>, <span class="ruby-keyword">nil</span>]
+  <span class="ruby-keyword">super</span>
+  <span class="ruby-ivar">@dbm_parser</span> = <span class="ruby-constant">Nuggets</span><span class="ruby-operator">::</span><span class="ruby-constant">Midos</span><span class="ruby-operator">::</span><span class="ruby-constant">Parser</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">record_element</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- init_in-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- init_in-method -->
+
+    
+    </section><!-- private-instance-method-details -->
   
   </section><!-- 5Buntitled-5D -->
 
@@ -290,7 +415,7 @@
 
 <footer id="validator-badges">
   <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.1.
   <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
 </footer>
 
