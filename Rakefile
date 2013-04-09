@@ -4,16 +4,13 @@ begin
   require 'hen'
 
   Hen.lay! {{
-    :rubyforge => {
-      :project => %q{prometheus},
-      :package => %q{athena}
-    },
-
     :gem => {
+      :name         => %q{athena},
       :version      => Athena::VERSION,
       :summary      => %q{Convert database files to various formats.},
       :author       => %q{Jens Wille},
       :email        => %q{jens.wille@gmail.com},
+      :homepage     => :blackwinter,
       :dependencies => %w[builder highline xmlstreamin] << ['ruby-nuggets', '>= 0.9.2']
     }
   }}
