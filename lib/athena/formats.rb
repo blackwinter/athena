@@ -146,7 +146,7 @@ module Athena
         if format.class < Base
           format.class.has_direction?(direction)
         else
-          formats[direction].has_key?(format.to_s)
+          formats[direction].key?(format.to_s)
         end
       end
 
@@ -171,7 +171,7 @@ module Athena
         METHODS.each { |direction, method|
           next unless methods.include?(method)
 
-          if formats[direction].has_key?(name)
+          if formats[direction].key?(name)
             err = DuplicateFormatDefinitionError.new(direction, name)
             raise err unless relax
 
