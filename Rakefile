@@ -12,7 +12,7 @@ begin
       :email        => %q{jens.wille@gmail.com},
       :license      => %q{AGPL-3.0},
       :homepage     => :blackwinter,
-      :dependencies => %w[builder highline xmlstreamin] << ['ruby-nuggets', '>= 0.9.2']
+      :dependencies => %w[builder cyclops xmlstreamin] << ['ruby-nuggets', '>= 0.9.2']
     }
   }}
 rescue LoadError => err

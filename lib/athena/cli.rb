@@ -7,7 +7,7 @@
 #                         Albertus-Magnus-Platz,                              #
 #                         50923 Cologne, Germany                              #
 #                                                                             #
-# Copyright (C) 2013 Jens Wille                                               #
+# Copyright (C) 2013-2014 Jens Wille                                          #
 #                                                                             #
 # Authors:                                                                    #
 #     Jens Wille <jens.wille@gmail.com>                                       #
@@ -28,12 +28,12 @@
 ###############################################################################
 #++
 
-require 'nuggets/cli'
+require 'cyclops'
 require 'athena'
 
 module Athena
 
-  class CLI < ::Nuggets::CLI
+  class CLI < Cyclops
 
     class << self
 
@@ -81,50 +81,37 @@ module Athena
     end
 
     def opts(opts)
-      opts.on('-c', '--config YAML', "Config file [Default: #{defaults[:config]}#{' (currently not present)' unless File.readable?(defaults[:config])}]") { |config|
-        quit "Can't find config file: #{config}" unless File.readable?(config)
-
-        options[:config] = config
-      }
-
-      opts.separator ''
-
-      opts.on('-i', '--input FILE',  "Input file [Default: STDIN]") { |input|
-        options[:input] = input
-
+      opts.option(:input__FILE, 'Input file [Default: STDIN]') { |input|
         parts = File.basename(input).split('.')
         options[:spec_fallback]   = parts.last.downcase
         options[:target_fallback] = parts.size > 1 ? parts[0..-2].join('.') : parts.first
       }
 
-      opts.on('-s', '--spec SPEC', "Input format (spec) [Default: file extension of <input-file>]") { |spec|
-        options[:spec] = spec.downcase
+      opts.option(:spec__SPEC, 'Input format (spec) [Default: file extension of <input-file>]') { |spec|
+        spec.downcase!
       }
 
-      opts.on('-L', '--list-specs', "List available input formats (specs) and exit") {
+      opts.option(:list_specs, :L, 'List available input formats (specs) and exit') {
         print_formats(:in)
       }
 
-      opts.separator ''
+      opts.separator
 
-      opts.on('-o', '--output FILE',  "Output file [Default: STDOUT]") { |output|
-        options[:output] = output
+      opts.option(:output__FILE, 'Output file [Default: STDOUT]') { |output|
         options[:format_fallback] = output.split('.').last.downcase
       }
 
-      opts.on('-f', '--format FORMAT', "Output format [Default: file extension of <output-file>]") { |format|
-        options[:format] = format.downcase
+      opts.option(:format__FORMAT, 'Output format [Default: file extension of <output-file>]') { |format|
+        format.downcase!
       }
 
-      opts.on('-l', '--list-formats', "List available output formats and exit") {
+      opts.option(:list_formats, 'List available output formats and exit') {
         print_formats(:out)
       }
 
-      opts.separator ''
+      opts.separator
 
-      opts.on('-t', '--target ID', "Target whose config to use [Default: <input-file> minus file extension,", "plus '.<spec>', plus ':<format>' (reversely in turn)]") { |target|
-        options[:target] = target
-      }
+      opts.option(:target__ID, "Target whose config to use [Default: <input-file> minus file extension,", "plus '.<spec>', plus ':<format>' (reversely in turn)]")
     end
 
     def print_formats(direction)
