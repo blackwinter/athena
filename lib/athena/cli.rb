@@ -87,11 +87,12 @@ module Athena
         options[:target_fallback] = parts.size > 1 ? parts[0..-2].join('.') : parts.first
       }
 
-      opts.option(:spec__SPEC, 'Input format (spec) [Default: file extension of <input-file>]') { |spec|
-        spec.downcase!
-      }
+      opts.option(:spec__SPEC,
+                  'Input format (spec) [Default: file extension of <input-file>]',
+                  &:downcase!)
 
-      opts.option(:list_specs, :L, 'List available input formats (specs) and exit') {
+      opts.option(:list_specs, :L,
+                  'List available input formats (specs) and exit') {
         print_formats(:in)
       }
 
@@ -101,9 +102,9 @@ module Athena
         options[:format_fallback] = output.split('.').last.downcase
       }
 
-      opts.option(:format__FORMAT, 'Output format [Default: file extension of <output-file>]') { |format|
-        format.downcase!
-      }
+      opts.option(:format__FORMAT,
+                  'Output format [Default: file extension of <output-file>]',
+                  &:downcase!)
 
       opts.option(:list_formats, 'List available output formats and exit') {
         print_formats(:out)
@@ -111,7 +112,9 @@ module Athena
 
       opts.separator
 
-      opts.option(:target__ID, "Target whose config to use [Default: <input-file> minus file extension,", "plus '.<spec>', plus ':<format>' (reversely in turn)]")
+      opts.option(:target__ID,
+                  "Target whose config to use [Default: <input-file> minus file extension,",
+                  "plus '.<spec>', plus ':<format>' (reversely in turn)]")
     end
 
     def print_formats(direction)
