@@ -7,7 +7,7 @@
 #                         Albertus-Magnus-Platz,                              #
 #                         50923 Cologne, Germany                              #
 #                                                                             #
-# Copyright (C) 2013 Jens Wille                                               #
+# Copyright (C) 2013-2014 Jens Wille                                          #
 #                                                                             #
 # Authors:                                                                    #
 #     Jens Wille <jens.wille@gmail.com>                                       #
@@ -29,6 +29,7 @@
 #++
 
 require 'athena'
+require 'mysql_parser'
 
 module Athena::Formats
 
@@ -67,7 +68,7 @@ module Athena::Formats
     def init_in(*)
       @__record_element_ok__ = [String, nil]
       super
-      @sql_parser = Nuggets::MySQL::Parser.new
+      @sql_parser = MysqlParser.new
     end
 
   end
