@@ -7,7 +7,7 @@
 #                         Albertus-Magnus-Platz,                              #
 #                         50923 Cologne, Germany                              #
 #                                                                             #
-# Copyright (C) 2013 Jens Wille                                               #
+# Copyright (C) 2013-2014 Jens Wille                                          #
 #                                                                             #
 # Authors:                                                                    #
 #     Jens Wille <jens.wille@gmail.com>                                       #
@@ -29,7 +29,7 @@
 #++
 
 require 'athena'
-require 'nuggets/midos'
+require 'midos'
 
 module Athena::Formats
 
@@ -111,7 +111,7 @@ module Athena::Formats
     def init_in(*)
       @__record_element_ok__ = [String, nil]
       super
-      @dbm_parser = Nuggets::Midos::Parser.new(:key => record_element)
+      @dbm_parser = ::Midos::Reader.new(:key => record_element)
     end
 
   end
