@@ -35,9 +35,9 @@ module Athena::Formats
 
   class DBM < Base
 
-    RECORD_SEPARATOR = Nuggets::Midos::Parser::DEFAULT_RS
-    FIELD_SEPARATOR  = Nuggets::Midos::Parser::DEFAULT_FS
-    VALUE_SEPARATOR  = Nuggets::Midos::Parser::DEFAULT_VS
+    RECORD_SEPARATOR = ::Midos::DEFAULT_RS
+    FIELD_SEPARATOR  = ::Midos::DEFAULT_FS
+    VALUE_SEPARATOR  = ::Midos::DEFAULT_VS
 
     TO_LATIN1 = begin
       require 'iconv'
