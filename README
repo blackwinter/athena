@@ -22,7 +22,7 @@ placed in <tt>$LOAD_PATH</tt>. See Athena::Formats on how to define custom forma
 
 == LINKS
 
-Documentation:: https://blackwinter.github.io/athena/
+Documentation:: https://blackwinter.github.com/athena
 Source code::   https://github.com/blackwinter/athena
 RubyGem::       https://rubygems.org/gems/athena
 
