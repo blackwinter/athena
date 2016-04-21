@@ -111,7 +111,7 @@ module Athena::Formats
     def init_in(*)
       @__record_element_ok__ = [String, nil]
       super
-      @dbm_parser = ::Midos::Reader.new(:key => record_element)
+      @dbm_parser = ::Midos::Reader.new(key: record_element)
     end
 
   end

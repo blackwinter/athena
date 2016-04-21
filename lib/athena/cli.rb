@@ -39,10 +39,10 @@ module Athena
 
       def defaults
         super.merge(
-          :config => 'config.yaml',
-          :input  => '-',
-          :output => '-',
-          :target => nil
+          config: 'config.yaml',
+          input:  '-',
+          output: '-',
+          target: nil
         )
       end
 

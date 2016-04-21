@@ -93,9 +93,9 @@ module Athena
 
         elements.each { |element|
           (hash[element] ||= {})[field] = {
-            :string   => value[:string] || ['%s'] * elements.size * separator,
-            :empty    => value[:empty]  || DEFAULT_EMPTY,
-            :elements => elements
+            string:   value[:string] || ['%s'] * elements.size * separator,
+            empty:    value[:empty]  || DEFAULT_EMPTY,
+            elements: elements
           }
         }
       end

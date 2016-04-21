@@ -78,9 +78,9 @@ module Athena
     CRLF_RE = %r{(?:\r?\n)+}
 
     # Mapping of format direction to method required for implementation.
-    METHODS = { :in => 'parse', :out => 'convert' }
+    METHODS = { in: 'parse', out: 'convert' }
 
-    @formats = { :in => {}, :out => {} }
+    @formats = { in: {}, out: {} }
 
     class << self
 

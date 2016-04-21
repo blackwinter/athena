@@ -70,7 +70,7 @@ module Athena
     end
 
     def fill(field, config)
-      struct[field] ||= config.merge(:values => Hash.new { |h, k| h[k] = [] })
+      struct[field] ||= config.merge(values: Hash.new { |h, k| h[k] = [] })
     end
 
     def update(element, data, field_config = nil)

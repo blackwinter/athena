@@ -125,13 +125,13 @@ module Athena::Formats
 
     def wrap
       res = nil
-      builder(:target => output).database { res = super() }
+      builder(target: output).database { res = super() }
       res
     end
 
     def builder(options = {})
       @builder ||= begin
-        builder = Builder::XmlMarkup.new({ :indent => 2 }.merge(options))
+        builder = Builder::XmlMarkup.new({ indent: 2 }.merge(options))
         builder.instruct!
 
         def builder.method_missing(sym, *args, &block)
